@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^0.20.0",
+=======
+    "package.json": "^2.0.1",
+>>>>>>> 4a87b889a33a5c874c6c8b375fc1038212e73972
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3"
