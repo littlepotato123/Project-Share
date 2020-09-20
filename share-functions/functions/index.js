@@ -1,8 +1,24 @@
 const functions = require('firebase-functions');
-const app = require('express')();
 
-app.get('/sample', (req, res) => {
-  res.send('This works')
-})
+exports.helloWorld = functions.https.onRequest((request, response) => {
+  functions.logger.info("Hello logs!", {structuredData: true});
+  response.send("Hello from Firebase!");
+});
 
-exports.api = functions.https.onRequest(app);
+// Creating Posts
+
+// Sign Up
+
+// Login
+
+// Liking Posts
+
+// Following User
+
+// Getting Random Posts
+
+// Getting Popular Posts
+
+// Getting Leaderboard Users
+
+// Getting Top 20 Users
