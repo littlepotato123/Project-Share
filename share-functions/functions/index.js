@@ -90,4 +90,22 @@ app.post('/newCategory', (req, res) => {
     })
 })
 
+// Getting All Categories
+app.get('/getCategories', (req, res) => {
+  db
+    .collection('categories')
+    .get()
+    .then(data => {
+      let categories = [];
+      data.forEach(doc => {
+        categories.push({
+          categoryId: doc.id,
+          title: doc.data().title,
+          createdAt: doc.data().createdAt
+        })
+      })
+      res.status(200).json(categories);
+    })
+})
+
 exports.api = functions.https.onRequest(app);
