@@ -47,7 +47,17 @@ app.get('/getAll', (req, res) => {
     .then(data => {
       let posts = [];
       data.forEach(doc => {
-        posts.push(doc.data());
+        posts.push({
+          postId: doc.id,
+          body: doc.data().body,
+          userHandle: doc.data().userHandle,
+          createdAt: doc.data().createdAt,
+          author: doc.data().author,
+          likes: doc.data().likes,
+          comments: doc.data().comments,
+          category: doc.data().category,
+          title: doc.data().title
+        })
       });
       return res.json(posts);
     })
