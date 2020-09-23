@@ -34,15 +34,91 @@ app.post('/createPost', (req, res) => {
 // Login
 
 // Liking Posts
+app.post('/likePost', (req, res) => {
+  const likes = req.body.likes + 1;
+  const changedPost = {
+    body: req.body.body,
+    author: req.body.author,
+    createdAt: req.body.createdAt,
+    title: req.body.title,
+    category: req.body.category,
+    likes: likes,
+    comments: req.body.comments
+  };
+
+  db
+    .collection('posts')
+    .doc(req.body.id)
+    .set(changedPost)
+    .then(() => {
+      res.json({ message: 'successfully liked' })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
+
+// Unlike Posts
+app.post('/unlikePost', (req, res) => {
+  const likes = req.body.likes - 1;
+  const changedPost = {
+    body: req.body.body,
+    author: req.body.author,
+    createdAt: req.body.createdAt,
+    title: req.body.title,
+    category: req.body.category,
+    likes: likes,
+    comments: req.body.comments
+  };
+
+  db
+    .collection('posts')
+    .doc(req.body.id)
+    .set(changedPost)
+    .then(() => {
+      res.json({ message: 'successfully unliked' })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
 
 // Commenting Posts
 
 // Following User
 
-// Getting Random Posts
+// Getting Random Posts => Home Page
 app.get('/getAll', (req, res) => {
   db
     .collection('posts')
+    .get()
+    .then(data => {
+      let posts = []; 
+      data.forEach(doc => {
+        posts.push({
+          postId: doc.id,
+          body: doc.data().body,
+          userHandle: doc.data().userHandle,
+          createdAt: doc.data().createdAt,
+          author: doc.data().author,
+          likes: doc.data().likes,
+          comments: doc.data().comments,
+          category: doc.data().category,
+          title: doc.data().title
+        })
+      });
+      return res.json(posts);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
+
+// Getting Popular Posts
+app.get('/getPopular', (req,res) => {
+  db
+    .collection('posts')
+    .orderBy('likes', 'desc')
     .get()
     .then(data => {
       let posts = [];
@@ -62,11 +138,9 @@ app.get('/getAll', (req, res) => {
       return res.json(posts);
     })
     .catch(err => {
-      console.error(err);
+      res.status(500).json({ error: 'Something went wrong' })
     })
 })
-
-// Getting Popular Posts
 
 // Getting Leaderboard Users
 
@@ -86,7 +160,7 @@ app.post('/newCategory', (req, res) => {
       res.json({ message: `${doc.id} created successfully` })
     })
     .catch(err => {
-      console.error(err);
+      res.status(500).json({ error: 'Error Occured' })
     })
 })
 
@@ -104,8 +178,28 @@ app.get('/getCategories', (req, res) => {
           createdAt: doc.data().createdAt
         })
       })
-      res.status(200).json(categories);
+      res.json(categories);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Error occured' })
     })
 })
+
+// Deleting Posts
+app.delete('/deletePost', (req, res) => {
+  const id = req.body.id;
+  db
+    .collection('posts')
+    .doc(id)
+    .delete()
+    .then(() => {
+      res.json({ message: 'Post deleted' })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Error occ' })
+    })
+})
+
+// Deleting User
 
 exports.api = functions.https.onRequest(app);
