@@ -265,6 +265,7 @@ app.get('/getPopular', (req,res) => {
   db
     .collection('posts')
     .orderBy('likes', 'desc')
+    .limit(20);
     .get()
     .then(data => {
       let posts = [];
