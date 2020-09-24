@@ -270,6 +270,51 @@ app.post('/getComment', (req, res) => {
 })
 
 // Following User
+app.post('/followUser', (req, res) => {
+  const supporters = req.body.supporters + 1;
+  const newUser = {
+    supporters: supporters,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAt,
+    userId: req.body.userId
+  };
+
+  db
+    .collection('users')
+    .doc(req.body.handle)
+    .set(newUser)
+    .then(() => {
+      return res.status(201).json({ message: 'successfully followed' });
+    })
+    .catch(() => {
+      return res.status(500).json({ error: err.code })
+    })
+})
+
+// Unfollowing User
+app.post('/unfollowUser', (req, res) => {
+  const supporters = req.body.supporters - 1;
+  const newUser = {
+    supporters: supporters,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAt,
+    userId: req.body.userId
+  };
+
+  db
+    .collection('users')
+    .doc(req.body.handle)
+    .set(newUser)
+    .then(() => {
+      return res.status(201).json({ message: 'successfully unfollowed' });
+    })
+    .catch(() => {
+      return res.status(500).json({ error: err.code })
+    })
+})
+
 
 // Getting Random Posts => Home Page
 app.get('/getHome', (req, res) => {
