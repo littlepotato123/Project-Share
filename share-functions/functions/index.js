@@ -230,8 +230,44 @@ app.post('/unlikePost', (req, res) => {
 })
 
 // Commenting Posts
+app.post('/createComment', (req, res) => {
+  const id = req.body.id;
+  const newComment = {
+    body: req.body.body,
+    createdAt: new Date().toISOString()
+  }
+
+  db
+    .collection(`${id}`)
+    .add(newComment)
+    .then(doc => {
+      return res.status(200).json({ message: `${doc.id} created and commented` })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: err.code })
+    })
+})
 
 // Getting Comments
+app.post('/getComment', (req, res) => {
+  db
+    .collection(req.body.id)
+    .get()
+    .then(data => {
+      let comments = [];
+      data.forEach(doc => {
+        comments.push(doc.data());
+      })
+      if(comments.length > 0) {
+        return res.status(201).json(comments);
+      } else {
+        return res.status(403).json({ error: 'Could not find post' })
+      }
+    })
+    .catch(err => {
+      return res.json({ error: err.code })
+    })
+})
 
 // Following User
 
