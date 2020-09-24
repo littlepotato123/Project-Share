@@ -94,7 +94,7 @@ app.post('/signup', (req, res) => {
   let errors = {};
   if(isEmpty(newUser.email)) {
     errors.email = 'Must not be empty';
-  } else {
+  } else if(isEmail(newUser.email) == false) {
     errors.email = 'Must be a valid email address';
   }
 
@@ -105,7 +105,6 @@ app.post('/signup', (req, res) => {
 
   if(Object.keys(errors).length > 0) return res.status(400).json(errors);
 
-  // Validate Data
   let idToken;
   let userId;
   db
@@ -130,7 +129,8 @@ app.post('/signup', (req, res) => {
         handle: newUser.userHandle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        userId: userId
+        userId: userId,
+        supporters: 0
       };
       return db
         .doc(`/users/${newUser.userHandle}`)
@@ -231,6 +231,19 @@ app.post('/unlikePost', (req, res) => {
 
 // Commenting Posts
 
+// Getting Comments
+app.post('/getComments', (req, res) => {
+  db
+    .collection('comments')
+    .where('postId', '==', req.body.uid)
+    .get()
+    .then(doc => {
+      if(doc.exists) {
+        return res.status(200).json({ comments: doc })
+      }
+    })
+})
+
 // Following User
 
 // Getting Random Posts => Home Page
@@ -291,8 +304,23 @@ app.get('/getPopular', (req,res) => {
 })
 
 // Getting Leaderboard Users
-
-// Getting Top 20 Users
+app.get('/leaderboard', (req, res) => {
+  db
+    .collection('users')
+    .orderBy('supporters', 'desc')
+    .limit(10)
+    .get()
+    .then(data => {
+      let users = [];
+      data.forEach(doc => {
+        users.push(doc.data())
+      });
+      return res.json(users);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
 
 // Creating Category
 app.post('/newCategory', (req, res) => {
@@ -344,10 +372,26 @@ app.delete('/deletePost', (req, res) => {
       res.json({ message: 'Post deleted' })
     })
     .catch(err => {
-      res.status(500).json({ error: 'Error occ' })
+      res.status(500).json({ error: 'Error occured' })
     })
 })
 
 // Deleting User
+app.post('/deleteUser', FBAuth, (req, res) => {
+  const user = firebase.auth().currentUser;
+
+  if(user == null) {
+    res.status(500).json({ error: 'Not logged In' })
+  }
+
+  user
+    .delete()
+    .then(() => {
+      res.status(202).json({ message: 'Successfully Deleted' })
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Error Occured' })
+    });
+})
 
 exports.api = functions.https.onRequest(app);
