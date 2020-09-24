@@ -232,19 +232,6 @@ app.post('/unlikePost', (req, res) => {
 // Commenting Posts
 
 // Getting Comments
-app.post('/getComments', (req, res) => {
-  db
-    .collection('comments')
-    .where('postId', '==', req.body.uid)
-    .limit(50)
-    .get()
-    .then(doc => {
-      return res.status(301).json(doc);
-    })
-    .catch(err => {
-      return res.status(404).json({ error: 'Error Occured' })
-    })
-})
 
 // Following User
 
