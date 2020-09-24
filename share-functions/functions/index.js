@@ -236,11 +236,13 @@ app.post('/getComments', (req, res) => {
   db
     .collection('comments')
     .where('postId', '==', req.body.uid)
+    .limit(50)
     .get()
     .then(doc => {
-      if(doc.exists) {
-        return res.status(200).json({ comments: doc })
-      }
+      return res.status(301).json(doc);
+    })
+    .catch(err => {
+      return res.status(404).json({ error: 'Error Occured' })
     })
 })
 
@@ -250,7 +252,6 @@ app.post('/getComments', (req, res) => {
 app.get('/getHome', (req, res) => {
   db
     .collection('posts')
-    .limit(50)
     .get()
     .then(data => {
       let posts = []; 
