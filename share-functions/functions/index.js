@@ -234,9 +234,10 @@ app.post('/unlikePost', (req, res) => {
 // Following User
 
 // Getting Random Posts => Home Page
-app.get('/getAll', (req, res) => {
+app.get('/getHome', (req, res) => {
   db
     .collection('posts')
+    .limit(50)
     .get()
     .then(data => {
       let posts = []; 
@@ -265,7 +266,7 @@ app.get('/getPopular', (req,res) => {
   db
     .collection('posts')
     .orderBy('likes', 'desc')
-    .limit(20);
+    .limit(20)
     .get()
     .then(data => {
       let posts = [];
