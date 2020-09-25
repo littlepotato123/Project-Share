@@ -23,7 +23,7 @@ const db = admin.firestore()
 
 const FBAuth = (req, res, next) => {
   let idToken;
-  if(req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
     idToken = req.headers.authorization.split('Bearer ')[1];
   } else {
     return res.status(403).json({ error: 'Unauthorized' });
@@ -31,20 +31,20 @@ const FBAuth = (req, res, next) => {
 
   admin.auth()
     .verifyIdToken(idToken)
-      .then(decodedToken => {
-        req.user = decodedToken;
-        return db.collection('users')
-          .where('userId', '==', req.user.uid)
-          .limit(1)
-          .get();
-      })
-      .then(data => {
-        req.user.handle = data.docs[0].data().handle;
-        return next();
-      })
-      .catch(err => {
-        return res.status(403).json(err)
-      })
+    .then(decodedToken => {
+      req.user = decodedToken;
+      return db.collection('users')
+        .where('userId', '==', req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      req.user.handle = data.docs[0].data().handle;
+      return next();
+    })
+    .catch(err => {
+      return res.status(403).json(err)
+    })
 }
 
 // Creating Posts
@@ -73,13 +73,13 @@ app.post('/createPost', FBAuth, (req, res) => {
 
 // Sign Up
 const isEmpty = (string) => {
-  if(string.trim() === '') return true;
+  if (string.trim() === '') return true;
   else return false;
 }
 
 const isEmail = (email) => {
   const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if(email.match(regEx)) return true;
+  if (email.match(regEx)) return true;
   else return false;
 }
 
@@ -92,18 +92,18 @@ app.post('/signup', (req, res) => {
   };
 
   let errors = {};
-  if(isEmpty(newUser.email)) {
+  if (isEmpty(newUser.email)) {
     errors.email = 'Must not be empty';
   } else {
     errors.email = 'Must be a valid email address';
   }
 
-  if(isEmpty(newUser.password)) errors.password = 'Must not be empty';
-  if(newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Password must match';
+  if (isEmpty(newUser.password)) errors.password = 'Must not be empty';
+  if (newUser.password !== newUser.confirmPassword) errors.confirmPassword = 'Password must match';
 
-  if(isEmpty(newUser.userHandle)) errors.userHandle = 'Must not be empty';
+  if (isEmpty(newUser.userHandle)) errors.userHandle = 'Must not be empty';
 
-  if(Object.keys(errors).length > 0) return res.status(400).json(errors);
+  if (Object.keys(errors).length > 0) return res.status(400).json(errors);
 
   // Validate Data
   let idToken;
@@ -112,7 +112,7 @@ app.post('/signup', (req, res) => {
     .doc(`/users/${newUser.userHandle}`)
     .get()
     .then(doc => {
-      if(doc.exists) {
+      if (doc.exists) {
         return res.status(400).json({ handle: 'This handle already exists' })
       } else {
         return firebase
@@ -140,7 +140,7 @@ app.post('/signup', (req, res) => {
       return res.status(201).json({ idToken })
     })
     .catch(err => {
-      if(err.code === 'auth/email-already-in-use') {
+      if (err.code === 'auth/email-already-in-use') {
         return res.status(400).json({ email: 'Email is already in use' })
       } else {
         res.status(500).json({ error: err.code })
@@ -157,10 +157,10 @@ app.post('/login', (req, res) => {
 
   let errors = {};
 
-  if(isEmpty(user.email)) errors.email = 'Must not be empty';
-  if(isEmpty(user.password)) errors.password = 'Must not be empty';
+  if (isEmpty(user.email)) errors.email = 'Must not be empty';
+  if (isEmpty(user.password)) errors.password = 'Must not be empty';
 
-  if(Object.keys(errors).length > 0) return res.json(errors);
+  if (Object.keys(errors).length > 0) return res.json(errors);
 
   firebase.auth()
     .signInWithEmailAndPassword(user.email, user.password)
@@ -168,10 +168,10 @@ app.post('/login', (req, res) => {
       return data.user.getIdToken();
     })
     .then(token => {
-      return res.json({token});
+      return res.json({ token });
     })
     .catch(err => {
-      if(err.code === 'auth/wrong-password') {
+      if (err.code === 'auth/wrong-password') {
         return res.status(403).json({ general: 'Wrong Credentials, please try again' })
       } else {
         res.status(500).json({ error: err.code });
@@ -231,7 +231,55 @@ app.post('/unlikePost', (req, res) => {
 
 // Commenting Posts
 
-// Following User
+// Gaining Supporters
+app.post('/followUser', (req, res) => {
+  const supporters = req.body.supporters + 1;
+  const account = {
+    supporters: supporters,
+    posts: req.body.posts,
+    likes: req.body.likes,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAT,
+    userld: req.body.userld
+  };
+
+  db
+    .collection('supporters')
+    .doc(req.body.id)
+    .set(changeNumOfSupporters)
+    .then(() => {
+      res.json({ message: 'successfully followed' })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
+
+// Losing Supporters
+app.post('/followUser', (req, res) => {
+  const supporters = req.body.supporters - 1;
+  const account = {
+    supporters: supporters,
+    posts: req.body.posts,
+    likes: req.body.likes,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAT,
+    userld: req.body.userld
+  };
+
+  db
+    .collection('supporters')
+    .doc(req.body.id)
+    .set(changeNumOfSupporters)
+    .then(() => {
+      res.json({ message: 'successfully unfollowed' })
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
 
 // Getting Random Posts => Home Page
 app.get('/getHome', (req, res) => {
@@ -240,7 +288,7 @@ app.get('/getHome', (req, res) => {
     .limit(50)
     .get()
     .then(data => {
-      let posts = []; 
+      let posts = [];
       data.forEach(doc => {
         posts.push({
           postId: doc.id,
@@ -262,7 +310,7 @@ app.get('/getHome', (req, res) => {
 })
 
 // Getting Popular Posts
-app.get('/getPopular', (req,res) => {
+app.get('/getPopular', (req, res) => {
   db
     .collection('posts')
     .orderBy('likes', 'desc')
