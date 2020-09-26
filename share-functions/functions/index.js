@@ -511,8 +511,4 @@ app.delete('/deleteUser', (req, res) => {
     });
 })
 
-// Assigning Debate
-
-// Sending Debate Messages
-
 exports.api = functions.https.onRequest(app);
