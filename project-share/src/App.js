@@ -1,9 +1,11 @@
 import React from 'react';
+import FetchingExample from './Extras/Fetching';
 
-function App() {
+const App = () => {
   return (
     <div>
       Hello
+      <FetchingExample />
     </div>
   );
 }
