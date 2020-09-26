@@ -468,7 +468,7 @@ app.get('/getCategories', (req, res) => {
 })
 
 // Deleting Posts
-app.delete('/deletePost', FBAuth, (req, res) => {
+app.post('/deletePost', FBAuth, (req, res) => {
   const id = req.body.id;
 
   db
@@ -494,7 +494,7 @@ app.delete('/deletePost', FBAuth, (req, res) => {
 })
 
 // Deleting User
-app.delete('/deleteUser', (req, res) => {
+app.post('/deleteUser', (req, res) => {
   const user = firebase.auth().currentUser;
 
   if(user == null) {
