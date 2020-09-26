@@ -5,6 +5,7 @@ admin.initializeApp();
 
 const firebase = require('firebase');
 const { _onRequestWithOptions } = require('firebase-functions/lib/providers/https');
+const { user } = require('firebase-functions/lib/providers/auth');
 
 var firebaseConfig = {
   apiKey: "AIzaSyDNQRLwHXC_zYcknNdf1rplcYpBP2qIKxA",
@@ -230,10 +231,11 @@ app.post('/unlikePost', (req, res) => {
 })
 
 // Commenting Posts
-app.post('/createComment', (req, res) => {
+app.post('/createComment', FBAuth, (req, res) => {
   const id = req.body.id;
   const newComment = {
     body: req.body.body,
+    author: req.user.handle,
     createdAt: new Date().toISOString()
   }
 
@@ -269,6 +271,7 @@ app.post('/getComment', (req, res) => {
     })
 })
 
+<<<<<<< HEAD
 // Gaining Supporters
 app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
@@ -319,6 +322,43 @@ app.post('/followUser', (req, res) => {
     })
 })
 =======
+=======
+// Messaging User
+app.post('/messageUser', (req, res) => {
+  const newMessage = {
+    message: req.body.message
+  };
+
+  db
+    .collection(req.body.id)
+    .add(newMessage)
+    .then(doc => {
+      res.status(201).json({ message: `${doc.id} messaged` });
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.code });
+    })
+})
+
+// Getting Messaging User
+app.post('/getMessages', (req, res) => {
+  db
+    .collection(req.body.id)
+    .limit(10)
+    .get()
+    .then(data => {
+      let messages = [];
+      data.forEach(doc => {
+        messages.push(doc.data());
+      })
+      return res.status(200).json(messages);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.code });
+    })
+})
+
+>>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
 // Following User
 app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
@@ -482,22 +522,33 @@ app.get('/getCategories', (req, res) => {
 })
 
 // Deleting Posts
-app.delete('/deletePost', (req, res) => {
+app.post('/deletePost', FBAuth, (req, res) => {
   const id = req.body.id;
+
   db
     .collection('posts')
     .doc(id)
-    .delete()
-    .then(() => {
-      res.json({ message: 'Post deleted' })
-    })
-    .catch(err => {
-      res.status(500).json({ error: 'Error occured' })
-    })
+    .get()
+    .then(doc => {
+      if(req.user.handle == doc.data().author) {
+        db
+          .collection('posts')
+          .doc(id)
+          .delete()
+          .then(() => {
+            res.json({ message: 'Post deleted' })
+          })
+          .catch(err => {
+            res.status(500).json({ error: 'Error occured' })
+          })
+      } else {
+        res.status(403).json({ error: 'Not Logged in to correct user' })
+      }
+    })  
 })
 
 // Deleting User
-app.post('/deleteUser', FBAuth, (req, res) => {
+app.post('/deleteUser', (req, res) => {
   const user = firebase.auth().currentUser;
 
   if (user == null) {

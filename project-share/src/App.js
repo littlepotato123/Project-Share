@@ -1,10 +1,20 @@
 import React from 'react';
+import FetchingExample from './Extras/Fetching';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      Hello
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/example">
+          <FetchingExample />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
