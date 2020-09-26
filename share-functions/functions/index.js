@@ -94,7 +94,7 @@ app.post('/signup', (req, res) => {
   let errors = {};
   if (isEmpty(newUser.email)) {
     errors.email = 'Must not be empty';
-  } else {
+  } else if (isEmail(newUser.email) == false) {
     errors.email = 'Must be a valid email address';
   }
 
@@ -105,7 +105,6 @@ app.post('/signup', (req, res) => {
 
   if (Object.keys(errors).length > 0) return res.status(400).json(errors);
 
-  // Validate Data
   let idToken;
   let userId;
   db
@@ -130,7 +129,8 @@ app.post('/signup', (req, res) => {
         handle: newUser.userHandle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
-        userId: userId
+        userId: userId,
+        supporters: 0
       };
       return db
         .doc(`/users/${newUser.userHandle}`)
@@ -230,6 +230,44 @@ app.post('/unlikePost', (req, res) => {
 })
 
 // Commenting Posts
+app.post('/createComment', (req, res) => {
+  const id = req.body.id;
+  const newComment = {
+    body: req.body.body,
+    createdAt: new Date().toISOString()
+  }
+
+  db
+    .collection(`${id}`)
+    .add(newComment)
+    .then(doc => {
+      return res.status(200).json({ message: `${doc.id} created and commented` })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: err.code })
+    })
+})
+
+// Getting Comments
+app.post('/getComment', (req, res) => {
+  db
+    .collection(req.body.id)
+    .get()
+    .then(data => {
+      let comments = [];
+      data.forEach(doc => {
+        comments.push(doc.data());
+      })
+      if (comments.length > 0) {
+        return res.status(201).json(comments);
+      } else {
+        return res.status(403).json({ error: 'Could not find post' })
+      }
+    })
+    .catch(err => {
+      return res.json({ error: err.code })
+    })
+})
 
 // Gaining Supporters
 app.post('/followUser', (req, res) => {
@@ -280,12 +318,59 @@ app.post('/followUser', (req, res) => {
       res.status(500).json({ error: 'Something went wrong' })
     })
 })
+=======
+// Following User
+app.post('/followUser', (req, res) => {
+  const supporters = req.body.supporters + 1;
+  const newUser = {
+    supporters: supporters,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAt,
+    userId: req.body.userId
+  };
+
+  db
+    .collection('users')
+    .doc(req.body.handle)
+    .set(newUser)
+    .then(() => {
+      return res.status(201).json({ message: 'successfully followed' });
+    })
+    .catch(() => {
+      return res.status(500).json({ error: err.code })
+    })
+})
+
+// Unfollowing User
+app.post('/unfollowUser', (req, res) => {
+  const supporters = req.body.supporters - 1;
+  const newUser = {
+    supporters: supporters,
+    handle: req.body.handle,
+    email: req.body.email,
+    createdAt: req.body.createdAt,
+    userId: req.body.userId
+  };
+
+  db
+    .collection('users')
+    .doc(req.body.handle)
+    .set(newUser)
+    .then(() => {
+      return res.status(201).json({ message: 'successfully unfollowed' });
+    })
+    .catch(() => {
+      return res.status(500).json({ error: err.code })
+    })
+})
+
+>>>>>>> ecd40c6c33cf8246e94f0e7679181aba9b0bf999
 
 // Getting Random Posts => Home Page
 app.get('/getHome', (req, res) => {
   db
     .collection('posts')
-    .limit(50)
     .get()
     .then(data => {
       let posts = [];
@@ -339,8 +424,23 @@ app.get('/getPopular', (req, res) => {
 })
 
 // Getting Leaderboard Users
-
-// Getting Top 20 Users
+app.get('/leaderboard', (req, res) => {
+  db
+    .collection('users')
+    .orderBy('supporters', 'desc')
+    .limit(10)
+    .get()
+    .then(data => {
+      let users = [];
+      data.forEach(doc => {
+        users.push(doc.data())
+      });
+      return res.json(users);
+    })
+    .catch(err => {
+      res.status(500).json({ error: 'Something went wrong' })
+    })
+})
 
 // Creating Category
 app.post('/newCategory', (req, res) => {
@@ -392,10 +492,26 @@ app.delete('/deletePost', (req, res) => {
       res.json({ message: 'Post deleted' })
     })
     .catch(err => {
-      res.status(500).json({ error: 'Error occ' })
+      res.status(500).json({ error: 'Error occured' })
     })
 })
 
 // Deleting User
+app.post('/deleteUser', FBAuth, (req, res) => {
+  const user = firebase.auth().currentUser;
+
+  if (user == null) {
+    res.status(500).json({ error: 'Not logged In' })
+  }
+
+  user
+    .delete()
+    .then(() => {
+      res.status(202).json({ message: 'Successfully Deleted' })
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Error Occured' })
+    });
+})
 
 exports.api = functions.https.onRequest(app);
