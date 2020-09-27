@@ -272,6 +272,7 @@ app.post('/getComment', (req, res) => {
 })
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Gaining Supporters
 app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
@@ -323,6 +324,8 @@ app.post('/followUser', (req, res) => {
 })
 =======
 =======
+=======
+>>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
 // Messaging User
 app.post('/messageUser', (req, res) => {
   const newMessage = {
@@ -358,6 +361,9 @@ app.post('/getMessages', (req, res) => {
     })
 })
 
+<<<<<<< HEAD
+>>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
+=======
 >>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
 // Following User
 app.post('/followUser', (req, res) => {
