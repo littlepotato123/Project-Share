@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import Navigation from './Components/Navigation/Navigation';
 import {
   BrowserRouter as Router,
