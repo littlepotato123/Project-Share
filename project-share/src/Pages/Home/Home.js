@@ -30,6 +30,8 @@ class Home extends React.Component {
                             title={post.title} 
                             author={post.author} 
                             category={post.category}
+                            likes={post.likes}
+                            id={post.id}
                         >
                             {post.body}
                         </Post>    
