@@ -1,9 +1,17 @@
 import React from 'react'
+import {
+    Link
+} from 'react-router-dom';
 
 const Navigation = () => {
     return (
         <div>
-            Navigation
+                <button className='searchButton'>Search</button>
+                <input className='searchBar'/>
+                <button>
+                    <Link to="./trending">Trending</Link>
+                </button>
+                     
         </div>
     )
 }

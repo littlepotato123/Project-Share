@@ -57,7 +57,6 @@ app.post('/createPost', FBAuth, (req, res) => {
     title: req.body.title,
     category: req.body.category,
     likes: 0,
-    comments: 0
   }
 
   db
@@ -509,6 +508,22 @@ app.post('/deleteUser', (req, res) => {
     .catch((err) => {
       res.status(500).json({ error: 'Error Occured' })
     });
+})
+
+// Get User
+app.post('/getUser', (req, res) => {
+  const userHandle = req.body.userHandle;
+
+  db
+    .collection('users')
+    .doc(userHandle)
+    .get()
+    .then(doc => {
+      return res.status(200).json({ user: doc.data() })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: 'Could not find user' })
+    })
 })
 
 exports.api = functions.https.onRequest(app);

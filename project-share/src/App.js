@@ -12,6 +12,7 @@ import Trending from './Pages/Trending/Trending';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
+import Fetching from './Extras/Fetching';
 
 const App = () => {
   return (
@@ -30,11 +31,14 @@ const App = () => {
         <Route exact path="/leaderboard">
           <Leaderboard />
         </Route>
-        <Route path="/user">
+        <Route path="/user/:userHandle">
           <User />
         </Route>
         <Route path="/categories">
           <Categories />
+        </Route>
+        <Route path="/example">
+          <Fetching />
         </Route>
       </Switch>
     </Router>

@@ -1,3 +1,15 @@
-.home-page {
-    color: blue;
+/* NAVIGATION */
+
+.searchButton {
+    width: 75px;
+    height: 47px;
+    border-top-left-radius: 15%;
+    border-bottom-left-radius: 15%;
+    font-size: 17px;
+    background-color: #28df99;   
+}
+.searchBar {
+    width:  400px;
+    height: 41px;
+    border: 1.5px solid;
 }
