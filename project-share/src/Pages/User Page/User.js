@@ -25,7 +25,7 @@ const User = () => {
 
     return (
         <div>
-            Hello, { userHandle }
+            Hello
         </div>
     )
 }

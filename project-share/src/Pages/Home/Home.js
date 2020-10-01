@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Post from '../../Components/Posts/Posts';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -16,7 +16,6 @@ class Home extends React.Component {
         fetch(proxyUrl + url + 'getHome')
             .then(res => res.json())
             .then(data => this.setState({ posts: data }))
-            .then(() => this.creatingPostComponent)
     }
 
     render() {
