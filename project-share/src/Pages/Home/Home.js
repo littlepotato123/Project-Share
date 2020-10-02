@@ -1,5 +1,6 @@
 import React from 'react';
 import Post from '../../Components/Posts/Posts';
+import { connect } from 'react-redux';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -10,6 +11,11 @@ class Home extends React.Component {
         this.state = {
             posts: null
         }
+    }
+
+    buttonClick = () => {
+        this.props.setIdToken('1234556778')
+        console.log(this.props.idToken);
     }
 
     componentDidMount() {
@@ -24,7 +30,7 @@ class Home extends React.Component {
                 {
                     this.state.posts ? 
                     this.state.posts.map(post => 
-                        <Post 
+                        <Post
                             key={post.id} 
                             title={post.title} 
                             author={post.author} 
@@ -37,6 +43,7 @@ class Home extends React.Component {
                     )
                     : null
                 }
+                <button onClick={this.buttonClick}>Set New Id Token</button>
             </div>
         )
     }
