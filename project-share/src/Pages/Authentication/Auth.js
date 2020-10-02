@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Login from './Login';
 import SignUp from './SignUp';
 
@@ -8,10 +8,25 @@ const Auth = () => {
     let authVar = (
         <SignUp />
     )
+
+    if(auth) {
+        authVar = (
+            <SignUp />
+        )
+    } else {
+        authVar = (
+            <Login />
+        )
+    }
+
+    useEffect(() => {
+
+    })
     
     return (
         <div>
-            {}
+            {authVar}
+        <button onClick={() => setAuth(!auth)}>{}</button>
         </div>
     )
 }
