@@ -16,9 +16,9 @@ const Posts = (props) => {
         <div key={props.key} className="post-content">
             <p className="post-title">{ props.title }</p>
             <p className="post-category">Category: { props.category }</p>
-            <p className="post-author">{ props.author }</p>
+            <p className="post-author">Author: { props.author }</p>
             <p className="post-body">{ props.children }</p>
-            <p className="post-likes">Likes: <span>{ props.likes }</span></p>
+            <p className="post-likes"><span>Likes: </span><span>{ props.likes }</span></p>
             {/* Add Commenting */}
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments }

@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom'; // For Redirecting Page 
 
 const Navigation = () => {
-    let history = useHistory();
+    let history = useHistory(); 
     const [value, setValue] = useState(null);
 
     const search = (e) => {
@@ -22,16 +22,16 @@ const Navigation = () => {
                 <input 
                     className='searchBar' 
                     value={value} 
-                    onChange={(e) => setValue(e.target.value)} 
+                    onChange={e => (e.target.value)}
                     placeholder="Search by Username"
                 />
             </form>
-            <a className ='home' href="/">Home</a> <br />
-            <a href="/trending">Trending</a><br />
-            <a href="/leaderboard">Leaderboard</a><br />
-            <a href="/topPosts">Top Posts</a><br />
-            <a href="/categories">Categories</a><br />
-            </div>
+            <button className='home' onClick={() => history.push('/')}>Home</button>
+            <button className='trending' onClick={() => history.push('/trending')}>Trending</button>
+            <button className='leaderboard' onClick={() => history.push('/leaderboard')}>Leaderboard</button>
+            <button className='topPosts' onClick={() => history.push('/topPosts')}>Top Posts</button>
+            <button className='categories' onClick={() => history.push('/categories')}>Categories</button>
+        </div>
     )
 }
 
