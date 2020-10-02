@@ -19,7 +19,8 @@ const User = () => {
             }
         })
         .then(res => res.json())
-        .then(data => setUser(data.user))
+        .then(data => setUser(data))
+        .then(() => console.log(user))
         .catch(() => console.log("Couldn't connect to " + url + "getUser . Check your browser maybe?"))
     })
 

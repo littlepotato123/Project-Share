@@ -7,18 +7,20 @@ const Posts = (props) => {
     let comments = null;
 
     if(showComment) {
-        comments
+        comments = (
+            <Commenting />
+        )
     }
 
     return (
         <div key={props.key} className="post-content">
-            <h1 className="post-title">{ props.title }</h1>
-            <h2 className="post-category">Category: { props.category }</h2>
-            <h3 className="post-author">{ props.author }</h3>
-            <h4 className="post-body">{ props.children }</h4>
-            <h5 className="post-likes">Likes: <span>{ props.likes }</span></h5>
+            <p className="post-title">{ props.title }</p>
+            <p className="post-category">Category: { props.category }</p>
+            <p className="post-author">{ props.author }</p>
+            <p className="post-body">{ props.children }</p>
+            <p className="post-likes">Likes: <span>{ props.likes }</span></p>
             {/* Add Commenting */}
-            <h4 className="post-comments" onClick={() => setComments(false)}></h4>
+            <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments }
         </div>
     )
