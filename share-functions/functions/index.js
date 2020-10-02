@@ -270,9 +270,6 @@ app.post('/getComment', (req, res) => {
     })
 })
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 // Gaining Supporters
 app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
@@ -322,12 +319,7 @@ app.post('/followUser', (req, res) => {
       res.status(500).json({ error: 'Something went wrong' })
     })
 })
-=======
-=======
-=======
->>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
-=======
->>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
+
 // Messaging User
 app.post('/messageUser', (req, res) => {
   const newMessage = {
@@ -363,13 +355,6 @@ app.post('/getMessages', (req, res) => {
     })
 })
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
-=======
->>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
-=======
->>>>>>> 524852cff6f14e746fa3db91f8154d7fae0e4ce8
 // Following User
 app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
@@ -415,8 +400,6 @@ app.post('/unfollowUser', (req, res) => {
       return res.status(500).json({ error: err.code })
     })
 })
-
->>>>>>> ecd40c6c33cf8246e94f0e7679181aba9b0bf999
 
 // Getting Random Posts => Home Page
 app.get('/getHome', (req, res) => {
@@ -541,7 +524,7 @@ app.post('/deletePost', FBAuth, (req, res) => {
     .doc(id)
     .get()
     .then(doc => {
-      if(req.user.handle == doc.data().author) {
+      if (req.user.handle == doc.data().author) {
         db
           .collection('posts')
           .doc(id)
@@ -555,7 +538,7 @@ app.post('/deletePost', FBAuth, (req, res) => {
       } else {
         res.status(403).json({ error: 'Not Logged in to correct user' })
       }
-    })  
+    })
 })
 
 // Deleting User
