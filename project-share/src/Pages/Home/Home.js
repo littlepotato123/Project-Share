@@ -13,11 +13,6 @@ class Home extends React.Component {
         }
     }
 
-    buttonClick = () => {
-        this.props.setIdToken('1234556778')
-        console.log(this.props.idToken);
-    }
-
     componentDidMount() {
         fetch(proxyUrl + url + 'getHome')
             .then(res => res.json())
@@ -43,7 +38,6 @@ class Home extends React.Component {
                     )
                     : null
                 }
-                <button onClick={this.buttonClick}>Set New Id Token</button>
             </div>
         )
     }
