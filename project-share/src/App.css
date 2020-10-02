@@ -25,18 +25,19 @@
     background-color: #eeeeee;
     margin-top: 25px;
     font-family: serif;
+    text-decoration: none;
 }
 
 .post-title {
     font-size: 35px;
     margin-top: 10px;
-    margin-left: 40%;
+    text-align: center;
     text-decoration: underline;
 }
 
 .post-category {
     font-size: 25px;
-    margin-top: -50px;
+    margin-top: -60px;
     padding-left: 8px;
 }
 
@@ -49,7 +50,7 @@
 
 .post-body {
     font-size: 20px;
-    margin-left: 43%;
+    text-align: center;
 }
 
 .post-likes {
@@ -57,4 +58,13 @@
     margin-top: -60px;
     position: absolute;
     right: 50px;
+}
+
+.post-comment-button {
+    background: none;
+    border: none;
+    font-size: 23px;
+    margin-top: -20px;
+    position: absolute;
+    right: 40px;
 }

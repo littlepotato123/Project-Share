@@ -13,7 +13,6 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
 import TopPosts from './Pages/TopPosts/TopPosts'
-import Fetching from './Extras/Fetching';
 
 const App = () => {
   return (
@@ -40,9 +39,6 @@ const App = () => {
         </Route>
         <Route path="/topPosts">
           <TopPosts />
-        </Route>
-        <Route path="/example">
-          <Fetching />
         </Route>
       </Switch>
     </Router>
