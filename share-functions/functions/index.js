@@ -4,8 +4,6 @@ const app = require('express')();
 admin.initializeApp();
 
 const firebase = require('firebase');
-const { _onRequestWithOptions } = require('firebase-functions/lib/providers/https');
-const { user } = require('firebase-functions/lib/providers/auth');
 
 var firebaseConfig = {
   apiKey: "AIzaSyDNQRLwHXC_zYcknNdf1rplcYpBP2qIKxA",
@@ -167,8 +165,8 @@ app.post('/login', (req, res) => {
     .then(data => {
       return data.user.getIdToken();
     })
-    .then(token => {
-      return res.json({ token });
+    .then(idToken => {
+      return res.json({ idToken });
     })
     .catch(err => {
       if (err.code === 'auth/wrong-password') {
