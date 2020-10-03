@@ -1,29 +1,16 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { setIdToken } from '../Reducers/setIdToken';
 
 const ReactRedux = () => {
-    const button = () => {
-        props.setIdToken('Om12345677');
-        console.log(props.idToken)
-    }
+    const idToken = useSelector(state => state.idToken);
+    const dispatch = useDispatch();
 
     return (
         <div>
-            {props.idToken}
-            <button onClick={button}>Button</button>
+            <button onClick={() => dispatch(setIdToken('Om12345678'))}>Button</button>
         </div>
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        idToken: state.idToken
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setIdToken: (newToken) => { dispatch({type: 'SET_NEW_TOKEN', token: newToken}) }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReactRedux);
+export default ReactRedux;

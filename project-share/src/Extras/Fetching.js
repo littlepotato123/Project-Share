@@ -12,6 +12,7 @@ const Fetching = () => {
         fetch(proxyUrl + url + 'createPost', {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': 'Bearer (Random Token)'
             },
             body: JSON.stringify({

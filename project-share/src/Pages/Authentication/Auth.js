@@ -3,9 +3,29 @@ import Login from './Login';
 import SignUp from './SignUp';
 
 const Auth = () => {
+    const [auth, setAuth] = useState(true);
+    
+    let authString = 'Login';
+    let authComp = (
+        <SignUp />
+    )
+
+    if(auth) {
+        authComp = (
+            <SignUp />
+        )
+        authString = 'Login';
+    } else {
+        authComp = (
+            <Login />
+        )
+        authString = 'SignUp';
+    }
+
     return (
         <div>
-            Auth
+            { authComp }
+            <button onClick={() => setAuth(!auth)}>{authString}</button>
         </div>
     )
 }
