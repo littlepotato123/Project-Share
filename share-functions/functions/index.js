@@ -573,4 +573,24 @@ app.post('/getUser', (req, res) => {
     })
 })
 
+// Get All User's Posts
+app.post('/getUserPosts', (req, res) => {
+  const authorName = req.body.user;
+
+  db
+    .collection('posts')
+    .where('author', 'in', authorName)
+    .get()
+    .then(data => {
+      if(data.empty) {
+        return res.status(404).json({ message: 'user has no posts' })
+      } else {
+        return res.status(201).json(data);
+      }
+    })
+    .catch(() => {
+      return res.json(500).json({ error: err.code })
+    })
+})
+
 exports.api = functions.https.onRequest(app);

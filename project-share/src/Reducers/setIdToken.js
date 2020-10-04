@@ -1,6 +1,6 @@
-export const setIdToken = (token) => {
+export const setIdToken = (newToken) => {
     return {
         type: 'SET_NEW_TOKEN',
-        token: token
+        token: newToken
     }
 }
