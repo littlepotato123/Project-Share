@@ -4,31 +4,27 @@ import SignUp from './SignUp';
 
 const Auth = () => {
     const [auth, setAuth] = useState(true);
-
-    let authVar = (
+    
+    let authString = 'Login';
+    let authComp = (
         <SignUp />
     )
-    let authString = 'Login';
 
     if(auth) {
-        authVar = (
+        authComp = (
             <SignUp />
         )
         authString = 'Login';
     } else {
-        authVar = (
+        authComp = (
             <Login />
         )
         authString = 'SignUp';
     }
 
-    useEffect(() => {
-
-    })
-    
     return (
         <div>
-            {authVar}
+            { authComp }
             <button onClick={() => setAuth(!auth)}>{authString}</button>
         </div>
     )

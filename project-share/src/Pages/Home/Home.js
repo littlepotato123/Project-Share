@@ -1,5 +1,7 @@
 import React from 'react';
 import Post from '../../Components/Posts/Posts';
+import { useSelector } from 'react-redux';
+import Loading from '../../Components/Loading/Loading';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -24,7 +26,7 @@ class Home extends React.Component {
                 {
                     this.state.posts ? 
                     this.state.posts.map(post => 
-                        <Post 
+                        <Post
                             key={post.id} 
                             title={post.title} 
                             author={post.author} 
@@ -35,7 +37,7 @@ class Home extends React.Component {
                             {post.body}
                         </Post>    
                     )
-                    : null
+                    : <Loading />
                 }
             </div>
         )

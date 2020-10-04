@@ -4,8 +4,6 @@ const app = require('express')();
 admin.initializeApp();
 
 const firebase = require('firebase');
-const { _onRequestWithOptions } = require('firebase-functions/lib/providers/https');
-const { user } = require('firebase-functions/lib/providers/auth');
 
 var firebaseConfig = {
   apiKey: "AIzaSyDNQRLwHXC_zYcknNdf1rplcYpBP2qIKxA",
@@ -167,8 +165,8 @@ app.post('/login', (req, res) => {
     .then(data => {
       return data.user.getIdToken();
     })
-    .then(token => {
-      return res.json({ token });
+    .then(idToken => {
+      return res.json({ idToken });
     })
     .catch(err => {
       if (err.code === 'auth/wrong-password') {
@@ -572,6 +570,26 @@ app.post('/getUser', (req, res) => {
     })
     .catch(err => {
       return res.status(500).json({ error: 'Could not find user' })
+    })
+})
+
+// Get All User's Posts
+app.post('/getUserPosts', (req, res) => {
+  const authorName = req.body.user;
+
+  db
+    .collection('posts')
+    .where('author', 'in', authorName)
+    .get()
+    .then(data => {
+      if(data.empty) {
+        return res.status(404).json({ message: 'user has no posts' })
+      } else {
+        return res.status(201).json(data);
+      }
+    })
+    .catch(() => {
+      return res.json(500).json({ error: err.code })
     })
 })
 
