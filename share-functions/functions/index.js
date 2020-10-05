@@ -397,7 +397,7 @@ app.post('/unfollowUser', (req, res) => {
     .catch(() => {
       return res.status(500).json({ error: err.code })
     })
-})333
+})
 
 // Getting Random Posts => Home Page
 app.get('/getHome', (req, res) => {

@@ -27,12 +27,11 @@ class Home extends React.Component {
                     this.state.posts ? 
                     this.state.posts.map(post => 
                         <Post
-                            key={post.id} 
                             title={post.title} 
                             author={post.author} 
                             category={post.category}
                             likes={post.likes}
-                            id={post.id}
+                            id={post.postId}
                         >
                             {post.body}
                         </Post>    

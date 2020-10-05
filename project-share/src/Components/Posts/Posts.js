@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Commenting from './Comments';
 
 const Posts = (props) => {
@@ -8,12 +8,12 @@ const Posts = (props) => {
 
     if(showComment) {
         comments = (
-            <Commenting />
+            <Commenting id={props.id} />
         )
     }
 
     return (
-        <div key={props.key} className="post-content">
+        <div key={props.id} className="post-content">
             <p className="post-title">{ props.title }</p>
             <p className="post-category">Category: { props.category }</p>
             <p className="post-author">Author: { props.author }</p>
