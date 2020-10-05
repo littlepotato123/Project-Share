@@ -1,6 +1,5 @@
 const initState = {
     idToken: '',
-    counter: 0,
 }
 
 const rootReducer = (state = initState, action) => {

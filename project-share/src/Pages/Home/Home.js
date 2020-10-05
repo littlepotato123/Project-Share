@@ -32,6 +32,7 @@ class Home extends React.Component {
                             category={post.category}
                             likes={post.likes}
                             id={post.postId}
+                            createdAt={post.createdAt}
                         >
                             {post.body}
                         </Post>    

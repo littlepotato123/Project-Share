@@ -187,7 +187,6 @@ app.post('/likePost', (req, res) => {
     title: req.body.title,
     category: req.body.category,
     likes: likes,
-    comments: req.body.comments
   };
 
   db
@@ -212,7 +211,6 @@ app.post('/unlikePost', (req, res) => {
     title: req.body.title,
     category: req.body.category,
     likes: likes,
-    comments: req.body.comments
   };
 
   db
