@@ -1,5 +1,5 @@
 const initState = {
-    idToken: '',
+    idToken: ''
 }
 
 const rootReducer = (state = initState, action) => {
