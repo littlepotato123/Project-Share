@@ -7,25 +7,23 @@ const Navigation = () => {
     let history = useHistory(); 
     const [value, setValue] = useState(null);
 
-    const search = (e) => {
-        if(value !== null) {
+    const search = () => {
+        if(value) {
             history.push(`/user/${value}`)
         } else {
-            e.preventDefault();
+            console.log("YOu did something wrong")
         }
     }
 
     return (
         <div>
-            <form onSubmit={search}>
-                <button className='searchButton'>Search</button>
+                <button onClick={search} className='searchButton' type="submit" >Search</button>
                 <input 
                     className='searchBar' 
                     value={value} 
-                    onChange={e => (e.target.value)}
+                    onChange={e => setValue(e.target.value)}
                     placeholder="Search by Username"
                 />
-            </form>
             <button className='home' onClick={() => history.push('/')}>Home</button>
             <button className='trending' onClick={() => history.push('/trending')}>Trending</button>
             <button className='leaderboard' onClick={() => history.push('/leaderboard')}>Leaderboard</button>

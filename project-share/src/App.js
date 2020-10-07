@@ -13,6 +13,7 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
 import TopPosts from './Pages/TopPosts/TopPosts'
+import WrongUser from './Pages/Errors/WrongUser';
 
 const App = () => {
   return (
@@ -39,6 +40,9 @@ const App = () => {
         </Route>
         <Route path="/topPosts">
           <TopPosts />
+        </Route>
+        <Route path="/wronguser">
+          <WrongUser />
         </Route>
       </Switch>
     </Router>
