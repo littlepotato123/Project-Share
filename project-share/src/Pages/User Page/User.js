@@ -10,10 +10,6 @@ const User = () => {
     const [count, setCount] = useState(0);
     const history = useHistory();
 
-    const fetching = () => {
-        
-    }
-
     useEffect(() => {
         if(count < 2) {
             fetch(proxyUrl + url + 'getUser', {
@@ -35,8 +31,6 @@ const User = () => {
                 }
             })
             setCount(count + 1);
-        } else {
-            console.log('GOT DATA');
         }
     }, [])
 
