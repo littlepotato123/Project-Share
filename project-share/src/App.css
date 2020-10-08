@@ -1,3 +1,16 @@
+.header  {
+    background-color: #282c34;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    position: relative;
+    bottom: 5px;
+    border-radius: 15px;
+    height: 80px;
+    width: 100%;
+    text-align: center;
+    vertical-align: center;
+}
+
 .searchButton {
     width: 75px;
     height: 47px;
@@ -12,6 +25,7 @@
     height: 41px;
     border: 1.5px solid;
     font-size: large;
+
 }
 .home,.trending,.leaderboard,.topPosts,.categories {
     color: #9ecaed;
@@ -23,8 +37,9 @@
     border-bottom-right-radius: 20px;
     margin-right: 20px;
     font-weight: 10px;
-    width: 50px;
+    width: 100px;
     height: 50px;
+    
 }
 
 .post-content {

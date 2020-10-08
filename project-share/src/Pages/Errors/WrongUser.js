@@ -3,7 +3,7 @@ import React from 'react'
 const WrongUser = () => {
     return (
         <div>
-            Wrong User
+            User Not Found
         </div>
     )
 }

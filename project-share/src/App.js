@@ -14,6 +14,7 @@ import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
 import TopPosts from './Pages/TopPosts/TopPosts'
 import WrongUser from './Pages/Errors/WrongUser';
+import NotFound from './Pages/Errors/WrongPage';
 
 const App = () => {
   return (
@@ -43,6 +44,9 @@ const App = () => {
         </Route>
         <Route path="/wronguser">
           <WrongUser />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </Router>

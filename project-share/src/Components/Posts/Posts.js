@@ -13,15 +13,94 @@ const Posts = (props) => {
     let comments = null;
 
     let likes = parseInt(props.likes)
+    let likesButton = (
+        <button onClick={() => setLiked(true)}>Like</button>
+    );
 
     if(showComment) {
         comments = (
             <Commenting id={props.id} />
         )
-    }
+    } 
 
     if(liked) {
         likes += 1;
+    }
+
+    const post = {
+        body: props.children,
+        author: props.author,
+        createdAt: props.createdAt,
+        title: props.title,
+        category: props.category,
+        likes,
+        id: props.id
+    };
+
+    const like = () => {
+        const post = {
+            body: props.children,
+            author: props.author,
+            createdAt: props.createdAt,
+            title: props.title,
+            category: props.category,
+            likes: props.likes + 1,
+            id: props.id
+        };
+
+        const likes = post.likes;
+
+        fetch(proxyUrl + url + 'likePost', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify(post)
+        })
+    }
+    
+    if(liked) {
+        like();
+        likesButton = (
+            <button onClick={() => setLiked(false)}>Unlike</button>
+        )
+    }
+    
+    const unlike = () => {
+        const post = {
+            body: props.children,
+            author: props.author,
+            createdAt: props.createdAt,
+            title: props.title,
+            category: props.category,
+            likes: props.likes - 1,
+            id: props.id
+        };
+
+        const likes = post.likes;
+
+        fetch(proxyUrl + url + 'unlikePost', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify(post)
+        })
+    }
+
+    if(!liked) {
+        unlike();
+        likesButton = (
+            <button onClick={() => setLiked(true)}>Like</button>
+        )
     }
 
     return (
@@ -30,7 +109,7 @@ const Posts = (props) => {
             <p className="post-category">Category: { props.category }</p>
             <p className="post-author">Author: { props.author }</p>
             <p className="post-body">{ props.children }</p>
-            <p className="post-likes"><button onClick={() => setLiked(true)}>Likes</button><span>{ likes }</span></p>
+            <p className="post-likes">{ likesButton }<span>{ likes }</span></p>
             {/* Add Commenting */}
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments }

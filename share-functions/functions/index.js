@@ -179,14 +179,13 @@ app.post('/login', (req, res) => {
 
 // Liking Posts
 app.post('/likePost', (req, res) => {
-  const likes = req.body.likes + 1;
   const changedPost = {
     body: req.body.body,
     author: req.body.author,
     createdAt: req.body.createdAt,
     title: req.body.title,
     category: req.body.category,
-    likes: likes,
+    likes: req.body.likes,
   };
 
   db
@@ -197,7 +196,7 @@ app.post('/likePost', (req, res) => {
       res.json({ message: 'successfully liked' })
     })
     .catch(err => {
-      res.status(500).json({ error: 'Something went wrong' })
+      res.status(301).json({ error: 'Something went wrong' })
     })
 })
 
