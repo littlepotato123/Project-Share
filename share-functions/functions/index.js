@@ -182,10 +182,9 @@ app.post('/likePost', (req, res) => {
   const changedPost = {
     body: req.body.body,
     author: req.body.author,
-    createdAt: req.body.createdAt,
     title: req.body.title,
     category: req.body.category,
-    likes: req.body.likes,
+    likes: req.body.likes + 1,
   };
 
   db
@@ -202,14 +201,12 @@ app.post('/likePost', (req, res) => {
 
 // Unlike Posts
 app.post('/unlikePost', (req, res) => {
-  const likes = req.body.likes - 1;
   const changedPost = {
     body: req.body.body,
     author: req.body.author,
-    createdAt: req.body.createdAt,
     title: req.body.title,
     category: req.body.category,
-    likes: likes,
+    likes: req.body.likes,
   };
 
   db

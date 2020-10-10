@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 const Posts = (props) => {
     const [showComment, setComments] = useState(false);
-    const [liked, setLiked] = useState(false);
-
-    const idToken = useSelector(state => state.idToken);
+    const [liked, setLiked] = useState(null);
 
     let comments = null;
 
@@ -21,34 +18,25 @@ const Posts = (props) => {
         comments = (
             <Commenting id={props.id} />
         )
-    } 
-
-    if(liked) {
-        likes += 1;
     }
 
-    const post = {
-        body: props.children,
-        author: props.author,
-        createdAt: props.createdAt,
-        title: props.title,
-        category: props.category,
-        likes,
-        id: props.id
-    };
+    if(liked == null) {
+        let likesButton = (
+            <button onClick={() => setLiked(true)}>Like</button>
+        );
+    }
 
     const like = () => {
         const post = {
             body: props.children,
             author: props.author,
-            createdAt: props.createdAt,
             title: props.title,
             category: props.category,
-            likes: props.likes + 1,
+            likes,
             id: props.id
         };
 
-        const likes = post.likes;
+        likes = post.likes + 1;
 
         fetch(proxyUrl + url + 'likePost', {
             method: 'POST',
@@ -63,7 +51,7 @@ const Posts = (props) => {
         })
     }
     
-    if(liked) {
+    if(liked == true) {
         like();
         likesButton = (
             <button onClick={() => setLiked(false)}>Unlike</button>
@@ -74,14 +62,13 @@ const Posts = (props) => {
         const post = {
             body: props.children,
             author: props.author,
-            createdAt: props.createdAt,
             title: props.title,
             category: props.category,
-            likes: props.likes - 1,
+            likes: parseInt(props.likes + 1) - 1,
             id: props.id
         };
 
-        const likes = post.likes;
+        likes = props.likes + 1 - 1;
 
         fetch(proxyUrl + url + 'unlikePost', {
             method: 'POST',
@@ -96,13 +83,12 @@ const Posts = (props) => {
         })
     }
 
-    if(!liked) {
+    if(liked == false) {
         unlike();
         likesButton = (
             <button onClick={() => setLiked(true)}>Like</button>
-        )
+        );
     }
-
     return (
         <div key={props.id} className="post-content">
             <p className="post-title">{ props.title }</p>
