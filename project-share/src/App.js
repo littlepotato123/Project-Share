@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Navigation from './Components/Navigation/Navigation';
+
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom';
+
+import Navigation from './Components/Navigation/Navigation';
 import Home from './Pages/Home/Home';
 import Auth from './Pages/Authentication/Auth';
 import Trending from './Pages/Trending/Trending';
@@ -17,15 +19,17 @@ import WrongUser from './Pages/Errors/WrongUser';
 import NotFound from './Pages/Errors/WrongPage';
 
 const App = () => {
+  const [idToken, setToken] = useState('');
+
   return (
     <Router>
       <Navigation />
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Home token={idToken} />
         </Route>
         <Route exact path="/auth">
-          <Auth />
+          <Auth setToken={setToken} token={idToken} />
         </Route>
         <Route exact path="/trending">
           <Trending />

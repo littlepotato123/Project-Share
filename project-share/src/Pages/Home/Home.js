@@ -21,6 +21,8 @@ class Home extends React.Component {
     }
 
     render() {
+        console.log(this.props.token);
+
         return (
             <div>
                 {
@@ -33,6 +35,7 @@ class Home extends React.Component {
                             likes={post.likes}
                             id={post.postId}
                             createdAt={post.createdAt}
+                            token={this.props.token}
                         >
                             {post.body}
                         </Post>    

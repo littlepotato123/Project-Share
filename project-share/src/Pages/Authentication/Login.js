@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIdToken } from '../../Reducers/setIdToken';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
-const Login = () => {
+const Login = (props) => {
     const [email, setEmail] = useState(null);
     const [pass, setPass] = useState(null);
     const [error, setError] = useState(null);
-
-    const dispatch = useDispatch();
-
-    const idToken = useSelector(state => state.idToken)
 
     const submit = () => {
         fetch(proxyUrl + url + 'login', {
@@ -28,15 +22,11 @@ const Login = () => {
             .then(res => res.json())
             .then(data => {
                 if(data.idToken) {
-                    dispatch(setIdToken(data.idToken))
+                    props.setToken(data.idToken);
                 } else if(data.general) {
                     setError(data.general);
                 }
             })
-    }
-
-    const getId = () => {
-        console.log(idToken);
     }
 
     return (
@@ -45,7 +35,6 @@ const Login = () => {
             <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
             <button onClick={submit}>Login</button>
             {error}
-            <button onClick={getId}>Get Id Token</button>
         </div>
     )
 }

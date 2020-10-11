@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setIdToken } from '../../Reducers/setIdToken';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -11,8 +9,6 @@ const SignUp = (props) => {
     const [pass, setPass] = useState('');
     const [confirm, setConfirm] = useState('');
     const [errors, setErrors] = useState('');
-
-    const dispatch = useDispatch();
 
     const submit = () => {
         fetch(proxyUrl + url + 'signup', {
@@ -30,12 +26,11 @@ const SignUp = (props) => {
             .then(res => res.json())
             .then(data => {
                 if(data.idToken) {
-                    dispatch(setIdToken(data.idToken))
+                    props.setToken(data.idToken);
                 }
                 // handle
                 else if(data.handle) {
                     setErrors(data.handle);
-                    console.log(data.handle);
                 }
                 // error
                 else if(data.error) {
@@ -44,7 +39,6 @@ const SignUp = (props) => {
                 // confirmPassword
                 else if(data.confirmPassword) {
                     setErrors(data.confirmPassword);
-                    console.log(data.confirmPassword);
                 }
             })
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Login from './Login';
 import SignUp from './SignUp';
 
-const Auth = () => {
+const Auth = (props) => {
     const [auth, setAuth] = useState(true);
     
     let authString = 'Login';
@@ -12,12 +12,12 @@ const Auth = () => {
 
     if(auth) {
         authComp = (
-            <SignUp />
+            <SignUp setToken={props.setToken} token={props.token} />
         )
         authString = 'Login';
     } else {
         authComp = (
-            <Login />
+            <Login setToken={props.setToken} token={props.token} />
         )
         authString = 'SignUp';
     }
