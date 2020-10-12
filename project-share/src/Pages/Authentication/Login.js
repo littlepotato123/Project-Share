@@ -22,7 +22,7 @@ const Login = (props) => {
             .then(res => res.json())
             .then(data => {
                 if(data.idToken) {
-                    props.setToken(data.idToken);
+                    sessionStorage.setItem('token', data.idToken)
                 } else if(data.general) {
                     setError(data.general);
                 }

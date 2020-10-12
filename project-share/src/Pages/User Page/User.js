@@ -23,11 +23,10 @@ const User = () => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data.user);
                 if(data.user == undefined) {
                     history.push('/wronguser');
                 } else {
-                    console.log('Got Correct Data');
+                    setUser(data.user);
                 }
             })
             setCount(count + 1);

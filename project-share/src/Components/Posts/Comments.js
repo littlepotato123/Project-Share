@@ -12,6 +12,8 @@ const Commenting = (props) => {
     const [comments, setComments] = useState(null);
     const [comment, setComment] = useState('');
 
+    const idToken = sessionStorage.getItem('token');
+
     useEffect(() => {
         fetch(proxyUrl + url + 'getComment', {
             method: 'POST',
@@ -39,7 +41,7 @@ const Commenting = (props) => {
                 "Accept": "*/*",
                 "Accept-Encoding": "gzip, deflate, br",
                 "Connection": "keep-alive",
-                "Authorization": `Bearer ${props.token}`
+                "Authorization": `Bearer ${idToken}`
             },
             body: JSON.stringify({
                 id: props.id,
@@ -47,7 +49,11 @@ const Commenting = (props) => {
             })
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if(data.error === "Unauthorized") {
+                alert("You must be logged in to submit commit");
+            }
+        })
         .catch(err => console.log(err));
     }
 
@@ -81,7 +87,7 @@ const Commenting = (props) => {
     return (
         <div>
             {
-                comments.map(c => <li>{c.body}</li>)
+                comments.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />)
             }
             { posting }
         </div>

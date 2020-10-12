@@ -26,7 +26,7 @@ const SignUp = (props) => {
             .then(res => res.json())
             .then(data => {
                 if(data.idToken) {
-                    props.setToken(data.idToken);
+                    sessionStorage.setItem('token', data.idToken);
                 }
                 // handle
                 else if(data.handle) {

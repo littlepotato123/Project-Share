@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 
 import {
@@ -15,21 +15,20 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
 import TopPosts from './Pages/TopPosts/TopPosts'
+
 import WrongUser from './Pages/Errors/WrongUser';
 import NotFound from './Pages/Errors/WrongPage';
 
 const App = () => {
-  const [idToken, setToken] = useState('');
-
   return (
     <Router>
       <Navigation />
       <Switch>
         <Route exact path="/">
-          <Home token={idToken} />
+          <Home />
         </Route>
         <Route exact path="/auth">
-          <Auth setToken={setToken} token={idToken} />
+          <Auth />
         </Route>
         <Route exact path="/trending">
           <Trending />

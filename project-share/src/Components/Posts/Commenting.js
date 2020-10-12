@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Commenting = () => {
+const Commenting = (props) => {
     return (
-        <div>
-            Commenting
+        <div className="comment">
+            Author: { props.author }<br />
+            { props.body }
         </div>
     )
 }

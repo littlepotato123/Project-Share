@@ -95,3 +95,7 @@
     position: absolute;
     right: 40px;
 }
+
+.comment {
+    border-radius: 8px;
+}
