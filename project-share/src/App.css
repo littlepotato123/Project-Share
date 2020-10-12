@@ -7,27 +7,33 @@
     border-radius: 15px;
     height: 80px;
     width: 100%;
-    text-align: center;
-    vertical-align: center;
+    
 }
 
 .searchButton {
-    width: 75px;
-    height: 47px;
-    border-top-left-radius: 15%;
-    border-bottom-left-radius: 15%;
-    font-size: 17px;
-    background-color: #28df99;   
+    width: 70px;
+    height: 43px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 15px;
+    background-color: #28df99; 
 }
 
 .searchBar {
-    width:  400px;
-    height: 41px;
+    width:  250px;
+    height: 40px;
     border: 1.5px solid;
     font-size: large;
-
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    
 }
-.home,.trending,.leaderboard,.topPosts,.categories {
+.searchBar,.searchButton {
+    position:relative;
+    right: -12.3%;
+    top: 15px;
+}
+.home,.trending,.leaderboard,.topPosts,.categories,.create-post {
     color: #9ecaed;
     background-color: white;
     border-color: white;
@@ -36,10 +42,12 @@
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     margin-right: 20px;
-    font-weight: 10px;
-    width: 100px;
-    height: 50px;
-    
+    font-weight: 7px;
+    width: 6vw;
+    height: 37px;
+    position:relative;
+    right: -13.5%;
+    top: 15px;
 }
 
 .post-content {
