@@ -177,6 +177,16 @@ app.post('/login', (req, res) => {
     })
 })
 
+// Message User
+app.post('/messageUser', FBAuth, (req, res) => {
+  const message = {
+    message: req.body.message,
+    author: req.user.handle
+  };
+
+  
+})
+
 // Liking Posts
 app.post('/likePost', (req, res) => {
   const changedPost = {

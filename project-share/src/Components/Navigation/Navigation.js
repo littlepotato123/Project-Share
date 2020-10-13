@@ -1,37 +1,34 @@
 import React, { useState } from 'react'
-import {
-    useHistory
-} from 'react-router-dom'; // For Redirecting Page 
 
 const Navigation = () => {
-    let history = useHistory();
     const [value, setValue] = useState(null);
+    const [url, setUrl] = useState(null);
 
-    const search = () => {
-        if (value) {
-            history.push(`/user/${value}`)
-        } else {
-            console.log("You did something wrong")
-        }
+    const setting = e => {
+        setValue(e.target.value);
+        setUrl(`/user/${e.target.value}`)
     }
+
+    let authButtons = (
+        <a href="/auth">Authentication</a>
+    )
 
     return (
         <div className="nav">
             <header className="header">
-                Project-Sh@re
-                <button onClick={search} className='searchButton' type="submit" >Search</button>
+                <a href="/">Project Sh@are</a>
+                <a className="searchButton" href={url}>Search</a>
                 <input
                     className='searchBar'
                     value={value}
-                    onChange={e => setValue(e.target.value)}
+                    onChange={e => setting(e)}
                     placeholder="Search by Username"
                 />
-                <button className='home' onClick={() => history.push('/')}>Home</button>
-                <button className='trending' onClick={() => history.push('/trending')}>Trending</button>
-                <button className='leaderboard' onClick={() => history.push('/leaderboard')}>Leaderboard</button>
-                <button className='topPosts' onClick={() => history.push('/topPosts')}>Top Posts</button>
-                <button className='categories' onClick={() => history.push('/categories')}>Categories</button>
-                <button className='create-post'>Create Post</button>
+                <a className="nav-link" href="/trending">Trending</a>
+                <a className="nav-link" href="/leaderboard">Leaderboard</a>
+                <a className="nav-link" href="/topPosts">Top Posts</a>
+                <a className="nav-link" href="/categories">Categories</a>
+                { authButtons }
             </header>
 
 

@@ -3,6 +3,7 @@ import {
     useHistory,
     useParams
 } from 'react-router-dom'
+import Loading from '../../Components/Loading/Loading';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -34,17 +35,28 @@ const User = () => {
                 if(Object.keys(data).length === 0) {
                     console.log("empty");
                 } else {
-                    console.log("Not Empty");
-                    console.log(data.user)
                     setUser(data.user);
                 }
             }
         })
     }, [])
 
+    const support = () => {
+        fetch()
+    }
+
+    let userInfo = (
+        <div>
+            {user.handle} <br />
+            {user.supporters} <br />
+            <button onClick={support}>Support this creator</button> <br />
+            {user.email}
+        </div>
+    )
+
     return (
         <div>
-            Hello, { user.handle }
+            { user ? userInfo : <Loading />}
         </div>
     )
 }
