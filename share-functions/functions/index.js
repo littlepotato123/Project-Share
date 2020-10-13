@@ -184,7 +184,15 @@ app.post('/messageUser', FBAuth, (req, res) => {
     author: req.user.handle
   };
 
-  
+  db
+    .collection(req.body.uid)
+    .add(message)
+    .then(doc => {
+      return res.status(201).json({ message: `${doc.id} successfully created` })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: 'Error Occured' });
+    })
 })
 
 // Liking Posts
@@ -277,8 +285,6 @@ app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
   const account = {
     supporters: supporters,
-    posts: req.body.posts,
-    likes: req.body.likes,
     handle: req.body.handle,
     email: req.body.email,
     createdAt: req.body.createdAT,
@@ -302,8 +308,6 @@ app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters - 1;
   const account = {
     supporters: supporters,
-    posts: req.body.posts,
-    likes: req.body.likes,
     handle: req.body.handle,
     email: req.body.email,
     createdAt: req.body.createdAT,

@@ -42,7 +42,9 @@ const User = () => {
     }, [])
 
     const support = () => {
-        fetch()
+        fetch(proxyUrl + url + '/followUser', {
+            
+        })
     }
 
     let userInfo = (
