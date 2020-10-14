@@ -16,7 +16,7 @@ const Leaderboard = () => {
 
     return (
         <div>
-            Leaderboard
+            {leaderbaord ? leaderbaord.map(user => li)}
         </div>
     )
 }
