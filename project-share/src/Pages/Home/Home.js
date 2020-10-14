@@ -1,6 +1,5 @@
 import React from 'react';
 import Post from '../../Components/Posts/Posts';
-import { useSelector } from 'react-redux';
 import Loading from '../../Components/Loading/Loading';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
