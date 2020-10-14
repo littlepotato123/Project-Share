@@ -10,6 +10,7 @@ const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const User = () => {
     const [user, setUser] = useState({});
+    const [supporters, setSupporters] = useState(null);
 
     const { userHandle } = useParams();
     
@@ -33,36 +34,36 @@ const User = () => {
         .then(data => {
             if(typeof data == 'object') {
                 if(Object.keys(data).length === 0) {
-                    console.log("empty");
+                    history.push('/wronguser');
                 } else {
                     setUser(data.user);
+                    setSupporters(data.user.supporters);
                 }
             }
         })
     }, [])
 
-    const support = () => {
-        fetch(proxyUrl + url + '/followUser', {
-            supporters: user.supporters,
-            handle: user.handle,
-            email: user.email,
-            createdAt: user.createdAt,
-            userId: user.userId
-        })
+    const follow = () => {
+        setSupporters(supporters + 1);
     }
+    
+
+    let followButton = (
+        <button onClick={follow}>Follow</button>
+    )
 
     let userInfo = (
         <div>
             {user.handle} <br />
-            {user.supporters} <br />
-            <button onClick={support}>Support this creator</button> <br />
-            {user.email}
+            {supporters} <br />
+            {user.email} <br />
+            {followButton}     
         </div>
     )
 
     return (
         <div>
-            { user ? userInfo : <Loading />}
+            { Object.keys(user).length === 0 ? <Loading /> : userInfo}
         </div>
     )
 }
