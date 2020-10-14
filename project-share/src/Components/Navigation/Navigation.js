@@ -12,6 +12,16 @@ const Navigation = () => {
     let authButtons = (
         <a href="/auth">Authentication</a>
     )
+    
+    // Get Id Token from storage
+
+    // Check if it is null or not
+         // If Null then show default
+            // Alert
+        // If not null then fetch and get username
+            // Change default to create post and User Page
+
+    // Use Effect
 
     // Get id token
     const data = sessionStorage.getItem('idToken');
@@ -39,8 +49,6 @@ const Navigation = () => {
                 <a className="nav-link" href="/categories">Categories</a>
                 {authButtons}
             </header>
-
-
         </div>
     )
 }

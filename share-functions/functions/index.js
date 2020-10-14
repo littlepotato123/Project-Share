@@ -51,7 +51,6 @@ app.post('/getHandle', FBAuth, (req, res) => {
   return res.status(200).json({ handle: req.user.handle })
 })
 
-
 // Creating Posts
 app.post('/createPost', FBAuth, (req, res) => {
   const newPost = {
@@ -190,7 +189,15 @@ app.post('/messageUser', FBAuth, (req, res) => {
     author: req.user.handle
   };
 
-
+  db
+    .collection(req.body.uid)
+    .add(message)
+    .then(doc => {
+      return res.status(201).json({ message: `${doc.id} successfully created` })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: 'Error Occured' });
+    })
 })
 
 // Liking Posts
@@ -283,11 +290,9 @@ app.post('/followUser', (req, res) => {
   const supporters = req.body.supporters + 1;
   const account = {
     supporters: supporters,
-    posts: req.body.posts,
-    likes: req.body.likes,
     handle: req.body.handle,
     email: req.body.email,
-    createdAt: req.body.createdAT,
+    createdAt: req.body.createdAt,
     userld: req.body.userld
   };
 
@@ -304,12 +309,10 @@ app.post('/followUser', (req, res) => {
 })
 
 // Losing Supporters
-app.post('/followUser', (req, res) => {
+app.post('/unfollowUser', (req, res) => {
   const supporters = req.body.supporters - 1;
   const account = {
     supporters: supporters,
-    posts: req.body.posts,
-    likes: req.body.likes,
     handle: req.body.handle,
     email: req.body.email,
     createdAt: req.body.createdAT,
