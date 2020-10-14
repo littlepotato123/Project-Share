@@ -21,9 +21,9 @@ const Login = (props) => {
         })
             .then(res => res.json())
             .then(data => {
-                if(data.idToken) {
+                if (data.idToken) {
                     sessionStorage.setItem('token', data.idToken)
-                } else if(data.general) {
+                } else if (data.general) {
                     setError(data.general);
                 }
             })
@@ -32,7 +32,7 @@ const Login = (props) => {
     return (
         <div>
             <input value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
-            <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
+            <input type="password" value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
             <button onClick={submit}>Login</button>
             {error}
         </div>

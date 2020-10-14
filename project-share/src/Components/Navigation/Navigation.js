@@ -12,23 +12,23 @@ const Navigation = () => {
     let authButtons = (
         <a href="/auth">Authentication</a>
     )
-    
+
     // Get Id Token from storage
 
     // Check if it is null or not
-         // If Null then show default
-            // Alert
-        // If not null then fetch and get username
-            // Change default to create post and User Page
+    // If Null then show default
+    // Alert
+    // If not null then fetch and get username
+    // Change default to create post and User Page
 
     // Use Effect
 
     // Get id token
     const data = sessionStorage.getItem('idToken');
     if (data === null) {
-        alert("User not logged it.")
+        console.log("User not logged it.")
     }
-    else (data !== null) {
+    else {
 
     }
 
