@@ -46,6 +46,11 @@ const FBAuth = (req, res, next) => {
     })
 }
 
+// Checking if logged in
+app.post('/getHandle', FBAuth, (req, res) => {
+  return res.status(200).json({ handle: req.user.handle })
+})
+
 // Creating Posts
 app.post('/createPost', FBAuth, (req, res) => {
   const newPost = {
@@ -287,7 +292,7 @@ app.post('/followUser', (req, res) => {
     supporters: supporters,
     handle: req.body.handle,
     email: req.body.email,
-    createdAt: req.body.createdAT,
+    createdAt: req.body.createdAt,
     userld: req.body.userld
   };
 
@@ -304,7 +309,7 @@ app.post('/followUser', (req, res) => {
 })
 
 // Losing Supporters
-app.post('/followUser', (req, res) => {
+app.post('/unfollowUser', (req, res) => {
   const supporters = req.body.supporters - 1;
   const account = {
     supporters: supporters,
@@ -590,7 +595,7 @@ app.post('/getUserPosts', (req, res) => {
     .where('author', 'in', authorName)
     .get()
     .then(data => {
-      if(data.empty) {
+      if (data.empty) {
         return res.status(404).json({ message: 'user has no posts' })
       } else {
         return res.status(201).json(data);

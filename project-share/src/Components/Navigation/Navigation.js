@@ -23,6 +23,12 @@ const Navigation = () => {
 
     // Use Effect
 
+    // Get id token
+    //If null  
+    // Alert
+    // If =! null
+    //Link to other page
+
     return (
         <div className="nav">
             <header className="header">
@@ -38,7 +44,7 @@ const Navigation = () => {
                 <a className="nav-link" href="/leaderboard">Leaderboard</a>
                 <a className="nav-link" href="/topPosts">Top Posts</a>
                 <a className="nav-link" href="/categories">Categories</a>
-                { authButtons }
+                {authButtons}
             </header>
         </div>
     )

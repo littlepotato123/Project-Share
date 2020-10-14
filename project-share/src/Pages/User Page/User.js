@@ -43,7 +43,11 @@ const User = () => {
 
     const support = () => {
         fetch(proxyUrl + url + '/followUser', {
-            
+            supporters: user.supporters,
+            handle: user.handle,
+            email: user.email,
+            createdAt: user.createdAt,
+            userId: user.userId
         })
     }
 
