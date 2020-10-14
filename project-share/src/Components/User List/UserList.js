@@ -1,9 +1,9 @@
 import React from 'react'
 
-const UserList = () => {
+const UserList = (props) => {
     return (
         <div>
-            User
+            <li>{props.children}</li>
         </div>
     )
 }
