@@ -14,10 +14,13 @@ const Navigation = () => {
     )
 
     // Get id token
-    //If null  
-    // Alert
-    // If =! null
-    //Link to other page
+    const data = sessionStorage.getItem('idToken');
+    if (data === null) {
+        alert("User not logged it.")
+    }
+    else (data !== null) {
+
+    }
 
     return (
         <div className="nav">
