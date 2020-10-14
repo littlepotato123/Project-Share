@@ -456,7 +456,6 @@ app.get('/getPopular', (req, res) => {
           createdAt: doc.data().createdAt,
           author: doc.data().author,
           likes: doc.data().likes,
-          comments: doc.data().comments,
           category: doc.data().category,
           title: doc.data().title
         })

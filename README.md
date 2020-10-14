@@ -1,6 +1,10 @@
-## Planning Sheet
+### Project Share
 
-# Font
+## Description
+
+## Author Description
+
+## Project Details
 
 # Color Scheme
     #28df99

@@ -26,10 +26,10 @@ const Navigation = () => {
     // Get id token
     const data = sessionStorage.getItem('idToken');
     if (data === null) {
-        console.log("User not logged it.")
+        // Nothing Happens
     }
     else {
-
+        // Fetch
     }
 
     return (

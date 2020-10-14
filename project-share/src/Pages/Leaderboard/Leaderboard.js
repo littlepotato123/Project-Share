@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Loading from '../../Components/Loading/Loading';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -16,7 +17,11 @@ const Leaderboard = () => {
 
     return (
         <div>
-            {leaderbaord ? leaderbaord.map(user => li)}
+            {leaderbaord ? 
+                leaderbaord.map(user => <li>{user.handle}</li>)    
+                : 
+                <Loading />
+            }
         </div>
     )
 }
