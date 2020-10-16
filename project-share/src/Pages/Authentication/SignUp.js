@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { storage } from '../../Firebase/index';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+const aUrl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const SignUp = (props) => {
     const [handle, setHandle] = useState('');
@@ -11,17 +12,22 @@ const SignUp = (props) => {
     const [errors, setErrors] = useState('');
 
     const submit = () => {
-        fetch(proxyUrl + url + 'signup', {
+        const data = {
+            email,
+            password: pass,
+            confirmPassword: confirm,
+            userHandle: handle,
+        };
+        fetch(proxyUrl + aUrl + 'signup', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive",
             },
-            body: JSON.stringify({
-                email: email,
-                password: pass,
-                confirmPassword: confirm,
-                userHandle: handle
-            })
+            body: JSON.stringify(data)
         })
             .then(res => res.json())
             .then(data => {
@@ -47,8 +53,8 @@ const SignUp = (props) => {
         <div>
             <input value={handle} placeholder="User Handle" onChange={e => setHandle(e.target.value)} />
             <input value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
-            <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
-            <input value={confirm} placeholder="Confirm Password" onChange={e => setConfirm(e.target.value)} />
+            <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} type="password" />
+            <input value={confirm} placeholder="Confirm Password" onChange={e => setConfirm(e.target.value)} type="password" />
             <button onClick={submit}>Sign Up</button>
             {errors}
         </div>

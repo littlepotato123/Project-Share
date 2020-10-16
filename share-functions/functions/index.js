@@ -91,7 +91,7 @@ app.post('/signup', (req, res) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    userHandle: req.body.userHandle
+    userHandle: req.body.userHandle,
   };
 
   let errors = {};

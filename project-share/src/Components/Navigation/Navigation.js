@@ -1,4 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Navigation = () => {
     const [value, setValue] = useState(null);
@@ -8,29 +12,29 @@ const Navigation = () => {
         setValue(e.target.value);
         setUrl(`/user/${e.target.value}`)
     }
+    const [authentication, setAuthentication] = useState(null);
 
-    let authButtons = (
-        <a href="/auth">Authentication</a>
-    )
-
-    // Get Id Token from storage
-
-    // Check if it is null or not
-    // If Null then show default
-    // Alert
-    // If not null then fetch and get username
-    // Change default to create post and User Page
-
-    // Use Effect
-
-    // Get id token
-    const data = sessionStorage.getItem('idToken');
-    if (data === null) {
-        // Nothing Happens
-    }
-    else {
-        // Fetch
-    }
+    useEffect(() => {
+        const data = sessionStorage.getItem('token');
+        if(data !== null) {
+            fetch(proxyUrl + aurl + 'getHandle', {
+                method: 'POST',
+                headers: {
+                   "Authorization": `Bearer ${data}`
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.handle);
+                    setAuthentication(<h1>{data.handle}</h1>)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } else {
+            setAuthentication(<a href="/auth">Authentication</a>)
+        }
+    }, [])
 
     return (
         <div className="nav">
@@ -47,7 +51,7 @@ const Navigation = () => {
                 <a className="nav-link" href="/leaderboard">Leaderboard</a>
                 <a className="nav-link" href="/topPosts">Top Posts</a>
                 <a className="nav-link" href="/categories">Categories</a>
-                {authButtons}
+                { authentication }
             </header>
         </div>
     )

@@ -12,7 +12,11 @@ const Login = (props) => {
         fetch(proxyUrl + url + 'login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
             },
             body: JSON.stringify({
                 email: email,
