@@ -11,6 +11,9 @@
 }
 
 .searchButton {
+    position:relative;
+    right: -12.3%;
+    top: 15px;
     width: 70px;
     height: 43px;
     border-top-left-radius: 15px;
@@ -20,20 +23,23 @@
 }
 
 .searchBar {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    position:relative;
+    right: -12.3%;
+    top: 15px;
     width:  250px;
     height: 40px;
     border: 1.5px solid;
     font-size: large;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
     
 }
-.searchBar,.searchButton {
-    position:relative;
-    right: -12.3%;
-    top: 15px;
-}
-.home,.trending,.leaderboard,.topPosts,.categories,.create-post {
+
+.leaderboard, .trending, .topPosts, .categories, .authentication {
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    text-decoration: none;
     color: #9ecaed;
     background-color: white;
     border-color: white;
@@ -42,12 +48,34 @@
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
     margin-right: 20px;
-    font-weight: 7px;
-    width: 6vw;
-    height: 37px;
-    position:relative;
+    position: relative;  
     right: -13.5%;
     top: 15px;
+    font-size: 19px;
+}
+
+.leaderboard {
+    width: 110px;   
+}
+
+.topPosts {
+    width: 90px
+}
+
+.categories {
+    width: 95px;
+}
+
+.authentication {
+    width: 125px;
+}
+
+.project-Share {
+    color: #9ecaed;  
+    font-size: 30px;
+    position: relative;
+    top: 19px;
+    left: 20px;
 }
 
 .post-content {
