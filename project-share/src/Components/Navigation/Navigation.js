@@ -16,11 +16,11 @@ const Navigation = () => {
 
     useEffect(() => {
         const data = sessionStorage.getItem('token');
-        if(data !== null) {
+        if (data !== null) {
             fetch(proxyUrl + aurl + 'getHandle', {
                 method: 'POST',
                 headers: {
-                   "Authorization": `Bearer ${data}`
+                    "Authorization": `Bearer ${data}`
                 }
             })
                 .then(res => res.json())
@@ -32,14 +32,14 @@ const Navigation = () => {
                     console.log(err)
                 })
         } else {
-            setAuthentication(<a href="/auth">Authentication</a>)
+            setAuthentication(<a className="authentication" href="/auth">Authentication</a>)
         }
     }, [])
 
     return (
         <div className="nav">
             <header className="header">
-                <a href="/">Project Sh@are</a>
+                <a className="project-Share" href="/">Project Sh@are</a>
                 <a className="searchButton" href={url}>Search</a>
                 <input
                     className='searchBar'
@@ -47,11 +47,11 @@ const Navigation = () => {
                     onChange={e => setting(e)}
                     placeholder="Search by Username"
                 />
-                <a className="nav-link" href="/trending">Trending</a>
-                <a className="nav-link" href="/leaderboard">Leaderboard</a>
-                <a className="nav-link" href="/topPosts">Top Posts</a>
-                <a className="nav-link" href="/categories">Categories</a>
-                { authentication }
+                <a className="trending" href="/trending">Trending</a>
+                <a className="leaderboard" href="/leaderboard">Leaderboard</a>
+                <a className="topPosts" href="/topPosts">Top Posts</a>
+                <a className="categories" href="/categories">Categories</a>
+                {authentication}
             </header>
         </div>
     )
