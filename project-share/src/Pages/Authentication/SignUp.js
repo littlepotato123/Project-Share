@@ -10,6 +10,40 @@ const SignUp = (props) => {
     const [pass, setPass] = useState('');
     const [confirm, setConfirm] = useState('');
     const [errors, setErrors] = useState('');
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
+    const [progress, setProgress] = useState(0);
+
+    const handleChange = e => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+
+    const handleUpload = () => {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+            const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            setProgress(progress);
+            },
+            error => {
+                console.log(error);
+            },
+            () => {
+            storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+                    setUrl(url);
+                });
+            }
+        );
+    };
 
     const submit = () => {
         const data = {
@@ -17,6 +51,7 @@ const SignUp = (props) => {
             password: pass,
             confirmPassword: confirm,
             userHandle: handle,
+            url
         };
         fetch(proxyUrl + aUrl + 'signup', {
             method: 'POST',
@@ -55,6 +90,15 @@ const SignUp = (props) => {
             <input value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
             <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} type="password" />
             <input value={confirm} placeholder="Confirm Password" onChange={e => setConfirm(e.target.value)} type="password" />
+            
+            <div>
+                <progress value={progress} max="100" />
+                <br />
+                <br />
+                <input type="file" onChange={handleChange} />
+                <button onClick={handleUpload}>Upload</button>
+                <br />
+            </div>
             <button onClick={submit}>Sign Up</button>
             {errors}
         </div>
