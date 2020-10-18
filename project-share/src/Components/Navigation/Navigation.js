@@ -7,6 +7,7 @@ const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 const Navigation = () => {
     const [value, setValue] = useState(null);
     const [url, setUrl] = useState(null);
+    const [userUrl, setUserUrl] = useState(null);
 
     const setting = e => {
         setValue(e.target.value);
@@ -26,7 +27,7 @@ const Navigation = () => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.handle);
-                    setAuthentication(<h1>{data.handle}</h1>)
+                    setAuthentication(<a className="authentication" href={`/user/${data.handle}`}>{data.handle}</a>)
                 })
                 .catch(err => {
                     console.log(err)

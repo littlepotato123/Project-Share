@@ -19,9 +19,6 @@ import TopPosts from './Pages/TopPosts/TopPosts'
 import WrongUser from './Pages/Errors/WrongUser';
 import NotFound from './Pages/Errors/WrongPage';
 
-// Extras
-import Image from './Extras/ImageUpload';
-
 const App = () => {
   return (
     <Router>
@@ -50,9 +47,6 @@ const App = () => {
         </Route>
         <Route path="/wronguser">
           <WrongUser />
-        </Route>
-        <Route path="/image">
-          <Image />
         </Route>
         <Route path="*">
           <NotFound />
