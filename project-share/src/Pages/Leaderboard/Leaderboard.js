@@ -18,9 +18,9 @@ const Leaderboard = () => {
 
     return (
         <div>
-            {leaderbaord ? 
-                leaderbaord.map(user => <UserList>{user.handle}</UserList>)
-                : 
+            {leaderbaord ?
+                leaderbaord.map(user => <UserList supporters={user.supporters} id={user.userId} name={user.handle} />)
+                :
                 <Loading />
             }
         </div>
