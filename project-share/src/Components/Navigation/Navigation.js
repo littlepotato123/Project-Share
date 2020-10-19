@@ -50,7 +50,6 @@ const Navigation = () => {
                 />
                 <a className="trending" href="/trending">Trending</a>
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
-                <a className="topPosts" href="/topPosts">Top Posts</a>
                 <a className="categories" href="/categories">Categories</a>
                 {authentication}
             </header>
