@@ -94,19 +94,11 @@ const Posts = (props) => {
 
     return (
         <div key={props.id} className="post-content">
-<<<<<<< HEAD
             <p className="post-title">{props.title}</p>
             <p className="post-category">Category: {props.category}</p>
             <p className="post-author">Author: {props.author}</p>
             <p className="post-body">{props.children}</p>
             <p className="post-likes">{likesButton}<span>{likes}</span></p>
-=======
-            <p className="post-title">{ props.title }</p>
-            <p className="post-category">Category: { props.category }</p>
-            <p className="post-author">Author: <span><a href={`/user/${props.author}`}>{props.author}</a></span></p>
-            <p className="post-body">{ props.children }</p>
-            <p className="post-likes">{ likesButton }<span>{ likes }</span></p>
->>>>>>> e021d39547ece5a87ce88d01b215a0401aa2708e
             {/* Add Commenting */}
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments}
