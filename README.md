@@ -20,3 +20,13 @@
         git commit -m "(Whatever Name)"
         git push origin master
     }
+
+# Github Instructions
+    git add .
+    git commit -m "Commit Message"
+    git push origin master
+
+    (If what above does not work) --> git pull origin master --> git push origin master (Assuming you have already git added and git commited)
+
+    To Get My Code
+        git pull origin master
