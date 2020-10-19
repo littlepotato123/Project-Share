@@ -15,14 +15,14 @@ const Posts = (props) => {
     );
 
     console.log(props.token);
-    
-    if(showComment) {
+
+    if (showComment) {
         comments = (
             <Commenting id={props.id} token={props.token} />
         )
     }
 
-    if(liked == null) {
+    if (liked == null) {
         likesButton = (
             <button onClick={() => setLiked(true)}>Like</button>
         );
@@ -52,14 +52,14 @@ const Posts = (props) => {
             body: JSON.stringify(post)
         })
     }
-    
-    if(liked == true) {
+
+    if (liked == true) {
         like();
         likesButton = (
             <button onClick={() => setLiked(false)}>Unlike</button>
         )
     }
-    
+
     const unlike = () => {
         const post = {
             body: props.children,
@@ -85,7 +85,7 @@ const Posts = (props) => {
         })
     }
 
-    if(liked == false) {
+    if (liked == false) {
         unlike();
         likesButton = (
             <button onClick={() => setLiked(true)}>Like</button>
@@ -94,14 +94,14 @@ const Posts = (props) => {
 
     return (
         <div key={props.id} className="post-content">
-            <p className="post-title">{ props.title }</p>
-            <p className="post-category">Category: { props.category }</p>
-            <p className="post-author">Author: { props.author }</p>
-            <p className="post-body">{ props.children }</p>
-            <p className="post-likes">{ likesButton }<span>{ likes }</span></p>
+            <p className="post-title">{props.title}</p>
+            <p className="post-category">Category: {props.category}</p>
+            <p className="post-author">Author: {props.author}</p>
+            <p className="post-body">{props.children}</p>
+            <p className="post-likes">{likesButton}<span>{likes}</span></p>
             {/* Add Commenting */}
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
-            { comments }
+            { comments}
         </div>
     )
 }
