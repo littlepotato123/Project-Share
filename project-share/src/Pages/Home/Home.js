@@ -35,7 +35,7 @@ class Home extends React.Component {
                             token={this.props.token}
                         >
                             {post.body}
-                        </Post>    
+                        </Post>
                     )
                     : <Loading />
                 }
