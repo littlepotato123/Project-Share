@@ -14,6 +14,7 @@ import Trending from './Pages/Trending/Trending';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import User from './Pages/User Page/User';
 import Categories from './Pages/Categories/Categories';
+import NewPost from './Components/New Post/NewPost';
 
 import WrongUser from './Pages/Errors/WrongUser';
 import NotFound from './Pages/Errors/WrongPage';
@@ -43,6 +44,9 @@ const App = () => {
         </Route>
         <Route path="/wronguser">
           <WrongUser />
+        </Route>
+        <Route path="/newPost">
+          <NewPost />
         </Route>
         <Route path="*">
           <NotFound />

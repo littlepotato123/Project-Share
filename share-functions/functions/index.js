@@ -66,7 +66,15 @@ app.post('/createPost', FBAuth, (req, res) => {
     .collection('posts')
     .add(newPost)
     .then(doc => {
-      res.json({ message: `${doc.id} has been created successfully` })
+      db
+        .collection('categories')
+        .doc(newPost.category)
+        .set({
+          "title": newPost.category
+        })
+        .then(() => {
+          return res.status(200).json({ message: "Created Post Successfully" });
+        })
     })
     .catch(err => {
       res.status(500).json({ error: 'something went wrong' })
@@ -485,24 +493,6 @@ app.get('/leaderboard', (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ error: 'Something went wrong' })
-    })
-})
-
-// Creating Category
-app.post('/newCategory', (req, res) => {
-  const newCategory = {
-    title: req.body.title,
-    createdAt: admin.firestore.Timestamp.fromDate(new Date())
-  };
-
-  db
-    .collection('categories')
-    .add(newCategory)
-    .then(doc => {
-      res.json({ message: `${doc.id} created successfully` })
-    })
-    .catch(err => {
-      res.status(500).json({ error: 'Error Occured' })
     })
 })
 

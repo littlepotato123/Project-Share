@@ -27,7 +27,12 @@ const Navigation = () => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.handle);
-                    setAuthentication(<a className="authentication" href={`/user/${data.handle}`}>{data.handle}</a>)
+                    setAuthentication((
+                        <div>
+                        <a className="authentication" href={`/user/${data.handle}`}>{data.handle}</a>
+                        <a className="authentication" href="/newPost">New Post</a>
+                        </div>
+                    ))
                 })
                 .catch(err => {
                     console.log(err)
