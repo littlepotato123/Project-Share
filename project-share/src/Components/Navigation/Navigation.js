@@ -7,7 +7,6 @@ const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 const Navigation = () => {
     const [value, setValue] = useState(null);
     const [url, setUrl] = useState(null);
-    const [userUrl, setUserUrl] = useState(null);
 
     const setting = e => {
         setValue(e.target.value);
