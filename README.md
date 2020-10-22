@@ -18,4 +18,18 @@
     (If what above does not work) --> git pull origin master --> git push origin master (Assuming you have already git added and git commited)
 
     To Get My Code
-        git pull origin master
+        - git pull origin master
+
+    Create New Branch
+        - git checkout -b (name of branch)
+        - git commit -a -m 'New Commit'
+    
+    Switching Branches
+        - git checkout master
+
+    Merge Branches
+        - git checkout master
+        - git merge (name of branch)
+ 
+    Delete Branches
+        - git branch -d (name of branch)
