@@ -100,7 +100,8 @@ app.post('/signup', (req, res) => {
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     userHandle: req.body.userHandle,
-    imageUrl: req.body.url
+    imageUrl: req.body.url,
+    bio: req.body.boi
   };
 
   let errors = {};
@@ -143,7 +144,8 @@ app.post('/signup', (req, res) => {
         createdAt: new Date().toISOString(),
         userId: userId,
         supporters: 0,
-        url: newUser.imageUrl
+        url: newUser.imageUrl,
+        bio: newUser.bio
       };
       return db
         .doc(`/users/${newUser.userHandle}`)
@@ -594,6 +596,31 @@ app.post('/getUserPost', (req, res) => {
     })
     .catch(() => {
       return res.json(500).json({ error: err.code })
+    })
+})
+
+app.delete('/deletePost', FBAuth, (req, res) => {
+  const id = req.body.id;
+
+  db
+    .collection('posts')
+    .doc(id)
+    .delete()
+    .then(() => {
+      db
+        .collection(id)
+        .listDocuments()
+        .then(doc => {
+          return doc.forEach(data => {
+            data.delete()
+          })
+        })
+        .then(() => {
+          return res.status(200).json({ message: "Deleted Successfully" })
+        })
+    })
+    .catch(err => {
+      return res.status(500).json({ error: err });
     })
 })
 
