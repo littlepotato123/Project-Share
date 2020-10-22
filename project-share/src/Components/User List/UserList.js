@@ -5,14 +5,17 @@ const UserList = (props) => {
         <div className='leaderboard'>
             <ol>
                 {/*
-                * Note: We need rankings 
                 * Note: We need to add their account names as hyperlinks
                 * Note: We need to fix spacing and indentation
                 * Note: Discuss the sizes of everything
                 */}
+                <li>
+                    <div>
+                        <span>User: {props.name}</span> <br />
+                        Supporters: {props.supporters}
+                    </div>
+                </li>
 
-                User: {props.name} <br />
-                Supporters: {props.supporters}
             </ol>
         </div>
     )
