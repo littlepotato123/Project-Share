@@ -28,7 +28,7 @@ const Navigation = () => {
                     console.log(data.handle);
                     setAuthentication((
                         <div>
-                        <a className="authentication" href={`/user/${data.handle}`}>{data.handle}</a>
+                        <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
                         <a className="authentication" href="/newPost">+</a>
                         </div>
                     ))
