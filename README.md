@@ -22,7 +22,7 @@
 
     Create New Branch
         - git checkout -b (name of branch)
-        - git commit -a -m 'New Commit'
+        - git commit -a -m 'New Commit' 
     
     Switching Branches
         - git checkout master
