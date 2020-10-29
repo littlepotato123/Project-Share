@@ -17,7 +17,7 @@
 
     (If what above does not work) --> git pull origin master --> git push origin master (Assuming you have already git added and git commited)
 
-    To Get My Code
+    To Get from Online Repo
         - git pull origin master
 
     Create New Branch
