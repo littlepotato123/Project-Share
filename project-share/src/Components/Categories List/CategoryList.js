@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import Loading from '../Loading/Loading';
+import React from 'react';
 import Post from '../Posts/Posts';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const CategoryList = (props) => {
-    const [post, setPost] = useState(null);
 
+    const [post, setPost] = useState(null);
+  
     const getPost = () => {
         fetch(proxyUrl + url + 'getCategoryPost', {
             method: 'POST',
@@ -23,7 +25,11 @@ const CategoryList = (props) => {
             })
         })
         .then(x => x.json())
+
         .then(data => setPost(data.doc))
+
+        .then(data => console.log(data.post))
+
     }
 
     return (
@@ -33,6 +39,7 @@ const CategoryList = (props) => {
             {
                 post ? <Post author={post.author} title={post.title} category={post.category} likes={post.likes} id={post.id}>{ post.body }</Post> : null
             }
+            <button onClick={getPost}>Sample Post</button>
         </div>
     );
 };
