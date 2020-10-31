@@ -13,6 +13,7 @@ const SignUp = (props) => {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
+    const [bio, setBio] = useState('');
 
     const handleChange = e => {
         if (e.target.files[0]) {
@@ -51,7 +52,8 @@ const SignUp = (props) => {
             password: pass,
             confirmPassword: confirm,
             userHandle: handle,
-            url
+            url,
+            bio
         };
         fetch(proxyUrl + aUrl + 'signup', {
             method: 'POST',
@@ -90,7 +92,9 @@ const SignUp = (props) => {
             <input value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
             <input value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} type="password" />
             <input value={confirm} placeholder="Confirm Password" onChange={e => setConfirm(e.target.value)} type="password" />
+            <textarea onChange={e => setBio(e.target.value)} placeholder="Biography" >
             
+            </textarea> 
             <div>
                 <progress value={progress} max="100" />
                 <br />

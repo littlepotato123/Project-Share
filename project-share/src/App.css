@@ -175,3 +175,10 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.category-list-item {
+    background-color: #f3f3f3;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+}

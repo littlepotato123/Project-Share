@@ -59,7 +59,7 @@ app.post('/createPost', FBAuth, (req, res) => {
     createdAt: admin.firestore.Timestamp.fromDate(new Date()),
     title: req.body.title,
     category: req.body.category,
-    likes: 0,
+    likes: 0
   }
 
   db
@@ -101,7 +101,7 @@ app.post('/signup', (req, res) => {
     confirmPassword: req.body.confirmPassword,
     userHandle: req.body.userHandle,
     imageUrl: req.body.url,
-    bio: req.body.boi
+    bio: req.body.bio
   };
 
   let errors = {};
