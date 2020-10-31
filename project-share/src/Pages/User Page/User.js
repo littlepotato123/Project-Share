@@ -7,7 +7,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const User = () => {
@@ -21,7 +20,7 @@ const User = () => {
     const history = useHistory();
 
     useEffect(() => {
-        fetch(proxyUrl + url + 'getUser', {
+        fetch(url + 'getUser', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +48,7 @@ const User = () => {
     }, [])
 
     const loadPost = () => {
-        fetch(proxyUrl + url + 'getUserPost', {
+        fetch(url + 'getUserPost', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

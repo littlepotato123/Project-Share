@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Commenting from './Comments';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+
 const Posts = (props) => {
     const [showComment, setComments] = useState(false);
     const [liked, setLiked] = useState(null);
@@ -40,7 +40,7 @@ const Posts = (props) => {
 
         likes = post.likes + 1;
 
-        fetch(proxyUrl + url + 'likePost', {
+        fetch(url + 'likePost', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const Posts = (props) => {
 
         likes = props.likes + 1 - 1;
 
-        fetch(proxyUrl + url + 'unlikePost', {
+        fetch(url + 'unlikePost', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

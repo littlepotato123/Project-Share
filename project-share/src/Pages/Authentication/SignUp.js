@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { storage } from '../../Firebase/index';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const aUrl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const SignUp = (props) => {
@@ -53,7 +52,7 @@ const SignUp = (props) => {
             userHandle: handle,
             url
         };
-        fetch(proxyUrl + aUrl + 'signup', {
+        fetch(aUrl + 'signup', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

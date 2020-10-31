@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Loading from '../../Components/Loading/Loading';
 import UserList from '../../Components/User List/UserList';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Leaderboard = () => {
@@ -10,7 +9,7 @@ const Leaderboard = () => {
     const [leaderbaord, setLeaderboard] = useState(null)
 
     useEffect(() => {
-        fetch(proxyUrl + url + 'leaderboard')
+        fetch(url + 'leaderboard')
             .then(res => res.json())
             .then(data => setLeaderboard(data))
     }, [])

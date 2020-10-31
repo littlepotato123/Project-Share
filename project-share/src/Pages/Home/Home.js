@@ -2,7 +2,6 @@ import React from 'react';
 import Post from '../../Components/Posts/Posts';
 import Loading from '../../Components/Loading/Loading';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 class Home extends React.Component {
@@ -14,7 +13,7 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        fetch(proxyUrl + url + 'getHome')
+        fetch(url + 'getHome')
             .then(res => res.json())
             .then(data => this.setState({ posts: data }))
     }

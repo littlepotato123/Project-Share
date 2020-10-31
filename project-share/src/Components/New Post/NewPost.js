@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const NewPost = () => {
@@ -20,7 +19,7 @@ const NewPost = () => {
             body: body,
             category: category
         };
-        fetch(proxyUrl + url + 'createPost', {
+        fetch(url + 'createPost', {
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${token}`,

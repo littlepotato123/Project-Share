@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Login = (props) => {
@@ -9,7 +8,7 @@ const Login = (props) => {
     const [error, setError] = useState(null);
 
     const submit = () => {
-        fetch(proxyUrl + url + 'login', {
+        fetch(url + 'login', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../Loading/Loading';
 import CommentComponent from './Commenting';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Commenting = (props) => {
@@ -15,7 +14,7 @@ const Commenting = (props) => {
     const idToken = sessionStorage.getItem('token');
 
     useEffect(() => {
-        fetch(proxyUrl + url + 'getComment', {
+        fetch(url + 'getComment', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -33,7 +32,7 @@ const Commenting = (props) => {
     }, [])
 
     const post = () => {
-        fetch(proxyUrl + url + '/createComment', {
+        fetch(url + '/createComment', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

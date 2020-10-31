@@ -4,11 +4,6 @@ const UserList = (props) => {
     return (
         <div className='leaderboard'>
             <ol>
-                {/*
-                * Note: We need to add their account names as hyperlinks
-                * Note: We need to fix spacing and indentation
-                * Note: Discuss the sizes of everything
-                */}
                 <li>
                     <div>
                         <span>User: {props.name}</span> <br />

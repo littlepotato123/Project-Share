@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Navigation = () => {
@@ -17,7 +15,7 @@ const Navigation = () => {
     useEffect(() => {
         const data = sessionStorage.getItem('token');
         if (data !== null) {
-            fetch(proxyUrl + aurl + 'getHandle', {
+            fetch(aurl + 'getHandle', {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${data}`
