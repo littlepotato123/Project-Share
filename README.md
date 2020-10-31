@@ -27,7 +27,7 @@
     Switching Branches
         - git checkout master
 
-    Merge Branches
+    Merge Branches (After done with Branch)
         - git checkout master
         - git merge (name of branch)
  

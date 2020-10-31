@@ -624,4 +624,23 @@ app.delete('/deletePost', FBAuth, (req, res) => {
     })
 })
 
+// Getting 1 Post with Category
+app.post('/getCategoryPost', (req, res) => {
+  const category = req.body.category;
+
+  db
+    .collection('posts')
+    .where('category', '==', category)
+    .limit(1)
+    .get()
+    .then(data => {
+      data.forEach(doc => {
+        return res.status(200).json({ doc: doc.data() })
+      });
+    })
+    .catch(err => {
+      return res.status(500).json({ error: err });
+    })
+});
+
 exports.api = functions.https.onRequest(app);
