@@ -136,8 +136,26 @@
     border-radius: 8px;
 }
 
-.leaderboard {
-    margin-left: -150px;
+.leaderboardList {
+  padding: 60px;
+  background: #0b8df8;
+  color: #28df99;  
+  border-radius: 30px;
+  width: 200px;
+  font-size: 30px;
+  margin-left: 10px;
+  justify-content: center;
+}
+
+.Lacc {
+    font-size: 50px;
+}
+
+.leaderboardList:hover {
+    color: #0b8df8;
+    background: #28df99;
+    font-size: 40px;
+    width: 250px;
 }
 
 .loader {
@@ -151,6 +169,7 @@
   top: 50%;
   right: 50%;
 }
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

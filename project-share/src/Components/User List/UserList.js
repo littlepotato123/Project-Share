@@ -1,20 +1,19 @@
 import React from 'react'
 
 const UserList = (props) => {
+
     return (
-        <div className='leaderboard'>
+        <div className='leaderboardList'>
             <ol>
                 {/*
-                * Note: We need to add their account names as hyperlinks
-                * Note: We need to fix spacing and indentation
-                * Note: Discuss the sizes of everything
+                * Tasks left to complete:  Make it so that when you click on the box, it leads the person's account 
                 */}
-                <li>
+                <ol>
                     <div>
-                        <span>User: {props.name}</span> <br />
-                        Supporters: {props.supporters}
+                        <span className="Lacc">{props.name}</span> <br />
+                        Supporters:{props.supporters}
                     </div>
-                </li>
+                </ol>
 
             </ol>
         </div>
