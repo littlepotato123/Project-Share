@@ -96,7 +96,7 @@ const Posts = (props) => {
         <div key={props.id} className="post-content">
             <p className="post-title">{props.title}</p>
             <p className="post-category">Category: {props.category}</p>
-            <p className="post-author">Author: {props.author}</p>
+            <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
             <p className="post-likes">{likesButton}<span>{likes}</span></p>
             {/* Add Commenting */}

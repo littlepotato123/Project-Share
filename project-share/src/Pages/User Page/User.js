@@ -73,7 +73,7 @@ const User = () => {
                 <button>Copy Share Link</button>
             </CopyToClipboard>
             {user.bio}
-            <img src={user.url ? user.url : null} />
+            <img width="1000px" src={user.url ? user.url : null} />
             <button onClick={loadPost}>Load Posts</button>
             <div>
                 {

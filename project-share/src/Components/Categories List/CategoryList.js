@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Loading from '../Loading/Loading';
-import React from 'react';
 import Post from '../Posts/Posts';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";

@@ -14,6 +14,10 @@ const Navigation = () => {
     }
     const [authentication, setAuthentication] = useState(null);
 
+    const logout = () => {
+        sessionStorage.clear();
+    }
+
     useEffect(() => {
         const data = sessionStorage.getItem('token');
         if (data !== null) {
@@ -30,6 +34,7 @@ const Navigation = () => {
                         <div>
                         <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
                         <a className="authentication" href="/newPost">+</a>
+                        <button className="authentication" onClick={logout}>Logout</button>
                         </div>
                     ))
                 })

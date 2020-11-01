@@ -54,15 +54,25 @@ const Commenting = (props) => {
                 alert("You must be logged in to submit commit");
             }
         })
+        .then(() => {
+            setComment('');
+        })
         .catch(err => console.log(err));
     }
+
+    const handleChange = (e) => {
+        if(e.key == "Enter") {
+            post();
+        }
+    }
+    
 
     let posting = (
         <div>
             <input 
-                placeholder="Comment whatever you would like but remember you must be logged in"
                 value={comment}
                 onChange={e => setComment(e.target.value)}
+                onKeyPress={handleChange}
             />
             <button onClick={post}>Comment</button>
         </div>
@@ -71,7 +81,6 @@ const Commenting = (props) => {
     if(comments == null) {
         return (
             <div>
-                <Loading />
                 { posting }
             </div>
         )
