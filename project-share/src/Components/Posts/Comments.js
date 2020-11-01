@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Loading from '../Loading/Loading';
 import CommentComponent from './Commenting';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -66,7 +65,6 @@ const Commenting = (props) => {
             post();
         }
     }
-    
 
     let posting = (
         <div>
