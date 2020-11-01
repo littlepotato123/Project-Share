@@ -14,11 +14,75 @@ const User = () => {
     const [user, setUser] = useState({});
     const [supporters, setSupporters] = useState(null);
     const [posts, setPosts] = useState(null);
-    const [share, setShare] = useState(null);
+    let [share, setShare] = useState(null);
+
+    const [supported, setSupported] = useState(false);
+
+    const unsupport = () => {
+        setSupported(!supported);
+        fetch(proxyUrl + url + 'unfollowUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify({
+                supporters: supporters,
+                handle: user.handle,
+                email: user.email,
+                userId: user.userId,
+                id: user.userId
+            })
+        })
+        .then(() => {
+            setSupporters(supporters - 1);
+        })
+    }
+
+    const support = () => {
+        setSupported(!supported);
+        fetch(proxyUrl + url + 'followUser', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify({
+                supporters: supporters,
+                handle: user.handle,
+                email: user.email,
+                userId: user.userId,
+                id: user.userId
+            })
+        })
+        .then(() => {
+            setSupporters(supporters + 1);
+        })
+    }
+
+    let supportButton = (
+        <button onClick={support}>Support</button>
+    )
 
     const { userHandle } = useParams();
     
     const history = useHistory();
+
+    if(supported) {
+        supportButton = (
+            <button onClick={unsupport}>Unsupport</button>
+        );
+    } else {
+        supportButton = (
+            <button onClick={support}>Support</button>
+        )
+    }
 
     useEffect(() => {
         fetch(proxyUrl + url + 'getUser', {
@@ -68,7 +132,7 @@ const User = () => {
         <div>
             {user.handle} <br />
             {supporters} <br />
-            <button>Support</button>
+            { supportButton }
             <CopyToClipboard text={share}>
                 <button>Copy Share Link</button>
             </CopyToClipboard>

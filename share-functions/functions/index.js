@@ -304,14 +304,13 @@ app.post('/followUser', (req, res) => {
     supporters: supporters,
     handle: req.body.handle,
     email: req.body.email,
-    createdAt: req.body.createdAt,
-    userld: req.body.userld
+    userId: req.body.userId
   };
 
   db
     .collection('supporters')
     .doc(req.body.id)
-    .set(changeNumOfSupporters)
+    .set(account)
     .then(() => {
       res.json({ message: 'successfully followed' })
     })
@@ -327,14 +326,13 @@ app.post('/unfollowUser', (req, res) => {
     supporters: supporters,
     handle: req.body.handle,
     email: req.body.email,
-    createdAt: req.body.createdAT,
-    userld: req.body.userld
+    userId: req.body.userId
   };
 
   db
     .collection('supporters')
     .doc(req.body.id)
-    .set(changeNumOfSupporters)
+    .set(account)
     .then(() => {
       res.json({ message: 'successfully unfollowed' })
     })
