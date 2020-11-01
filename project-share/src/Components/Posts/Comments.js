@@ -56,6 +56,7 @@ const Commenting = (props) => {
         })
         .then(() => {
             setComment('');
+            window.location.reload(false);
         })
         .catch(err => console.log(err));
     }

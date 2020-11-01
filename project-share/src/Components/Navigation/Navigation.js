@@ -16,6 +16,7 @@ const Navigation = () => {
 
     const logout = () => {
         sessionStorage.clear();
+        window.location.reload(false);
     }
 
     useEffect(() => {
