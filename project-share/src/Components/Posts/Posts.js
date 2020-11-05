@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -14,8 +14,6 @@ const Posts = (props) => {
         <button onClick={() => setLiked(true)}>Like</button>
     );
 
-    console.log(props.token);
-
     if (showComment) {
         comments = (
             <Commenting id={props.id} token={props.token} />
@@ -29,28 +27,36 @@ const Posts = (props) => {
     }
 
     const like = () => {
-        const post = {
-            body: props.children,
-            author: props.author,
-            title: props.title,
-            category: props.category,
-            likes,
-            id: props.id
+        const item = sessionStorage.getItem(props.id);
+        if(item == 'true') {
+            alert("You have already liked this post");
+        } else {
+            const post = {
+                body: props.children,
+                author: props.author,
+                title: props.title,
+                category: props.category,
+                likes,
+                id: props.id
+            };
+
+            likes = post.likes + 1;
+
+            fetch(proxyUrl + url + 'likePost', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "User-Agent": "PostmanRuntime/7.26.5",
+                    "Accept": "*/*",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Connection": "keep-alive"
+                },
+                body: JSON.stringify(post)
+            })
+            .then(() => {
+                sessionStorage.setItem(props.id, 'true');
+            })
         };
-
-        likes = post.likes + 1;
-
-        fetch(proxyUrl + url + 'likePost', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(post)
-        })
     }
 
     if (liked == true) {
@@ -82,6 +88,9 @@ const Posts = (props) => {
                 "Connection": "keep-alive"
             },
             body: JSON.stringify(post)
+        })
+        .then(() => {
+            sessionStorage.removeItem(props.id);
         })
     }
 
