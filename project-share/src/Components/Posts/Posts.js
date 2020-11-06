@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -98,7 +98,7 @@ const Posts = (props) => {
             <p className="post-category">Category: {props.category}</p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
-            <p className="post-likes">{likesButton}<span>{likes}</span></p>
+            <p className="post-likes">{likesButton}<span>   {likes}</span></p>
             {/* Add Commenting */}
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments}
