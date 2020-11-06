@@ -27,9 +27,9 @@ const CategoryPage = () => {
 
     return (
         <div>
-            <h1 className="category-title-page">Name</h1>
+            <h1>{name}</h1>
             { 
-                posts.map(post => <Posts author={post.author} id={post.id} category={post.category} likes={post.likes}>{ post.body }</Posts>)
+                posts.map(post => <Posts author={post.author} id={post.id} title={post.title} category={post.category} likes={post.likes}>{ post.body }</Posts>)
             }
         </div>
     )
