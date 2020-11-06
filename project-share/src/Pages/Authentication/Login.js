@@ -27,6 +27,7 @@ const Login = (props) => {
             .then(data => {
                 if (data.idToken) {
                     sessionStorage.setItem('token', data.idToken)
+                    window.location.reload(false);
                 } else if (data.general) {
                     setError(data.general);
                 }

@@ -1,23 +1,24 @@
 import React from 'react';
-import './App.css';
-
 import {
   BrowserRouter as Router,
-  Switch,
-  Route
+
+  Route, Switch
 } from 'react-router-dom';
-
+import './App.css';
 import Navigation from './Components/Navigation/Navigation';
-import Home from './Pages/Home/Home';
-import Auth from './Pages/Authentication/Auth';
-import Trending from './Pages/Trending/Trending';
-import Leaderboard from './Pages/Leaderboard/Leaderboard';
-import User from './Pages/User Page/User';
-import Categories from './Pages/Categories/Categories';
 import NewPost from './Components/New Post/NewPost';
-
-import WrongUser from './Pages/Errors/WrongUser';
+import Auth from './Pages/Authentication/Auth';
+import Categories from './Pages/Categories/Categories';
+import CategoryPage from './Pages/Category Page/CategoryPage';
 import NotFound from './Pages/Errors/WrongPage';
+import WrongUser from './Pages/Errors/WrongUser';
+import Home from './Pages/Home/Home';
+import Leaderboard from './Pages/Leaderboard/Leaderboard';
+import Trending from './Pages/Trending/Trending';
+import User from './Pages/User Page/User';
+
+
+
 
 const App = () => {
   return (
@@ -47,6 +48,9 @@ const App = () => {
         </Route>
         <Route path="/newPost">
           <NewPost />
+        </Route>
+        <Route path="/category/:name">
+          <CategoryPage />
         </Route>
         <Route path="*">
           <NotFound />
