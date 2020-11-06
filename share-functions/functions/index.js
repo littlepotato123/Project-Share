@@ -622,6 +622,23 @@ app.delete('/deletePost', FBAuth, (req, res) => {
     })
 })
 
+// Getting All Posts in Category
+app.post('/getAllPostsCategory', (req, res) => {
+  const category = req.body.category;
+
+  db
+    .collection('posts')
+    .where('category', '==', category)
+    .get()
+    .then(data => {
+      const posts = [];
+      data.forEach(doc => {
+        posts.push(doc.data())
+      });
+      return res.status(200).json(posts);
+    })
+})
+
 // Getting 1 Post with Category
 app.post('/getCategoryPost', (req, res) => {
   const category = req.body.category;

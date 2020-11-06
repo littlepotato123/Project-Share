@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { storage } from '../../Firebase/index';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -70,6 +70,7 @@ const SignUp = (props) => {
             .then(data => {
                 if(data.idToken) {
                     sessionStorage.setItem('token', data.idToken);
+                    window.location.reload(false);
                 }
                 // handle
                 else if(data.handle) {

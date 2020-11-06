@@ -14,8 +14,6 @@ const Posts = (props) => {
         <button onClick={() => setLiked(true)}>Like</button>
     );
 
-    console.log(props.token);
-
     if (showComment) {
         comments = (
             <Commenting id={props.id} token={props.token} />
@@ -29,28 +27,36 @@ const Posts = (props) => {
     }
 
     const like = () => {
-        const post = {
-            body: props.children,
-            author: props.author,
-            title: props.title,
-            category: props.category,
-            likes,
-            id: props.id
+        const item = sessionStorage.getItem(props.id);
+        if(item == 'true') {
+            alert("You have already liked this post");
+        } else {
+            const post = {
+                body: props.children,
+                author: props.author,
+                title: props.title,
+                category: props.category,
+                likes,
+                id: props.id
+            };
+
+            likes = post.likes + 1;
+
+            fetch(proxyUrl + url + 'likePost', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "User-Agent": "PostmanRuntime/7.26.5",
+                    "Accept": "*/*",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Connection": "keep-alive"
+                },
+                body: JSON.stringify(post)
+            })
+            .then(() => {
+                sessionStorage.setItem(props.id, 'true');
+            })
         };
-
-        likes = post.likes + 1;
-
-        fetch(proxyUrl + url + 'likePost', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(post)
-        })
     }
 
     if (liked == true) {
@@ -83,6 +89,9 @@ const Posts = (props) => {
             },
             body: JSON.stringify(post)
         })
+        .then(() => {
+            sessionStorage.removeItem(props.id);
+        })
     }
 
     if (liked == false) {
@@ -95,7 +104,7 @@ const Posts = (props) => {
     return (
         <div key={props.id} className="post-content">
             <p className="post-title">{props.title}</p>
-            <p className="post-category">Category: {props.category}</p>
+            <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
             <p className="post-likes">{likesButton}<span>   {likes}</span></p>
