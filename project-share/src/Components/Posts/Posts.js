@@ -7,12 +7,22 @@ const Posts = (props) => {
     const [showComment, setComments] = useState(false);
     const [liked, setLiked] = useState(null);
 
+
     let comments = null;
 
     let likes = parseInt(props.likes)
-    let likesButton = (
-        <button onClick={() => setLiked(true)}>Like</button>
-    );
+    let likesButton = null;
+
+    const item = sessionStorage.getItem(props.id);
+    if(item == 'true') {
+        likesButton = (
+            <button disabled="true">Like</button>
+        );
+    } else {
+        likesButton = (
+            <button onClick={setLiked(!liked)}>Like</button>
+        );
+    }
 
     if (showComment) {
         comments = (
@@ -20,51 +30,34 @@ const Posts = (props) => {
         )
     }
 
-    if (liked == null) {
-        likesButton = (
-            <button onClick={() => setLiked(true)}>Like</button>
-        );
-    }
-
     const like = () => {
-        const item = sessionStorage.getItem(props.id);
-        if(item == 'true') {
-            alert("You have already liked this post");
-        } else {
-            const post = {
-                body: props.children,
-                author: props.author,
-                title: props.title,
-                category: props.category,
-                likes,
-                id: props.id
-            };
-
-            likes = post.likes + 1;
-
-            fetch(proxyUrl + url + 'likePost', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "User-Agent": "PostmanRuntime/7.26.5",
-                    "Accept": "*/*",
-                    "Accept-Encoding": "gzip, deflate, br",
-                    "Connection": "keep-alive"
-                },
-                body: JSON.stringify(post)
-            })
-            .then(() => {
-                sessionStorage.setItem(props.id, 'true');
-            })
+        const post = {
+            body: props.children,
+            author: props.author,
+            title: props.title,
+            category: props.category,
+            likes,
+            id: props.id
         };
+
+        likes = post.likes + 1;
+
+        fetch(proxyUrl + url + 'likePost', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "User-Agent": "PostmanRuntime/7.26.5",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Connection": "keep-alive"
+            },
+            body: JSON.stringify(post)
+        })
+        .then(() => {
+            sessionStorage.setItem(props.id, 'true');
+        })
     }
 
-    if (liked == true) {
-        like();
-        likesButton = (
-            <button onClick={() => setLiked(false)}>Unlike</button>
-        )
-    }
 
     const unlike = () => {
         const post = {
@@ -94,6 +87,13 @@ const Posts = (props) => {
         })
     }
 
+    if (liked == true) {
+        like();
+        likesButton = (
+            <button onClick={() => setLiked(false)}>Unlike</button>
+        )
+    }
+
     if (liked == false) {
         unlike();
         likesButton = (
@@ -107,8 +107,7 @@ const Posts = (props) => {
             <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
-            <p className="post-likes">{likesButton}<span>   {likes}</span></p>
-            {/* Add Commenting */}
+            <p className="post-likes">{likesButton}<span> {likes}</span></p>
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments}
         </div>

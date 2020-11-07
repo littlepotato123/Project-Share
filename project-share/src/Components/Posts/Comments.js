@@ -10,25 +10,18 @@ const Commenting = React.memo((props) => {
     })
     const [comments, setComments] = useState(null);
     const [comment, setComment] = useState('');
-    const [list, setList] = useState(null);
     const [display, setDisplay] = useState(null);
+    const [but, setBut] = useState(null);
+
+    const changeBut = () => {
+        setBut(null);
+    }
 
     const idToken = sessionStorage.getItem('token');
 
-    const loadAll = () => {
-        setDisplay((
-            <div>
-                {
-                    comments ? comments.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />) : <p>Loading...</p>
-                }
-            </div>
-        ));
-        but = null;
+    let loadAll = () => {
+        changeBut();
     }
-
-    let but = (
-        <button onClick={loadAll}>Load All</button>
-    );
 
     useEffect(() => {
         fetch(proxyUrl + url + 'getComment', {
@@ -45,50 +38,58 @@ const Commenting = React.memo((props) => {
         .then(res => res.json())
         .then(data => {
             setComments(data);
-            setList(data.slice(0, 3));
-            const l = data.slice(0, 3);
-            console.log(l);
-            setDisplay((
-                <div>
-                    {
-                        l ? l.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />) : <p>Loading...</p>
-                    }
-                </div>
-            ))
+            if(data.length > 0) {
+                const l = data.slice(0, 3);
+                setDisplay((
+                    <div>
+                        {
+                            l ? l.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} createdAt={c.createdAt} />) : <p>Loading...</p>
+                        }
+                    </div>
+                ))
+                loadAll = () => {
+                    setDisplay((
+                        <div>
+                            {
+                                data ? data.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} createdAt={c.createdAt} />) : <p>Loading...</p>
+                            }
+                        </div>
+                    ))
+                    changeBut();
+                }
+                setBut((
+                    <button onClick={loadAll}>Load All</button>
+                ))
+            }
         })
     }, [])
+
 
     const post = () => {
         if(idToken == null | undefined) {
             alert('Not Logged In')
-        }
-
-        fetch(proxyUrl + url + '/createComment', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive",
-                "Authorization": `Bearer ${idToken}`
-            },
-            body: JSON.stringify({
-                id: props.id,
-                body: comment
+        } else {
+            fetch(proxyUrl + url + '/createComment', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "User-Agent": "PostmanRuntime/7.26.5",
+                    "Accept": "*/*",
+                    "Accept-Encoding": "gzip, deflate, br",
+                    "Connection": "keep-alive",
+                    "Authorization": `Bearer ${idToken}`
+                },
+                body: JSON.stringify({
+                    id: props.id,
+                    body: comment
+                })
             })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.error === "Unauthorized") {
-                alert("You must be logged in to submit commit");
-            }
-        })
-        .then(() => {
-            setComment('');
-            window.location.reload(false);
-        })
-        .catch(err => console.log(err));
+            .then(res => res.json())
+            .then(data => {
+                setComment('');
+                window.location.reload(false);
+            })
+        }
     }
 
     const handleChange = (e) => {
@@ -97,7 +98,7 @@ const Commenting = React.memo((props) => {
         }
     }
 
-    let posting = (
+    let input = (
         <div>
             <input 
                 value={comment}
@@ -105,6 +106,21 @@ const Commenting = React.memo((props) => {
                 onKeyPress={handleChange}
             />
             <button onClick={post}>Comment</button>
+        </div>
+    );
+
+    if(idToken == null) {
+        input = (
+            <div>
+                <input disabled="true" />
+                <button disabled="true">Comment</button>
+            </div>
+        )
+    }
+
+    let posting = (
+        <div>
+            { input }
         </div>
     )
 

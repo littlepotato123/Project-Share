@@ -259,10 +259,15 @@ app.post('/unlikePost', (req, res) => {
 // Commenting Posts
 app.post('/createComment', FBAuth, (req, res) => {
   const id = req.body.id;
+  const data = new Date();
   const newComment = {
     body: req.body.body,
     author: req.user.handle,
-    createdAt: new Date().toISOString()
+    createdAt: {
+      day: data.getDate(),
+      month: data.getMonth(),
+      year: data.getFullYear() 
+    }
   }
 
   db

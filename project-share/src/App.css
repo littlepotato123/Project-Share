@@ -124,8 +124,6 @@
 }
 
 .post-comment-button {
-    background: none;
-    border: none;
     font-size: 23px;
     margin-top: -20px;
     position: absolute;
@@ -186,3 +184,22 @@
 .category-title-page {
     text-align: center;
 }
+
+.comment-box {
+    background-color: #0b8df8;
+    border-radius: 8px;
+    padding: 5px;
+    margin-top: 15px;
+}
+
+/* .comment-author {
+
+}
+
+.comment-body {
+
+}
+
+.comment-date {
+
+} */
