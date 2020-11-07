@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -7,22 +7,26 @@ const Posts = (props) => {
     const [showComment, setComments] = useState(false);
     const [liked, setLiked] = useState(null);
 
+    const [storage, setStorage] = useState(sessionStorage.getItem(props.id));
 
     let comments = null;
 
     let likes = parseInt(props.likes)
     let likesButton = null;
 
-    const item = sessionStorage.getItem(props.id);
-    if(item == 'true') {
-        likesButton = (
-            <button disabled="true">Like</button>
-        );
-    } else {
-        likesButton = (
-            <button onClick={setLiked(!liked)}>Like</button>
-        );
-    }
+    useEffect(() => {
+        if(storage) { 
+            likesButton = (
+                <button disabled="true">Like</button>
+            )
+        } else {
+            likesButton = (
+                <button onClick={setLiked(!liked)}>Like</button> 
+            )
+        };
+
+        setStorage(sessionStorage.getItem(props.id));
+    }, [storage])
 
     if (showComment) {
         comments = (

@@ -15,9 +15,7 @@ class Home extends React.Component {
 
     componentDidMount() {
         fetch(proxyUrl + url + 'getHome')
-            .then(res => {
-                res.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 this.setState({ posts: data })
             })
