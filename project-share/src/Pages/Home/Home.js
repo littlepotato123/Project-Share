@@ -1,6 +1,6 @@
 import React from 'react';
-import Post from '../../Components/Posts/Posts';
 import Loading from '../../Components/Loading/Loading';
+import Post from '../../Components/Posts/Posts';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
@@ -15,8 +15,12 @@ class Home extends React.Component {
 
     componentDidMount() {
         fetch(proxyUrl + url + 'getHome')
-            .then(res => res.json())
-            .then(data => this.setState({ posts: data }))
+            .then(res => {
+                res.json();
+            })
+            .then(data => {
+                this.setState({ posts: data })
+            })
     }
 
     render() {
