@@ -4,14 +4,31 @@ import CommentComponent from './Commenting';
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
-const Commenting = (props) => {
+const Commenting = React.memo((props) => {
     const [postData, setPost] = useState({
         id: props.id,
     })
     const [comments, setComments] = useState(null);
     const [comment, setComment] = useState('');
+    const [list, setList] = useState(null);
+    const [display, setDisplay] = useState(null);
 
     const idToken = sessionStorage.getItem('token');
+
+    const loadAll = () => {
+        setDisplay((
+            <div>
+                {
+                    comments ? comments.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />) : <p>Loading...</p>
+                }
+            </div>
+        ));
+        but = null;
+    }
+
+    let but = (
+        <button onClick={loadAll}>Load All</button>
+    );
 
     useEffect(() => {
         fetch(proxyUrl + url + 'getComment', {
@@ -28,10 +45,24 @@ const Commenting = (props) => {
         .then(res => res.json())
         .then(data => {
             setComments(data);
+            setList(data.slice(0, 3));
+            const l = data.slice(0, 3);
+            console.log(l);
+            setDisplay((
+                <div>
+                    {
+                        l ? l.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />) : <p>Loading...</p>
+                    }
+                </div>
+            ))
         })
     }, [])
 
     const post = () => {
+        if(idToken == null | undefined) {
+            alert('Not Logged In')
+        }
+
         fetch(proxyUrl + url + '/createComment', {
             method: 'POST',
             headers: {
@@ -94,12 +125,11 @@ const Commenting = (props) => {
 
     return (
         <div>
-            {
-                comments.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} />)
-            }
+            { display }
+            { but }
             { posting }
         </div>
     )
-}
+});
 
 export default Commenting;
