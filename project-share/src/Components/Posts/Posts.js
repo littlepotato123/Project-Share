@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -7,31 +7,25 @@ const Posts = (props) => {
     const [showComment, setComments] = useState(false);
     const [liked, setLiked] = useState(null);
 
-    const [storage, setStorage] = useState(sessionStorage.getItem(props.id));
-
     let comments = null;
 
     let likes = parseInt(props.likes)
-    let likesButton = null;
+    let likesButton = (
+        <button onClick={() => setLiked(true)}>Like</button>
+    );
 
-    useEffect(() => {
-        if(storage) { 
-            likesButton = (
-                <button disabled="true">Like</button>
-            )
-        } else {
-            likesButton = (
-                <button onClick={setLiked(!liked)}>Like</button> 
-            )
-        };
-
-        setStorage(sessionStorage.getItem(props.id));
-    }, [storage])
+    console.log(props.token);
 
     if (showComment) {
         comments = (
             <Commenting id={props.id} token={props.token} />
         )
+    }
+
+    if (liked == null) {
+        likesButton = (
+            <button onClick={() => setLiked(true)}>Like</button>
+        );
     }
 
     const like = () => {
@@ -57,11 +51,14 @@ const Posts = (props) => {
             },
             body: JSON.stringify(post)
         })
-        .then(() => {
-            sessionStorage.setItem(props.id, 'true');
-        })
     }
 
+    if (liked == true) {
+        like();
+        likesButton = (
+            <button onClick={() => setLiked(false)}>Unlike</button>
+        )
+    }
 
     const unlike = () => {
         const post = {
@@ -86,16 +83,6 @@ const Posts = (props) => {
             },
             body: JSON.stringify(post)
         })
-        .then(() => {
-            sessionStorage.removeItem(props.id);
-        })
-    }
-
-    if (liked == true) {
-        like();
-        likesButton = (
-            <button onClick={() => setLiked(false)}>Unlike</button>
-        )
     }
 
     if (liked == false) {
@@ -111,7 +98,7 @@ const Posts = (props) => {
             <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
-            <p className="post-likes">{likesButton}<span> {likes}</span></p>
+            <p className="post-likes">{likesButton}<span>{likes}</span></p>
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments}
         </div>
