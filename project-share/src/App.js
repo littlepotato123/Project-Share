@@ -10,6 +10,7 @@ import NewPost from './Components/New Post/NewPost';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
+import TooManyRequests from './Pages/Errors/TooManyRequests';
 import NotFound from './Pages/Errors/WrongPage';
 import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
@@ -51,6 +52,9 @@ const App = () => {
         </Route>
         <Route path="/category/:name">
           <CategoryPage />
+        </Route>
+        <Route path="/toomanyrequests">
+          <TooManyRequests />
         </Route>
         <Route path="*">
           <NotFound />
