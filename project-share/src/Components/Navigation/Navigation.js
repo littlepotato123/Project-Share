@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import {
+    useHistory
+} from 'react-router-dom';
 
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -15,32 +18,38 @@ const Navigation = () => {
     const [authentication, setAuthentication] = useState(null);
 
     const logout = () => {
-        sessionStorage.clear();
+        sessionStorage.removeItem('token');
         window.location.reload(false);
     }
 
+    let history = useHistory();
+
     useEffect(() => {
-        const data = sessionStorage.getItem('token');
-        if (data !== null) {
+        const t = sessionStorage.getItem('token');
+        if (t !== null) {
             fetch(proxyUrl + aurl + 'getHandle', {
                 method: 'POST',
                 headers: {
-                    "Authorization": `Bearer ${data}`
+                    "Authorization": `Bearer ${t}`
                 }
             })
-                .then(res => res.json())
+                .then(res => {
+                    if(res.status == 429) {
+                        history.push('/toomanyrequests');
+                    }
+                    return res.json();
+                })
                 .then(data => {
-                    console.log(data.handle);
                     setAuthentication((
                         <div>
-                        <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
-                        <a className="authentication" href="/newPost">+</a>
-                        <button className="authentication" onClick={logout}>Logout</button>
+                            <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
+                            <a className="authentication" href="/newPost">+</a>
+                            <button className="authentication" onClick={logout}>Logout</button>
                         </div>
                     ))
                 })
                 .catch(err => {
-                    console.log(err)
+                    console.log(err);
                 })
         } else {
             setAuthentication(<a className="authentication" href="/auth">Authentication</a>)
