@@ -57,9 +57,11 @@ const Commenting = React.memo((props) => {
                     ))
                     changeBut();
                 }
-                setBut((
-                    <button onClick={loadAll}>Load All</button>
-                ))
+                if(data.length > 3) {
+                    setBut((
+                        <button onClick={loadAll}>Load All</button>
+                    ))
+                }
             }
         })
     }, [])

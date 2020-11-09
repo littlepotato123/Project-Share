@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Commenting from './Comments';
 
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -6,29 +6,46 @@ const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 const Posts = (props) => {
     const [showComment, setComments] = useState(false);
     const [liked, setLiked] = useState(null);
+    const [likesButton, setButton] = useState((
+        <button onClick={() => setLiked(true)}>Like</button>
+    ));
 
 
     let comments = null;
 
     let likes = parseInt(props.likes)
-    let likesButton = null;
-
-    const item = sessionStorage.getItem(props.id);
-    if(item == 'true') {
-        likesButton = (
-            <button disabled="true">Like</button>
-        );
-    } else {
-        likesButton = (
-            <button onClick={setLiked(!liked)}>Like</button>
-        );
-    }
 
     if (showComment) {
         comments = (
             <Commenting id={props.id} token={props.token} />
         )
     }
+
+
+    useEffect(() => {
+        if (liked == null) {
+            setButton((
+                <button onClick={() => setLiked(true)}>Like</button>
+            ));
+        }
+        if (liked == true) {
+            like();
+            setButton((
+                <button onClick={() => setLiked(false)}>Unlike</button>
+            ))
+        }
+        if (liked == false) {
+            unlike();
+            setButton((
+                <button onClick={() => setLiked(true)}>Like</button>
+            ));
+        }
+        if(sessionStorage.getItem(props.id)) {
+            setButton((
+                <button disabled="true">Like</button> 
+            ))
+        }
+    }, [liked])
 
     const like = () => {
         const post = {
@@ -87,19 +104,6 @@ const Posts = (props) => {
         })
     }
 
-    if (liked == true) {
-        like();
-        likesButton = (
-            <button onClick={() => setLiked(false)}>Unlike</button>
-        )
-    }
-
-    if (liked == false) {
-        unlike();
-        likesButton = (
-            <button onClick={() => setLiked(true)}>Like</button>
-        );
-    }
 
     return (
         <div key={props.id} className="post-content">
@@ -107,7 +111,7 @@ const Posts = (props) => {
             <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
-            <p className="post-likes">{likesButton}<span> {likes}</span></p>
+            <p className="post-likes">{likesButton}<span>{likes}</span></p>
             <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
             { comments}
         </div>
