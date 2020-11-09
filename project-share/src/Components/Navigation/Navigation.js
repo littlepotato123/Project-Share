@@ -18,8 +18,10 @@ const Navigation = () => {
     const [authentication, setAuthentication] = useState(null);
 
     const logout = () => {
-        sessionStorage.removeItem('token');
-        window.location.reload(false);
+        if(window.confirm("Are You Sure You want to logout")) {
+            sessionStorage.removeItem('token');
+            window.location.reload(false);
+        }
     }
 
     let history = useHistory();
