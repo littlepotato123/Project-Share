@@ -3,6 +3,6 @@
     "version": "0.1.0",
     "scripts": {
         "web": "cd web && yarn start",
-        "api": "cd api && yarn start"
+        "api": "cd backend && yarn start"
     }
 }
