@@ -40,50 +40,9 @@ export const resolvers = {
     categoryPost: async (_, { category }) => {
       const post = await Post.findOne({ category });
       return post;
-    }
-//     app.get('/getPopular', (req, res) => {
-//   db
-//     .collection('posts')
-//     .orderBy('likes', 'desc')
-//     .limit(20)
-//     .get()
-//     .then(data => {
-//       let posts = [];
-//       data.forEach(doc => {
-//         posts.push({
-//           postId: doc.id,
-//           body: doc.data().body,
-//           userHandle: doc.data().userHandle,
-//           createdAt: doc.data().createdAt,
-//           author: doc.data().author,
-//           likes: doc.data().likes,
-//           category: doc.data().category,
-//           title: doc.data().title
-//         })
-//       });
-//       return res.json(posts);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ error: 'Something went wrong' })
-//     })
-// })
-//     app.get('/leaderboard', (req, res) => {
-//   db
-//     .collection('users')
-//     .orderBy('supporters', 'desc')
-//     .limit(10)
-//     .get()
-//     .then(data => {
-//       let users = [];
-//       data.forEach(doc => {
-//         users.push(doc.data())
-//       });
-//       return res.json(users);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ error: 'Something went wrong' })
-//     })
-// })
+    },
+    leaderboard: async () => await User.find().sort({ supporters: -1 }).limit(5),
+    getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20)
   },
   Mutation: {
     signup: async (_, { handle, email, password }) => {
@@ -98,10 +57,12 @@ export const resolvers = {
       }
     },
     clear: async (_, {}) => {
+      // Delete Many deletes any object it finds with the specific parameters
       await User.deleteMany({});
       await Post.deleteMany({});
       await Comment.deleteMany({});
       await Category.deleteMany({});
+      await Message.deleteMany({});
       return true;
     },
     login: async(_, { handle, password }) => {
@@ -134,6 +95,35 @@ export const resolvers = {
       const user = await FBauth(token);
       const message = await Message.create({ body, userId, author: user.handle });
       return message;
+    },
+    likePost: async (_, { id, current_like }) => {
+      await Post.updateOne(
+        { _id: id },
+        {$set: {'likes': current_like + 1 }}
+      );
+      return true;
+    },
+    unlikePost: async (_, { id, current_like }) => {
+      await Post.updateOne(
+        { _id: id },
+        {$set: {'likes': current_like - 1 }}
+      );
+      return true;
+    },
+    supportUser: async (_, { id, current_supporters }) => {
+      await User.updateOne(
+        { _id: id },
+        {$set: {'supporters': current_supporters + 1}}
+      );
+      return true;
+    },
+    unsupportUser: async (_, { id, current_supporters }) => {
+      await User.updateOne(
+        { _id: id },
+        {$set: {'supporters': current_supporters - 1}}
+      );
+      console.log(await User.findOne())
+      return true;
     }
   }
 };
