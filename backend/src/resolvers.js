@@ -29,10 +29,6 @@ export const resolvers = {
       const posts = await Post.find({ author: handle });
       return posts;
     },
-    handle: async (_, { token }) => {
-      const user = await FBauth(token);
-      return user.handle;
-    },
     getMessages: async (_, { userId }) => {
       const messages = await Message.find({ userId });
       return messages;
