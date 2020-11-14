@@ -57,7 +57,7 @@ const FetchSample = () => {
         }
 
         type Mutation {
-            signup(handle: String!, email: String!, password: String!): User
+            signup(handle: String!, email: String!, password: String!, imageUrl: String): User
         }
 
         With this information we can see that there is a mutation 'singup' and it takes handle, email, and password as
@@ -66,7 +66,8 @@ const FetchSample = () => {
         of the mutation 'signup', and paranthesis to pass the paramaters. With the parameters, "{name}: {value}". I did
         this with the handle, email, and password. Notice that for the handle I put a varaible name with ${}. After writing
         all of this, we see that the mutation returns a user, so we use the same method as with the query, and we just
-        fetch for id, handle, email, password, etc. 
+        fetch for id, handle, email, password, etc. Another thing that I have just added is that when you signup, the imageUrl
+        is optional field, but you can add it. That is why I have decided not to add it. 
     */
 
     const homePage = () => {

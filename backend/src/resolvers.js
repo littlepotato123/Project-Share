@@ -45,13 +45,13 @@ export const resolvers = {
     getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20)
   },
   Mutation: {
-    signup: async (_, { handle, email, password }) => {
+    signup: async (_, { handle, email, password, imageUrl }) => {
       const users = await User.find({ handle });
       if(users.length > 0) {
         return null;
       } else {
         const crypt_pass = AES.encrypt(password, 'key').toString().substring(0, 10);
-        const user = await User.create({ handle, email, password: crypt_pass, supporters: 0, imageUrl: "" })
+        const user = await User.create({ handle, email, password: crypt_pass, supporters: 0, imageUrl })
         await user.save()
         return user;
       }
