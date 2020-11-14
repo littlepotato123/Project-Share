@@ -3,10 +3,6 @@ import {
     useHistory
 } from 'react-router-dom';
 
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
-
 const Navigation = () => {
     const [value, setValue] = useState(null);
     const [url, setUrl] = useState(null);
@@ -29,30 +25,7 @@ const Navigation = () => {
     useEffect(() => {
         const t = sessionStorage.getItem('token');
         if (t !== null) {
-            fetch(proxyUrl + aurl + 'getHandle', {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${t}`
-                }
-            })
-                .then(res => {
-                    if(res.status == 429) {
-                        history.push('/toomanyrequests');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    setAuthentication((
-                        <div>
-                            <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
-                            <a className="authentication" href="/newPost">+</a>
-                            <button className="authentication" onClick={logout}>Logout</button>
-                        </div>
-                    ))
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+
         } else {
             setAuthentication(<a className="authentication" href="/auth">Authentication</a>)
         }

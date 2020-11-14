@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CommentComponent from './Commenting';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
 const Commenting = React.memo((props) => {
     const [postData, setPost] = useState({
@@ -24,46 +20,7 @@ const Commenting = React.memo((props) => {
     }
 
     useEffect(() => {
-        fetch(proxyUrl + url + 'getComment', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(postData)
-        })
-        .then(res => res.json())
-        .then(data => {
-            setComments(data);
-            if(data.length > 0) {
-                const l = data.slice(0, 3);
-                setDisplay((
-                    <div>
-                        {
-                            l ? l.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} createdAt={c.createdAt} />) : <p>Loading...</p>
-                        }
-                    </div>
-                ))
-                loadAll = () => {
-                    setDisplay((
-                        <div>
-                            {
-                                data ? data.map(c => <CommentComponent author={c.author} body={c.body} id={c.id} createdAt={c.createdAt} />) : <p>Loading...</p>
-                            }
-                        </div>
-                    ))
-                    changeBut();
-                }
-                if(data.length > 3) {
-                    setBut((
-                        <button onClick={loadAll}>Load All</button>
-                    ))
-                }
-            }
-        })
+
     }, [])
 
 
@@ -71,26 +28,6 @@ const Commenting = React.memo((props) => {
         if(idToken == null | undefined) {
             alert('Not Logged In')
         } else {
-            fetch(proxyUrl + url + '/createComment', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "User-Agent": "PostmanRuntime/7.26.5",
-                    "Accept": "*/*",
-                    "Accept-Encoding": "gzip, deflate, br",
-                    "Connection": "keep-alive",
-                    "Authorization": `Bearer ${idToken}`
-                },
-                body: JSON.stringify({
-                    id: props.id,
-                    body: comment
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                setComment('');
-                window.location.reload(false);
-            })
         }
     }
 
