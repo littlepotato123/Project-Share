@@ -3,6 +3,12 @@ import {
     useHistory
 } from 'react-router-dom';
 
+<<<<<<< HEAD
+=======
+const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+
+>>>>>>> cff8bdf806261ae86535e39760c23b7c051fb628
 const Navigation = () => {
     const [value, setValue] = useState(null);
     const [url, setUrl] = useState(null);
