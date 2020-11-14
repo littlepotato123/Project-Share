@@ -8,7 +8,6 @@ export const typeDefs = gql`
     getCategories: [Category!]
     categoryPosts(category: String!): [Post!]
     userPosts(handle: String!): [Post!]
-    handle(token: String!): String!
     getMessages(userId: String!): [Message!]
     categoryPost(category: String!): Post
     leaderboard: [User!]

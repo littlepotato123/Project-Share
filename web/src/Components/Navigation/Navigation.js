@@ -3,7 +3,6 @@ import {
     useHistory
 } from 'react-router-dom';
 
-
 const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 
