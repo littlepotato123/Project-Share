@@ -18,9 +18,6 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 
-
-
-
 const App = () => {
   return (
     <Router>
