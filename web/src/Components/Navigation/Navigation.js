@@ -3,20 +3,18 @@ import {
     useHistory
 } from 'react-router-dom';
 
-<<<<<<< HEAD
-=======
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
-
->>>>>>> cff8bdf806261ae86535e39760c23b7c051fb628
 const Navigation = () => {
     const [value, setValue] = useState(null);
     const [url, setUrl] = useState(null);
 
-    const setting = e => {
-        setValue(e.target.value);
-        setUrl(`/user/${e.target.value}`)
+    const push = () => {
+        if(value) {
+            history.push(`/user/${value}`)
+        } else {
+            alert('No Value');
+        }
     }
+
     const [authentication, setAuthentication] = useState(null);
 
     const logout = () => {
@@ -37,17 +35,24 @@ const Navigation = () => {
         }
     }, [])
 
+    const handleKeyPress = (e) => {
+        if(e.key == 'Enter') {
+            push();
+        }
+    }
+
     return (
         <div className="nav">
             <header className="header">
-                <a className="project-Share" href="/">Project Sh@are</a>
-                <a className="searchButton" href={url}>Search</a>
+                <a className="project-Share" href="/">Project Sh@re</a>
                 <input
                     className='searchBar'
                     value={value}
-                    onChange={e => setting(e)}
+                    onChange={e => setValue(e.target.value)}
                     placeholder="Search by Username"
+                    onKeyPress={e => handleKeyPress(e)}
                 />
+                <button className="search-button" onClick={push}>Search</button>
                 <a className="trending" href="/trending">Trending</a>
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
                 <a className="categories" href="/categories">Categories</a>

@@ -10,6 +10,7 @@ type Query {
     categoryPost(category: String!): Post
     leaderboard: [User!]
     getPopular: [Post!]
+    getOneCategories(category: String!): Post
 }
 
 type Message {

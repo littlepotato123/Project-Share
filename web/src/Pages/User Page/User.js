@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
     useHistory,
     useParams
 } from 'react-router-dom';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+import { Fetch } from '../../Tools';
 
 const User = () => {
     const [user, setUser] = useState({});
@@ -20,50 +18,30 @@ const User = () => {
 
     const unsupport = () => {
         setSupported(!supported);
-        fetch(proxyUrl + url + 'unfollowUser', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({
-                supporters: supporters,
-                handle: user.handle,
-                email: user.email,
-                userId: user.userId,
-                id: user.userId
-            })
-        })
-        .then(() => {
-            setSupporters(supporters - 1);
-        })
+        const scoped = async () => {
+            await Fetch(`
+                mutation {
+                    unsupportUser(id:"${user.id}", current_supporters:${supporters})
+                }
+            `)
+            const new_supporters = supporters - 1;
+            setSupporters(new_supporters);
+        }
+        scoped();
     }
 
     const support = () => {
         setSupported(!supported);
-        fetch(proxyUrl + url + 'followUser', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({
-                supporters: supporters,
-                handle: user.handle,
-                email: user.email,
-                userId: user.userId,
-                id: user.userId
-            })
-        })
-        .then(() => {
-            setSupporters(supporters + 1);
-        })
+        const scoped = async () => {
+            await Fetch(`
+                mutation {
+                    supportUser(id:"${user.id}", current_supporters:${supporters})
+                }
+            `);
+            const new_supporters = supporters + 1;
+            setSupporters(new_supporters);
+        }
+        scoped();
     }
 
     let supportButton = (
@@ -85,51 +63,54 @@ const User = () => {
     }
 
     useEffect(() => {
-        fetch(proxyUrl + url + 'getUser', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({
-                userHandle: userHandle
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(typeof data == 'object') {
-                if(Object.keys(data).length === 0) {
-                    history.push('/wronguser');
-                } else {
-                    setUser(data.user);
-                    setShare(`localhost:3000/user/${data.user.handle}`)
-                    setSupporters(data.user.supporters);
+        const scoped = async () => {
+            const res = await Fetch(`
+                {
+                    user(handle: "${userHandle}") {
+                        id
+                        supporters
+                        handle
+                        email
+                        imageUrl
+                    }
                 }
+            `);
+            if(res.user) {
+                setUser(res.user);
+                setSupporters(res.user.supporters)
+                setShare(`localhost:3000/user/${res.user.handle}`)
+            } else {
+                history.push('/wronguser')
             }
-        })
+        }
+
+        scoped();
     }, [])
 
     const loadPost = () => {
-        fetch(proxyUrl + url + 'getUserPost', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({ user: user.handle })
-        })
-        .then(res => res.json())
-        .then(data => setPosts(data))
+        const scoped = async () => {
+            console.log(user.handle);
+            const res = await Fetch(`
+                {
+                    userPosts(handle:"${user.handle}"){
+                        id
+                        title
+                        category
+                        likes
+                        body
+                        author
+                    }
+                }
+            `);
+            setPosts(res.userPosts);
+        }
+        scoped();
     }
 
     let userInfo = (
         <div>
+            {
+                user ? <div>
             {user.handle} <br />
             {supporters} <br />
             { supportButton }
@@ -137,7 +118,7 @@ const User = () => {
                 <button>Copy Share Link</button>
             </CopyToClipboard>
             {user.bio}
-            <img width="1000px" src={user.url ? user.url : null} />
+            <img width="1000px" src={user.imageUrl ? user.imageUrl : null} />
             <button onClick={loadPost}>Load Posts</button>
             <div>
                 {
@@ -157,12 +138,16 @@ const User = () => {
                     null
                 }
             </div>
+                </div> : <Loading />
+            }
         </div>
     )
 
     return (
         <div>
-            { Object.keys(user).length === 0 ? <Loading /> : userInfo}
+            {
+                user ? userInfo : <Loading />
+            }
         </div>
     )
 }

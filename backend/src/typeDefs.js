@@ -12,6 +12,7 @@ export const typeDefs = gql`
     categoryPost(category: String!): Post
     leaderboard: [User!]
     getPopular: [Post!]
+    getOneCategory(category: String!): Post
   }
 
   type Message {

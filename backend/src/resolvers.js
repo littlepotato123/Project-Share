@@ -38,7 +38,8 @@ export const resolvers = {
       return post;
     },
     leaderboard: async () => await User.find().sort({ supporters: -1 }).limit(5),
-    getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20)
+    getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20),
+    getOneCategory: async (_, { category }) => await Post.findOne({ category })
   },
   Mutation: {
     signup: async (_, { handle, email, password, imageUrl }) => {
@@ -46,7 +47,7 @@ export const resolvers = {
       if(users.length > 0) {
         return null;
       } else {
-        const crypt_pass = AES.encrypt(password, 'key').toString().substring(0, 10);
+        const crypt_pass = AES.encrypt(password, 'key').toString();
         const user = await User.create({ handle, email, password: crypt_pass, supporters: 0, imageUrl })
         await user.save()
         return user;
@@ -65,20 +66,31 @@ export const resolvers = {
       const user = await User.findOne({ handle });
       if(user == null) {
         return null;
-      }
-      const encrypt = AES.encrypt(password, 'key').toString().substring(0, 10);
-      if(encrypt == user.password) {
-        return user.password;
       } else {
-        return null;
+        const decrypt = AES.decrypt(user.password, 'key').toString();
+        const encrypt = AES.encrypt(password, 'key').toString();
+        const new_decrypt = AES.decrypt(encrypt, 'key').toString();
+        if(decrypt == new_decrypt) {
+          return user.password;
+        } else {
+          return null;
+        }
       }
     },
     newPost: async (_, { token, title, category, body }) => {
       const user = await FBauth(token);
-      const post = await Post.create({ title, category, author: user.handle, likes: 0, body });
-      await post.save();
-      await Category.create({ title: category });
-      return post;
+      if(user) {
+        const post = await Post.create({ title, category, author: user.handle, likes: 0, body });
+        await post.save();
+        const made = await Category.find({ title: category });
+        if(made.length == 0) {
+          await Category.create({ title: category })
+        }
+        return post;
+      } else {
+        return null;
+      }
+      
     },
     newComment: async (_, { token, body, id }) => {
       const user = await FBauth(token);

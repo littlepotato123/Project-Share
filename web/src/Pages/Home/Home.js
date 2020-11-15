@@ -20,7 +20,6 @@ const Home = () => {
                     }
                 }
             `);
-
             setPosts(res.homePage);
         };
 
