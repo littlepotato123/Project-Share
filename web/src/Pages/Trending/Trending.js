@@ -1,9 +1,7 @@
 import React from 'react';
-import Post from '../../Components/Posts/Posts';
 import Loading from '../../Components/Loading/Loading';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+import Post from '../../Components/Posts/Posts';
+import { Fetch } from '../../Tools';
 
 class TopPosts extends React.Component {
     constructor() {
@@ -14,9 +12,23 @@ class TopPosts extends React.Component {
     }
 
     componentDidMount() {
-        fetch(proxyUrl + url + 'getPopular')
-            .then(res => res.json())
-            .then(data => this.setState({ posts: data }))
+        const scoped = async () => {
+            const res = await Fetch(`
+                {
+                    getPopular {
+                        id
+                        title
+                        author
+                        category
+                        likes
+                        body
+                    }
+                }
+            `)
+            this.setState({ posts: res.getPopular })
+        };
+
+        scoped();
     }
 
     render() {

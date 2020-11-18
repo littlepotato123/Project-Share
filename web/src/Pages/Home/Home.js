@@ -1,49 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
+import { Fetch } from '../../Tools';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+const Home = () => {
+    const [posts, setPosts] = useState(null);
 
-class Home extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            posts: null
-        }
-    }
-
-    componentDidMount() {
-        fetch(proxyUrl + url + 'getHome')
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ posts: data });
-            })
-    }
-
-    render() {
-        return (
-            <div>
+    useEffect(() => {
+        const scoped = async () => {
+            const res = await Fetch(`
                 {
-                    this.state.posts ? 
-                    this.state.posts.map(post => 
-                        <Post
-                            title={post.title} 
-                            author={post.author} 
-                            category={post.category}
-                            likes={post.likes}
-                            id={post.postId}
-                            createdAt={post.createdAt}
-                            token={this.props.token}
-                        >
-                            {post.body}
-                        </Post>
-                    )
-                    : <Loading />
+                    homePage {
+                        id
+                        title
+                        author
+                        category
+                        likes
+                        body
+                    }
                 }
-            </div>
-        )
-    }
+            `);
+            setPosts(res.homePage);
+        };
+
+        scoped();
+    }, [])
+
+    console.log(posts);
+
+    return (
+        <div>
+            {
+                posts ? 
+                posts.map(post => 
+                    <Post
+                        title={post.title} 
+                        author={post.author} 
+                        category={post.category}
+                        likes={post.likes}
+                        postId={post.id}
+                        createdAt={post.createdAt}
+                    >
+                        {post.body}
+                    </Post>
+                )
+                : <Loading />
+            }
+        </div>
+    )
 }
 
 export default Home;

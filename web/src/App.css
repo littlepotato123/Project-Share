@@ -10,9 +10,9 @@
     
 }
 
-.searchButton {
+.search-button {
     position:relative;
-    right: -12.3%;
+    right: 140px;
     top: 15px;
     width: 70px;
     height: 43px;

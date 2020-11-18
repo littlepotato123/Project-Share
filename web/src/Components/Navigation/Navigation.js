@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import {
     useHistory
 } from 'react-router-dom';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const aurl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+import { Fetch } from '../../Tools';
 
 const Navigation = () => {
     const [value, setValue] = useState(null);
-    const [url, setUrl] = useState(null);
 
-    const setting = e => {
-        setValue(e.target.value);
-        setUrl(`/user/${e.target.value}`)
+    const push = () => {
+        if(value) {
+            history.push(`/user/${value}`)
+        } else {
+            alert('No Value');
+        }
     }
+
     const [authentication, setAuthentication] = useState(null);
 
     const logout = () => {
@@ -28,46 +29,52 @@ const Navigation = () => {
     useEffect(() => {
         const t = sessionStorage.getItem('token');
         if (t !== null) {
-            fetch(proxyUrl + aurl + 'getHandle', {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${t}`
-                }
-            })
-                .then(res => {
-                    if(res.status == 429) {
-                        history.push('/toomanyrequests');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    setAuthentication((
+            const scoped = async () => {
+                const res = await Fetch(`
+                    {
+                        tokenUser(token: "${t}") {
+                            handle
+                        }
+                    } 
+                `);
+                if(res.tokenUser) {
+                    console.log(res.tokenUser.handle);
+                    setAuthentication(
                         <div>
-                            <a className="authentication" href={`/user/${data.handle}`}>Hello {data.handle}</a>
-                            <a className="authentication" href="/newPost">+</a>
+                            <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
+                            <a className="authentication" href="/newpost">New Post</a>
                             <button className="authentication" onClick={logout}>Logout</button>
                         </div>
-                    ))
-                })
-                .catch(err => {
-                    console.log(err);
-                })
+                    )
+                } else {
+                    history.push('/auth')
+                }
+            }
+
+            scoped();
         } else {
             setAuthentication(<a className="authentication" href="/auth">Authentication</a>)
         }
     }, [])
 
+    const handleKeyPress = (e) => {
+        if(e.key == 'Enter') {
+            push();
+        }
+    }
+
     return (
         <div className="nav">
             <header className="header">
-                <a className="project-Share" href="/">Project Sh@are</a>
-                <a className="searchButton" href={url}>Search</a>
+                <a className="project-Share" href="/">Project Sh@re</a>
                 <input
                     className='searchBar'
                     value={value}
-                    onChange={e => setting(e)}
-                    placeholder="Search by Username"
+                    onChange={e => setValue(e.target.value)}
+                    placeholder="Search (Ex. Category: Racism)"
+                    onKeyPress={e => handleKeyPress(e)}
                 />
+                <button className="search-button" onClick={push}>Search</button>
                 <a className="trending" href="/trending">Trending</a>
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
                 <a className="categories" href="/categories">Categories</a>

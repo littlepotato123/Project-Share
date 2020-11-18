@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { storage } from '../../Firebase/index';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const aUrl = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+import { Fetch } from '../../Tools';
 
 const SignUp = (props) => {
     const [handle, setHandle] = useState('');
@@ -47,44 +45,29 @@ const SignUp = (props) => {
     };
 
     const submit = () => {
-        const data = {
-            email,
-            password: pass,
-            confirmPassword: confirm,
-            userHandle: handle,
-            url,
-            bio
-        };
-        fetch(proxyUrl + aUrl + 'signup', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive",
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if(data.idToken) {
-                    sessionStorage.setItem('token', data.idToken);
-                    window.location.reload(false);
+        const scoped = async () => {
+            const res = await Fetch(`
+                mutation {
+                    signup(handle: "${handle}", email: "${email}", password: "${pass}", imageUrl: "${url ? url : ""}", bio: "${bio}") {
+                        password
+                    }
                 }
-                // handle
-                else if(data.handle) {
-                    setErrors(data.handle);
-                }
-                // error
-                else if(data.error) {
-                    setErrors(data.error);
-                }
-                // confirmPassword
-                else if(data.confirmPassword) {
-                    setErrors(data.confirmPassword);
-                }
-            })
+            `)
+
+            console.log(res);
+            if(res.signup !== undefined && res.signup !== null) {
+                console.log()
+                sessionStorage.setItem('token', res.signup.password);
+            } else {
+                alert('Something went wrong. Please try again');
+            }
+        }
+
+        if(email && pass && handle && bio && email.includes('@') && confirm == pass) {
+            scoped();
+        } else {
+            alert('Something went wrong');
+        }
     }
 
     return (

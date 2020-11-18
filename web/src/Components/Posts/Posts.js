@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import Commenting from './Comments';
+import { Fetch } from '../../Tools';
+import List from './List';
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
 const Posts = (props) => {
-    const [showComment, setComments] = useState(false);
+    const [comments, setComments] = useState(false);
+    const [c, setC] = useState(null);
     const [liked, setLiked] = useState(null);
+    const [likes, setLikes] = useState(props.likes);
+    const [display, setDisplay] = useState(null);
     const [likesButton, setButton] = useState((
         <button onClick={() => setLiked(true)}>Like</button>
     ));
 
-
-    let comments = null;
-
-    let likes = parseInt(props.likes)
-
-    if (showComment) {
-        comments = (
-            <Commenting id={props.id} token={props.token} />
-        )
-    }
-
-
     useEffect(() => {
+        const scoped = async () => {
+            const res = await Fetch(`
+                {
+                    getComments(id: "${props.postId}") {
+                        id
+                        body
+                        author
+                    }
+                }
+            `);
+            if(res) {
+                setC(res.getComments);
+            }
+        }
+
+        scoped();
+
         if (liked == null) {
             setButton((
                 <button onClick={() => setLiked(true)}>Like</button>
@@ -40,80 +47,61 @@ const Posts = (props) => {
                 <button onClick={() => setLiked(true)}>Like</button>
             ));
         }
-        if(sessionStorage.getItem(props.id)) {
+        if(sessionStorage.getItem(props.postId)) {
             setButton((
-                <button disabled="true">Like</button> 
+                <button onClick={() => setLiked(false)}>Unlike</button>
             ))
         }
-    }, [liked])
+        if(comments) {
+            setDisplay((
+                <div>
+                    {
+                        c ? c.map(ca => <List author={ca.author} body={ca.body} />) : <p>Loading...</p>
+                    }
+                </div>
+            ))
+        } else {
+            setDisplay(null);
+        }
+    }, [liked, comments])
 
     const like = () => {
-        const post = {
-            body: props.children,
-            author: props.author,
-            title: props.title,
-            category: props.category,
-            likes,
-            id: props.id
+        const scoped = async () => {
+            const res = await Fetch(`
+                mutation {
+                    likePost(id:"${props.postId}", current_like: ${likes})
+                } 
+            `);
+            setLikes(res.likePost);
+            sessionStorage.setItem(props.postId, 'true');
         };
 
-        likes = post.likes + 1;
-
-        fetch(proxyUrl + url + 'likePost', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(post)
-        })
-        .then(() => {
-            sessionStorage.setItem(props.id, 'true');
-        })
+        scoped();
     }
-
 
     const unlike = () => {
-        const post = {
-            body: props.children,
-            author: props.author,
-            title: props.title,
-            category: props.category,
-            likes: parseInt(props.likes + 1) - 1,
-            id: props.id
-        };
+        const scoped = async () => {
+            const res = await Fetch(`
+                mutation {
+                    unlikePost(id: "${props.postId}", current_like: ${likes})
+                }
+            `);
+            setLikes(res.unlikePost);
+            sessionStorage.removeItem(props.postId);
+        }
 
-        likes = props.likes + 1 - 1;
-
-        fetch(proxyUrl + url + 'unlikePost', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify(post)
-        })
-        .then(() => {
-            sessionStorage.removeItem(props.id);
-        })
+        scoped();
     }
 
-
     return (
-        <div key={props.id} className="post-content">
+        <div key={props.postId} className="post-content">
             <p className="post-title">{props.title}</p>
             <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
             <p className="post-likes">{likesButton}<span>{likes}</span></p>
-            <button className="post-comment-button" onClick={() => setComments(!showComment)}>Comments</button>
-            { comments}
+            <button className="post-comment-button" onClick={() => setComments(!comments)}>Comments</button>
+            { display }
         </div>
     )
 }

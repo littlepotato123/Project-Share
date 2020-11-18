@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import Navigation from './Components/Navigation/Navigation';
-import NewPost from './Components/New Post/NewPost';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
@@ -15,6 +14,7 @@ import NotFound from './Pages/Errors/WrongPage';
 import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
+import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 

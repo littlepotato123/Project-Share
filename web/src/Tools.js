@@ -1,6 +1,7 @@
-export const Fetch = (req) => {
-    let send;
-    fetch('http://localhost:4000/graphql', {
+export const Fetch = async (req) => {
+    let msg;
+
+    await fetch('http://localhost:4000/graphql', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -9,13 +10,10 @@ export const Fetch = (req) => {
             query: req
         })
     })
-    .then(res => {
-        if(res.status == 429) send = 'Too Many Requests';
-        return res.json()
-    })
+    .then(res => res.json())
     .then(data => {
-        send = data;
-    })
+        msg = data.data;
+    });
 
-    return data;
-}
+    return msg;
+};

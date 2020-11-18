@@ -1,45 +1,30 @@
 import React, { useState } from 'react';
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://us-central1-project-share-8df06.cloudfunctions.net/api/";
+import { Fetch } from '../../Tools';
 
 const Login = (props) => {
-    const [email, setEmail] = useState(null);
+    const [handle, setHandle] = useState(null);
     const [pass, setPass] = useState(null);
-    const [error, setError] = useState(null);
 
     const submit = () => {
-        fetch(proxyUrl + url + 'login', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "User-Agent": "PostmanRuntime/7.26.5",
-                "Accept": "*/*",
-                "Accept-Encoding": "gzip, deflate, br",
-                "Connection": "keep-alive"
-            },
-            body: JSON.stringify({
-                email: email,
-                password: pass
-            })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.idToken) {
-                    sessionStorage.setItem('token', data.idToken)
-                    window.location.reload(false);
-                } else if (data.general) {
-                    setError(data.general);
-                }
-            })
+        const scoped = async () => {
+            const res = await Fetch(`
+                    mutation {
+                        login(handle:"${handle}", password:"${pass}")
+                    }
+            `);
+            if(res.login) {
+                sessionStorage.setItem('token', res.login);
+            }
+        }
+
+        scoped();
     }
 
     return (
         <div>
-            <input value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
+            <input value={handle} placeholder="handle" onChange={e => setHandle(e.target.value)} />
             <input type="password" value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
             <button onClick={submit}>Login</button>
-            {error}
         </div>
     )
 }

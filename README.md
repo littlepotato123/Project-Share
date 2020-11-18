@@ -15,8 +15,6 @@
     git commit -m "Commit Message"
     git push origin master
 
-    (If what above does not work) --> git pull origin master --> git push origin master (Assuming you have already git added and git commited)
-
     To Get from Online Repo
         - git pull origin master
 
@@ -33,3 +31,6 @@
  
     Delete Branches
         - git branch -d (name of branch)
+# Start Dev
+    - `yarn web`
+    - `yarn api`
