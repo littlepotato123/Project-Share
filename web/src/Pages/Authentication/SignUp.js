@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { storage } from '../../Firebase/index';
+import { Fetch } from '../../Tools';
 
 const SignUp = (props) => {
     const [handle, setHandle] = useState('');
@@ -44,7 +45,29 @@ const SignUp = (props) => {
     };
 
     const submit = () => {
+        const scoped = async () => {
+            const res = await Fetch(`
+                mutation {
+                    signup(handle: "${handle}", email: "${email}", password: "${pass}", imageUrl: "${url ? url : ""}", bio: "${bio}") {
+                        password
+                    }
+                }
+            `)
 
+            console.log(res);
+            if(res.signup !== undefined && res.signup !== null) {
+                console.log()
+                sessionStorage.setItem('token', res.signup.password);
+            } else {
+                alert('Something went wrong. Please try again');
+            }
+        }
+
+        if(email && pass && handle && bio && email.includes('@') && confirm == pass) {
+            scoped();
+        } else {
+            alert('Something went wrong');
+        }
     }
 
     return (

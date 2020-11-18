@@ -42,13 +42,13 @@ export const resolvers = {
     getOneCategory: async (_, { category }) => await Post.findOne({ category })
   },
   Mutation: {
-    signup: async (_, { handle, email, password, imageUrl }) => {
+    signup: async (_, { handle, email, password, imageUrl, bio }) => {
       const users = await User.find({ handle });
       if(users.length > 0) {
         return null;
       } else {
         const crypt_pass = AES.encrypt(password, 'key').toString();
-        const user = await User.create({ handle, email, password: crypt_pass, supporters: 0, imageUrl })
+        const user = await User.create({ handle, email, password: crypt_pass, supporters: 0, imageUrl, bio })
         await user.save()
         return user;
       }
