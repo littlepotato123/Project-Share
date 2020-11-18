@@ -13,6 +13,7 @@ export const typeDefs = gql`
     leaderboard: [User!]
     getPopular: [Post!]
     getOneCategory(category: String!): Post
+    tokenUser(token: String!): User
   }
 
   type Message {
@@ -61,8 +62,8 @@ export const typeDefs = gql`
     newComment(token: String!, body: String!, id: String!): Boolean!
     getComments(id: String!): [Comment!]
     createMessage(token: String!, body: String!, userId: String!): Message!
-    likePost(id: String!, current_like: Int!): Boolean!
-    unlikePost(id:String!, current_like: Int!): Boolean!
+    likePost(id: String!, current_like: Int!): Int!
+    unlikePost(id:String!, current_like: Int!): Int!
     supportUser(id: String!, current_supporters: Int!): Boolean!
     unsupportUser(id: String!, current_supporters: Int!): Boolean!
   }

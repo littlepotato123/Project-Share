@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Posts from '../../Components/Posts/Posts';
 import { Fetch } from '../../Tools';
 
@@ -7,11 +7,13 @@ const CategoryPage = () => {
     const [posts, setPosts] = useState([]);
     const { name } = useParams();
 
+    const history = useHistory();
+
     useEffect(() => {
         const scoped = async () => {
             const res = await Fetch(`
                     {
-                        categoryPosts(category:"First"){
+                        categoryPosts(category:"${name}"){
                             id
                             title
                             category
@@ -21,11 +23,16 @@ const CategoryPage = () => {
                         }
                     }
             `);
-            setPosts(res.categoryPosts);
+            if(res.categoryPosts.length !== 0) {
+                setPosts(res.categoryPosts);
+            } else {
+                console.log('error')
+                history.push('/');
+            }
         }
 
         scoped();
-    })
+    }, [])
 
     return (
         <div>

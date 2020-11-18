@@ -1,18 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import {
+    useHistory
+} from 'react-router-dom';
+import { Fetch } from '../../Tools';
 
 const NewPost = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [category, setCategory] = useState('');
 
-    let token;
-
-    useEffect(() => {
-        token = sessionStorage.getItem('token');    
-    })
+    const history = useHistory();
 
     const post = () => {
-        
+        const scoped = async () => {
+            const token = sessionStorage.getItem('token');
+            const res = await Fetch(`
+                mutation {
+                    newPost(token: "${token}", title: "${title}", body: "${body}", category: "${category}") {
+                        id
+                    }
+                } 
+            `);
+            if(res.newPost) {
+                history.push('/');
+            } else {
+                alert('Error while posting');
+            }
+        } 
+
+        if(title && body && category) {
+            if(category.includes('@') || category.includes('/') || category.includes('?') || category.includes('#') || category.includes('$')) {
+                alert('Wierd Characters in Category');
+            } else {
+                scoped();
+            }
+        } else {
+            alert('Some fields are empty');
+        }
     }
 
     return (

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
     useHistory
 } from 'react-router-dom';
+import { Fetch } from '../../Tools';
 
 const Navigation = () => {
     const [value, setValue] = useState(null);
-    const [url, setUrl] = useState(null);
 
     const push = () => {
         if(value) {
@@ -29,7 +29,29 @@ const Navigation = () => {
     useEffect(() => {
         const t = sessionStorage.getItem('token');
         if (t !== null) {
+            const scoped = async () => {
+                const res = await Fetch(`
+                    {
+                        tokenUser(token: "${t}") {
+                            handle
+                        }
+                    } 
+                `);
+                if(res.tokenUser) {
+                    console.log(res.tokenUser.handle);
+                    setAuthentication(
+                        <div>
+                            <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
+                            <a className="authentication" href="/newpost">New Post</a>
+                            <button className="authentication" onClick={logout}>Logout</button>
+                        </div>
+                    )
+                } else {
+                    history.push('/auth')
+                }
+            }
 
+            scoped();
         } else {
             setAuthentication(<a className="authentication" href="/auth">Authentication</a>)
         }
@@ -49,7 +71,7 @@ const Navigation = () => {
                     className='searchBar'
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    placeholder="Search by Username"
+                    placeholder="Search (Ex. Category: Racism)"
                     onKeyPress={e => handleKeyPress(e)}
                 />
                 <button className="search-button" onClick={push}>Search</button>

@@ -38,7 +38,7 @@ const Home = () => {
                         author={post.author} 
                         category={post.category}
                         likes={post.likes}
-                        id={post.postId}
+                        postId={post.id}
                         createdAt={post.createdAt}
                     >
                         {post.body}

@@ -39,7 +39,8 @@ export const resolvers = {
     },
     leaderboard: async () => await User.find().sort({ supporters: -1 }).limit(5),
     getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20),
-    getOneCategory: async (_, { category }) => await Post.findOne({ category })
+    getOneCategory: async (_, { category }) => await Post.findOne({ category }),
+    tokenUser: async(_, { token }) => await FBauth(token)
   },
   Mutation: {
     signup: async (_, { handle, email, password, imageUrl, bio }) => {
@@ -109,14 +110,16 @@ export const resolvers = {
         { _id: id },
         {$set: {'likes': current_like + 1 }}
       );
-      return true;
+      const post = await Post.findOne({ _id: id });
+      return post.likes;
     },
     unlikePost: async (_, { id, current_like }) => {
       await Post.updateOne(
         { _id: id },
         {$set: {'likes': current_like - 1 }}
       );
-      return true;
+      const post = await Post.findOne({ _id: id });
+      return post.likes;
     },
     supportUser: async (_, { id, current_supporters }) => {
       await User.updateOne(
