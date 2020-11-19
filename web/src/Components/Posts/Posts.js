@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Fetch } from '../../Tools';
+import Input from './Input';
 import List from './List';
 
 const Posts = (props) => {
@@ -25,6 +26,7 @@ const Posts = (props) => {
             `);
             if(res) {
                 setC(res.getComments);
+                console.log(res.getComments);
             }
         }
 
@@ -57,6 +59,16 @@ const Posts = (props) => {
                 <div>
                     {
                         c ? c.map(ca => <List author={ca.author} body={ca.body} />) : <p>Loading...</p>
+                    }
+                    {
+                        sessionStorage.getItem('token') ? 
+                        <div>
+                            <Input id={props.postId} />
+                        </div> : 
+                        <div>
+                            <input disabled="true" />
+                            <button disabled="true">Comment</button>
+                        </div>
                     }
                 </div>
             ))

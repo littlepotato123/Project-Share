@@ -7,12 +7,24 @@ import {
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
 import { Fetch } from '../../Tools';
+import Messages from './Messages';
 
 const User = () => {
     const [user, setUser] = useState({});
     const [supporters, setSupporters] = useState(null);
     const [posts, setPosts] = useState(null);
     let [share, setShare] = useState(null);
+    let [messages, setMessages] = useState(false);
+
+    let message =  null;
+
+    if(messages) {
+        message = (
+            <Messages id={user.id} />
+        )
+    } else {
+        message = null;
+    }
 
     const [supported, setSupported] = useState(false);
 
@@ -89,7 +101,7 @@ const User = () => {
 
     const loadPost = () => {
         const scoped = async () => {
-            console.log(user.handle);
+            console.log(user.id);
             const res = await Fetch(`
                 {
                     userPosts(handle:"${user.handle}"){
@@ -118,6 +130,8 @@ const User = () => {
                 <button>Copy Share Link</button>
             </CopyToClipboard>
             {user.bio}
+            <button onClick={() => setMessages(!messages)}>Messages</button>
+            { message }
             <img width="1000px" src={user.imageUrl ? user.imageUrl : null} />
             <button onClick={loadPost}>Load Posts</button>
             <div>
