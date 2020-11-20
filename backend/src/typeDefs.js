@@ -49,7 +49,7 @@ export const typeDefs = gql`
     handle: String!
     email: String!
     password: String!
-    imageUrl: String!
+    imageUrl: String
     supporters: Int!
     bio: String!
   }
@@ -66,5 +66,6 @@ export const typeDefs = gql`
     unlikePost(id:String!, current_like: Int!): Int!
     supportUser(id: String!, current_supporters: Int!): Boolean!
     unsupportUser(id: String!, current_supporters: Int!): Boolean!
+    deletePost(id: String!): Boolean!
   }
 `;

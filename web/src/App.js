@@ -9,6 +9,7 @@ import Navigation from './Components/Navigation/Navigation';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
+import HomeRedirect from './Pages/Errors/HomeRedirect';
 import TooManyRequests from './Pages/Errors/TooManyRequests';
 import NotFound from './Pages/Errors/WrongPage';
 import WrongUser from './Pages/Errors/WrongUser';
@@ -24,6 +25,9 @@ const App = () => {
       <Navigation />
       <Switch>
         <Route exact path="/">
+          <HomeRedirect />
+        </Route>
+        <Route exact path="/home">
           <Home />
         </Route>
         <Route exact path="/auth">

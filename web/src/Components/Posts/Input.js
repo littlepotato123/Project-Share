@@ -14,6 +14,7 @@ const Input = (props) => {
                     }
             `);
             setComment('');
+            window.location.reload(false);
         };
         scoped();
     }

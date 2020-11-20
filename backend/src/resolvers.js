@@ -135,6 +135,10 @@ export const resolvers = {
       );
       console.log(await User.findOne())
       return true;
+    },
+    deletePost: async (_, { id }) => {
+      await Post.deleteOne({ _id: id });
+      return true;
     }
   }
 };

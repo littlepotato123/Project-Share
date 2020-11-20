@@ -40,6 +40,7 @@ const Navigation = () => {
                     } 
                 `);
                 if(res.tokenUser) {
+                    sessionStorage.setItem('handle', res.tokenUser.handle);
                     setAuthentication(
                         <div>
                             <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
@@ -72,7 +73,7 @@ const Navigation = () => {
                     className='searchBar'
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    placeholder="C:(name) or handle"
+                    placeholder="C:(category) or handle"
                     onKeyPress={e => handleKeyPress(e)}
                 />
                 <button className="search-button" onClick={push}>Search</button>

@@ -63,4 +63,5 @@ type Mutation {
     unlikePost(id:String!, current_like: Int!): Int!
     supportUser(id: String!, current_supporters: Int!): Boolean!
     unsupportUser(id: String!, current_supporters: Int!): Boolean!
+    deletePost(id: String!): Boolean!
 }
