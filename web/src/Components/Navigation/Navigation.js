@@ -5,14 +5,16 @@ import {
 import { Fetch } from '../../Tools';
 
 const Navigation = () => {
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState('');
 
     const push = () => {
-        if(value) {
-            history.push(`/user/${value}`)
+        if(value.startsWith('C:')) {
+            const l = value.split(':')[1];
+            history.push(`/category/${l}`)
         } else {
-            alert('No Value');
+            history.push(`/user/${value}`)
         }
+        setValue('');
     }
 
     const [authentication, setAuthentication] = useState(null);
@@ -38,7 +40,6 @@ const Navigation = () => {
                     } 
                 `);
                 if(res.tokenUser) {
-                    console.log(res.tokenUser.handle);
                     setAuthentication(
                         <div>
                             <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
@@ -71,7 +72,7 @@ const Navigation = () => {
                     className='searchBar'
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    placeholder="Search (Ex. Category: Racism)"
+                    placeholder="C:(name) or handle"
                     onKeyPress={e => handleKeyPress(e)}
                 />
                 <button className="search-button" onClick={push}>Search</button>

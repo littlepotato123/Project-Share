@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const UserList = (props) => {
 
@@ -6,12 +6,13 @@ const UserList = (props) => {
         <div className='leaderboardList'>
             <ol>
                 {/*
-                * Tasks left to complete:  Make it so that when you click on the box, it leads the person's account 
+                    - Add a Sample Post
+                    - Better Format
+                    - Transition between base to hover styles
                 */}
                 <ol>
                     <div>
-                        <span className="Lacc">{props.name}</span> <br />
-                        Supporters:{props.supporters}
+                        <span className="Lacc"><a href={`http://localhost:3000/user/${props.name}`}>{props.name}</a></span> <br />
                     </div>
                 </ol>
 

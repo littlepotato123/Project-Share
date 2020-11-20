@@ -75,7 +75,12 @@ const Posts = (props) => {
         } else {
             setDisplay(null);
         }
-    }, [liked, comments])
+
+        if(likes < 0) {
+            window.location.reload(false);
+            alert('Sorry, somethign went wrong with the posts');
+        }
+    }, [liked, comments, likes])
 
     const like = () => {
         const scoped = async () => {

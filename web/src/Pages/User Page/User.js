@@ -15,6 +15,35 @@ const User = () => {
     const [posts, setPosts] = useState(null);
     let [share, setShare] = useState(null);
     let [messages, setMessages] = useState(false);
+    const [show, setShow] = useState(false);
+    const [display, setDisplay] = useState(null);
+
+    useEffect(() => {
+        if(show) {
+            setDisplay((
+                <div>
+                    {
+                        posts ? 
+                        posts.map(post => 
+                            <Post
+                                title={post.title} 
+                                author={post.author} 
+                                category={post.category}
+                                likes={post.likes}
+                                id={post.postId}
+                                createdAt={post.createdAt}
+                            >
+                                {post.body}
+                            </Post>
+                        ) :
+                        null
+                    }
+                </div>
+            ));
+        } else {
+            setDisplay(null);
+        }
+    }, [show])
 
     let message =  null;
 
@@ -76,7 +105,7 @@ const User = () => {
 
     useEffect(() => {
         const scoped = async () => {
-            const res = await Fetch(`
+            let res = await Fetch(`
                 {
                     user(handle: "${userHandle}") {
                         id
@@ -84,40 +113,34 @@ const User = () => {
                         handle
                         email
                         imageUrl
+                        bio
                     }
                 }
             `);
             if(res.user) {
-                setUser(res.user);
                 setSupporters(res.user.supporters)
                 setShare(`localhost:3000/user/${res.user.handle}`)
             } else {
                 history.push('/wronguser')
             }
-        }
 
-        scoped();
-    }, [])
-
-    const loadPost = () => {
-        const scoped = async () => {
-            console.log(user.id);
-            const res = await Fetch(`
+            res = await Fetch(`
                 {
-                    userPosts(handle:"${user.handle}"){
+                    userPosts(handle: "${userHandle}") {
                         id
-                        title
-                        category
-                        likes
-                        body
                         author
+                        category
+                        title
+                        body
+                        likes
                     }
                 }
             `);
             setPosts(res.userPosts);
         }
+
         scoped();
-    }
+    }, [])
 
     let userInfo = (
         <div>
@@ -125,33 +148,16 @@ const User = () => {
                 user ? <div>
             {user.handle} <br />
             {supporters} <br />
+            <h3>{user.bio}</h3> <br />
             { supportButton }
             <CopyToClipboard text={share}>
                 <button>Copy Share Link</button>
             </CopyToClipboard>
-            {user.bio}
             <button onClick={() => setMessages(!messages)}>Messages</button>
             { message }
             <img width="1000px" src={user.imageUrl ? user.imageUrl : null} />
-            <button onClick={loadPost}>Load Posts</button>
-            <div>
-                {
-                    posts ? 
-                    posts.map(post => 
-                        <Post
-                            title={post.title} 
-                            author={post.author} 
-                            category={post.category}
-                            likes={post.likes}
-                            id={post.postId}
-                            createdAt={post.createdAt}
-                        >
-                            {post.body}
-                        </Post>
-                    ) :
-                    null
-                }
-            </div>
+            <button onClick={() => setShow(!show)}>Load Posts</button>
+            {display}
                 </div> : <Loading />
             }
         </div>

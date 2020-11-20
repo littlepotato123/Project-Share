@@ -13,21 +13,20 @@ const Input = (props) => {
                         newComment(token:"${token}", body:"${comment}", id:"${props.id}")
                     }
             `);
-            console.log(res);
+            setComment('');
         };
-        console.log(comment);
         scoped();
     }
 
     const handleKeys = e => {
         if(e.key == "Enter") {
-            comment();
+            submit();
         }
     }
 
     return (
         <div>
-            <input value={comment} onChange={e => setComment(e.target.value)} placeholder="Comment..." />
+            <input value={comment} onChange={e => setComment(e.target.value)} onKeyDown={handleKeys} placeholder="Comment..." />
             <button onClick={submit}>Comment</button>
         </div>
     )
