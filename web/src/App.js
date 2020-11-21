@@ -18,6 +18,7 @@ import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 
+
 const App = () => {
   return (
     <Router>

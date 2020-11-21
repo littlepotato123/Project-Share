@@ -31,20 +31,20 @@ const Home = () => {
     return (
         <div>
             {
-                posts ? 
-                posts.map(post => 
-                    <Post
-                        title={post.title} 
-                        author={post.author} 
-                        category={post.category}
-                        likes={post.likes}
-                        id={post.postId}
-                        createdAt={post.createdAt}
-                    >
-                        {post.body}
-                    </Post>
-                )
-                : <Loading />
+                posts ?
+                    posts.map(post =>
+                        <Post
+                            title={post.title}
+                            author={post.author}
+                            category={post.category}
+                            likes={post.likes}
+                            id={post.postId}
+                            createdAt={post.createdAt}
+                        >
+                            {post.body}
+                        </Post>
+                    )
+                    : <Loading />
             }
         </div>
     )

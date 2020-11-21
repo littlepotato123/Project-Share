@@ -1,4 +1,5 @@
 export const Fetch = async (req) => {
+
     let msg;
 
     await fetch('http://localhost:4000/graphql', {
@@ -10,10 +11,10 @@ export const Fetch = async (req) => {
             query: req
         })
     })
-    .then(res => res.json())
-    .then(data => {
-        msg = data.data;
-    });
+        .then(res => res.json())
+        .then(data => {
+            msg = data.data;
+        });
 
     return msg;
 };

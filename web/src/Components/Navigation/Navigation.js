@@ -8,7 +8,7 @@ const Navigation = () => {
     const [url, setUrl] = useState(null);
 
     const push = () => {
-        if(value) {
+        if (value) {
             history.push(`/user/${value}`)
         } else {
             alert('No Value');
@@ -18,7 +18,7 @@ const Navigation = () => {
     const [authentication, setAuthentication] = useState(null);
 
     const logout = () => {
-        if(window.confirm("Are You Sure You want to logout")) {
+        if (window.confirm("Are You Sure You want to logout")) {
             sessionStorage.removeItem('token');
             window.location.reload(false);
         }
@@ -36,7 +36,7 @@ const Navigation = () => {
     }, [])
 
     const handleKeyPress = (e) => {
-        if(e.key == 'Enter') {
+        if (e.key == 'Enter') {
             push();
         }
     }

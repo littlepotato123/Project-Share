@@ -35,21 +35,21 @@ class TopPosts extends React.Component {
         return (
             <div>
                 {
-                    this.state.posts ? 
-                    this.state.posts.map(post => 
-                        <Post
-                            title={post.title} 
-                            author={post.author} 
-                            category={post.category}
-                            likes={post.likes}
-                            id={post.postId}
-                            createdAt={post.createdAt}
-                            token={this.props.token}
-                        >
-                            {post.body}
-                        </Post>    
-                    )
-                    : <Loading />
+                    this.state.posts ?
+                        this.state.posts.map(post =>
+                            <Post
+                                title={post.title}
+                                author={post.author}
+                                category={post.category}
+                                likes={post.likes}
+                                id={post.postId}
+                                createdAt={post.createdAt}
+                                token={this.props.token}
+                            >
+                                {post.body}
+                            </Post>
+                        )
+                        : <Loading />
                 }
             </div>
         )

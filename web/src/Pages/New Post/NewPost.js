@@ -8,11 +8,11 @@ const NewPost = () => {
     let token;
 
     useEffect(() => {
-        token = sessionStorage.getItem('token');    
+        token = sessionStorage.getItem('token');
     })
 
     const post = () => {
-        
+
     }
 
     return (
