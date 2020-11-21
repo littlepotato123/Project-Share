@@ -40,7 +40,11 @@ export const resolvers = {
     leaderboard: async () => await User.find().sort({ supporters: -1 }).limit(5),
     getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20),
     getOneCategory: async (_, { category }) => await Post.findOne({ category }),
-    tokenUser: async(_, { token }) => await FBauth(token)
+    tokenUser: async(_, { token }) => await FBauth(token),
+    userOnePost: async (_, { handle }) => {
+      const post = await Post.findOne({ author: handle });
+      return post;
+    }
   },
   Mutation: {
     signup: async (_, { handle, email, password, imageUrl, bio }) => {

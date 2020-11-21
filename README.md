@@ -23,7 +23,7 @@
         - git commit -a -m 'New Commit' 
     
     Switching Branches
-        - git checkout master
+        - git checkout (Branch Name)
 
     Merge Branches (After done with Branch)
         - git checkout master

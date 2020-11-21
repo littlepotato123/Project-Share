@@ -39,7 +39,6 @@ const Home = () => {
                         category={post.category}
                         likes={post.likes}
                         postId={post.id}
-                        createdAt={post.createdAt}
                     >
                         {post.body}
                     </Post>

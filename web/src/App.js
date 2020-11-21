@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
-
   Route, Switch
 } from 'react-router-dom';
-import './App.css';
 import Navigation from './Components/Navigation/Navigation';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
@@ -18,6 +16,8 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
+import './styles/App.css';
+import './styles/Second.css';
 
 const App = () => {
   return (

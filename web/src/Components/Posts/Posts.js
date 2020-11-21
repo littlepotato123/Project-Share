@@ -101,6 +101,12 @@ const Posts = (props) => {
         } else {
             setDeleteButton(null);
         }
+
+        if(sessionStorage.getItem(props.postId)) {
+            setButton((
+                <button disabled="true">Like</button>
+            ))
+        }
     }, [])
 
     const like = () => {

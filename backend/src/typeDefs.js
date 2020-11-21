@@ -14,6 +14,7 @@ export const typeDefs = gql`
     getPopular: [Post!]
     getOneCategory(category: String!): Post
     tokenUser(token: String!): User
+    userOnePost(handle: String!): Post
   }
 
   type Message {
