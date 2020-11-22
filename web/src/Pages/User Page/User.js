@@ -118,13 +118,14 @@ const User = () => {
                 }
             `);
             console.log(res.user);
+            console.log(user);
             if(res.user) {
                 setSupporters(res.user.supporters)
                 setShare(`localhost:3000/user/${res.user.handle}`)
             }
-            // } else {
-            //     history.push('/wronguser')
-            // }
+            else {
+                history.push('/wronguser')
+            }
 
             res = await Fetch(`
                 {
@@ -140,7 +141,6 @@ const User = () => {
             `);
             setPosts(res.userPosts);
         }
-
         scoped();
     }, [])
 

@@ -7,7 +7,6 @@
     border-radius: 15px;
     height: 80px;
     width: 100%;
-    
 }
 
 .search-button {
@@ -52,6 +51,7 @@
     right: -13.5%;
     top: 15px;
     font-size: 19px;
+    text-decoration: none;
 }
 
 .leaderboard {
