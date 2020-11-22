@@ -42,14 +42,13 @@ const Navigation = () => {
                 if(res.tokenUser) {
                     sessionStorage.setItem('handle', res.tokenUser.handle);
                     setAuthentication(
-                        // <DropDown handle={res.tokenUser.handle}>
-                        //     <div>
-                        //         <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
-                        //         <a className="authentication" href="/newpost">New Post</a>
-                        //         <button className="authentication" onClick={logout}>Logout</button>
-                        //     </div>
-                        // </DropDown>
-                        // <OtherDropDown />
+                        <DropDown handle={res.tokenUser.handle}>
+                            <div>
+                                <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
+                                <a className="authentication" href="/newpost">New Post</a>
+                                <button className="authentication" onClick={logout}>Logout</button>
+                            </div>
+                        </DropDown>
                     )
                 } else {
                     history.push('/auth')
