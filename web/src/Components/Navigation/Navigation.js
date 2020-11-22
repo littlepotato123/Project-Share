@@ -3,18 +3,26 @@ import {
     useHistory
 } from 'react-router-dom';
 import { Fetch } from '../../Tools';
+import DropDown from './DropDown';
 
 const Navigation = () => {
     const [value, setValue] = useState('');
+    const [searchAuthor, setSearch] = useState('');
+
+    const click = () => {
+        setSearch(!searchAuthor);
+    }
 
     const push = () => {
-        if(value.startsWith('C:')) {
-            const l = value.split(':')[1];
-            history.push(`/category/${l}`)
+        if(value) {
+            if(searchAuthor == true) {
+                history.push(`/user/${value}`)
+            } else {
+                history.push(`/category/${value}`)
+            }
         } else {
-            history.push(`/user/${value}`)
+            alert('Please Type in Input')
         }
-        setValue('');
     }
 
     const [authentication, setAuthentication] = useState(null);
@@ -75,9 +83,13 @@ const Navigation = () => {
                     className='searchBar'
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    placeholder="C:(category) or handle"
+                    placeholder="Search: " 
                     onKeyPress={e => handleKeyPress(e)}
                 />
+                {
+                    searchAuthor ? 
+                    <button onClick={click} className="switch-but-nav">Search by Author</button> : <button onClick={click} className="switch-but-nav">Search by Category</button>
+                }
                 <button className="search-button" onClick={push}>Search</button>
                 <a className="trending" href="/trending">Trending</a>
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
@@ -88,4 +100,4 @@ const Navigation = () => {
     )
 }
 
-export default Navigation;
+export default Navigation; 
