@@ -29,7 +29,7 @@ const Navigation = () => {
 
     const logout = () => {
         if(window.confirm("Are You Sure You want to logout")) {
-            sessionStorage.removeItem('token');
+            sessionStorage.clear();
             window.location.reload(false);
         }
     }
@@ -51,11 +51,17 @@ const Navigation = () => {
                     sessionStorage.setItem('handle', res.tokenUser.handle);
                     setAuthentication(
                         <DropDown handle={res.tokenUser.handle}>
-                            <div>
-                                <a className="authentication" href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
-                                <a className="authentication" href="/newpost">New Post</a>
-                                <button className="authentication" onClick={logout}>Logout</button>
-                            </div>
+                            <ul className="drop">
+                                <li>
+                                    <a className="drop1" href={`/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
+                                </li>
+                                <li>
+                                    <a className="drop2" href="/newpost">New Post</a>
+                                </li>
+                                <li>
+                                    <button className="drop3" onClick={logout}>Logout</button>
+                                </li>
+                            </ul>
                         </DropDown>
                     )
                 } else {
@@ -94,8 +100,8 @@ const Navigation = () => {
                 <a className="trending" href="/trending">Trending</a>
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
                 <a className="categories" href="/categories">Categories</a>
-                {authentication}
                 <a className="requests" href="/requests">Requests</a>
+                {authentication}
             </header>
         </div>
     )

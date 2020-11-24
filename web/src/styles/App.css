@@ -34,47 +34,33 @@
     
 }
 
-.leaderboard, .trending, .topPosts, .categories, .authentication, .requests {
+.leaderboard, .trending, .topPosts, .categories, .authentication, .requests, .dropdown {
+    top: 10px;
     display: inline-block;
-    width: 80px;
-    height: 30px;
     text-decoration: none;
+    padding: 5px;
     color: #9ecaed;
     background-color: white;
-    border-color: white;
-    border-bottom-left-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    margin-right: 20px;
-    position: relative;  
-    right: -13.5%;
-    top: 15px;
+    border-radius: 20px;
+    position: relative;
     font-size: 19px;
-    text-decoration: none;
+    text-align: center;
+    width: 100px;
+    margin: 10px;
 }
 
-.leaderboard {
-    width: 110px;   
-}
-
-.topPosts {
-    width: 90px
-}
-
-.categories {
-    width: 95px;
+.trending {
+    margin-left: 30%;
 }
 
 .authentication {
-    width: 125px;
+    width: 140px;
 }
 
-.requests {
-    width: 125px;
+.dropdown {
+    width: 100px;
     position: absolute;
-    top: 25px;
-    right: 300px;
+    right: 3%;
 }
 
 .project-Share {
@@ -197,4 +183,9 @@
     border-radius: 8px;
     padding: 5px;
     margin-top: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: none;
 }

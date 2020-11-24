@@ -15,7 +15,7 @@ const DropDown = (props) => {
 
     return (
         <div>
-            <button onClick={() => setDisplay(!display)}>{props.handle}</button>
+            <button className="dropdown" onClick={() => setDisplay(!display)}>{props.handle}</button>
             {links}
         </div>
     )

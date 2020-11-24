@@ -10,7 +10,7 @@ const Posts = (props) => {
     const [likes, setLikes] = useState(props.likes);
     const [display, setDisplay] = useState(null);
     const [likesButton, setButton] = useState((
-        <button onClick={() => setLiked(true)}>Like</button>
+        <button onClick={() => setLiked(true)}>Unlike</button>
     ));
     const [deleteBut, setDeleteButton] = useState(null);
 
@@ -104,7 +104,7 @@ const Posts = (props) => {
 
         if(sessionStorage.getItem(props.postId)) {
             setButton((
-                <button disabled="true">Like</button>
+                <button disabled="true">Likes</button>
             ))
         }
     }, [])
@@ -144,7 +144,7 @@ const Posts = (props) => {
 
         if(props.author == sessionStorage.getItem('handle')) {
             setDeleteButton((
-                <button>Delete</button>
+                <button onClick={cut}>Delete Post</button>
             ))
         }
     }
@@ -155,10 +155,10 @@ const Posts = (props) => {
             <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p className="post-body">{props.children}</p>
-            <p className="post-likes"><span>{ likesButton }</span>{likes}</p>
+            <p className="post-likes">{ likesButton }: {likes}</p>
             <button className="post-comment-button" onClick={() => setComments(!comments)}>Comments</button>
             { display }
-            { deleteBut }
+            {deleteBut}
         </div>
     )
 }
