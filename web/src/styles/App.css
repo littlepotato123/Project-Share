@@ -34,7 +34,7 @@
     
 }
 
-.leaderboard, .trending, .topPosts, .categories, .authentication {
+.leaderboard, .trending, .topPosts, .categories, .authentication, .requests {
     display: inline-block;
     width: 80px;
     height: 30px;
@@ -68,6 +68,13 @@
 
 .authentication {
     width: 125px;
+}
+
+.requests {
+    width: 125px;
+    position: absolute;
+    top: 25px;
+    right: 300px;
 }
 
 .project-Share {

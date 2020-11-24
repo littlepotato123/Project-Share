@@ -14,6 +14,7 @@ import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
+import Requests from './Pages/Requests/Requests';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 import './styles/App.css';
@@ -50,6 +51,9 @@ const App = () => {
         </Route>
         <Route path="/newPost">
           <NewPost />
+        </Route>
+        <Route path="/requests">
+          <Requests />
         </Route>
         <Route path="/category/:name">
           <CategoryPage />

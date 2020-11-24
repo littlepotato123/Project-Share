@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     useHistory
 } from 'react-router-dom';
+import Loading from '../../Components/Loading/Loading';
 import { Fetch } from '../../Tools';
 
 const NewPost = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [category, setCategory] = useState('');
+    const [categories, setCategories] = useState(null);
 
     const history = useHistory();
+
+    useEffect(() => {
+        const scoped = async () => {
+            const res = await Fetch(`
+                {
+                    getCategories {
+                        title
+                    }
+                }
+            `);
+            setCategories(res.getCategories);
+        };
+        scoped();
+    }, [])
+
+    console.log(categories);
 
     const post = () => {
         const scoped = async () => {
@@ -26,7 +44,8 @@ const NewPost = () => {
             } else {
                 alert('Error while posting');
             }
-        } 
+        }
+        console.log(title, body, category);
 
         if(title && body && category) {
             if(category.includes('@') || category.includes('/') || category.includes('?') || category.includes('#') || category.includes('$')) {
@@ -48,8 +67,12 @@ const NewPost = () => {
     return (
         <div>
             <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Title of Post" />
-            {/* <input value={body} onChange={e => setBody(e.target.value)} placeholder="Post Content" /> */}
-            <input value={category} onChange={e => setCategory(e.target.value)} placeholder="Category of Post" />
+            <select onChange={e => setCategory(e.target.value)}>
+                <option value=""></option>
+                {
+                    categories ? categories.map(c => <option value={c.title}>{c.title}</option>) : <Loading />
+                }
+            </select>
             <textarea value={body} onChange={e => setBody(e.target.value)} placeholder="Post Body" onKeyDown={handleKey}></textarea>
             <button onClick={post}>Post</button>
         </div>

@@ -40,6 +40,7 @@ type Post {
 type Category {
     id: ID!
     title: String!
+    description: String!
 }
 
 type User {
@@ -65,4 +66,5 @@ type Mutation {
     supportUser(id: String!, current_supporters: Int!): Boolean!
     unsupportUser(id: String!, current_supporters: Int!): Boolean!
     deletePost(id: String!): Boolean!
+    createCategories(name: String!, description: String!): Category!
 }

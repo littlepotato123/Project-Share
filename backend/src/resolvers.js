@@ -44,6 +44,9 @@ export const resolvers = {
     userOnePost: async (_, { handle }) => {
       const post = await Post.findOne({ author: handle });
       return post;
+    },
+    getCategory: async(_, { category }) => {
+      return await Category.findOne({ title: category });
     }
   },
   Mutation: {
@@ -87,15 +90,10 @@ export const resolvers = {
       if(user) {
         const post = await Post.create({ title, category, author: user.handle, likes: 0, body });
         await post.save();
-        const made = await Category.find({ title: category });
-        if(made.length == 0) {
-          await Category.create({ title: category })
-        }
         return post;
       } else {
         return null;
       }
-      
     },
     newComment: async (_, { token, body, id }) => {
       const user = await FBauth(token);
@@ -143,6 +141,10 @@ export const resolvers = {
     deletePost: async (_, { id }) => {
       await Post.deleteOne({ _id: id });
       return true;
+    },
+    createCategories: async (_, {  }) => {
+      (await Category.create({ title: "SampleCategory", description: "Sample Category is cool" })).save();
+      return await Category.find();
     }
   }
 };

@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import {
+    useHistory
+} from 'react-router-dom';
 import List from '../../Components/Categories List/CategoryList';
 import Loading from '../../Components/Loading/Loading';
 import { Fetch } from '../../Tools';
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
+
+    const history = useHistory();
 
     useEffect(() => {
         const scoped = async () => {
@@ -13,11 +18,16 @@ const Categories = () => {
                     getCategories {
                         id
                         title
+                        description
                     }
                 }
             `);
-
-            setCategories(res.getCategories);
+            if(res) {
+                setCategories(res.getCategories);
+            } else {
+                alert('something went wrong');
+                history.push('/home');
+            } 
         }
 
         scoped();
@@ -27,7 +37,7 @@ const Categories = () => {
         <div>
             {
                 categories ?
-                categories.map(category => <List title={category.title} />) 
+                categories.map(category => <List title={category.title} description={category.description} />) 
                 :
                 <Loading />
             }

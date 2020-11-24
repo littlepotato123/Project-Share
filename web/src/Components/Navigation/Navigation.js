@@ -95,9 +95,10 @@ const Navigation = () => {
                 <a className="leaderboard" href="/leaderboard">Leaderboard</a>
                 <a className="categories" href="/categories">Categories</a>
                 {authentication}
+                <a className="requests" href="/requests">Requests</a>
             </header>
         </div>
     )
 }
 
-export default Navigation; 
+export default Navigation;

@@ -15,6 +15,7 @@ export const typeDefs = gql`
     getOneCategory(category: String!): Post
     tokenUser(token: String!): User
     userOnePost(handle: String!): Post
+    getCategory(category: String!): Category
   }
 
   type Message {
@@ -43,6 +44,7 @@ export const typeDefs = gql`
   type Category {
     id: ID!
     title: String!
+    description: String!
   }
 
   type User {
@@ -68,5 +70,6 @@ export const typeDefs = gql`
     supportUser(id: String!, current_supporters: Int!): Boolean!
     unsupportUser(id: String!, current_supporters: Int!): Boolean!
     deletePost(id: String!): Boolean!
+    createCategories: [Category!]
   }
 `;

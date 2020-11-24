@@ -45,6 +45,7 @@ const CategoryList = (props) => {
     return (
         <div className="category-list-item">
             <a onClick={() => history.push(`/category/${props.title}`)}><h1>{props.title}</h1></a>
+            <h3>{props.description}</h3>
             <button onClick={() => setPosted(!posted)}>{text}</button>
             {
                 post ? <Post author={post.author} title={post.title} category={post.category} likes={post.likes} id={post.id}>{ post.body }</Post> : null
