@@ -3,7 +3,6 @@ import {
     useHistory
 } from 'react-router-dom';
 import { Fetch } from '../../Tools';
-import DropDown from './DropDown';
 
 const Navigation = () => {
     const [value, setValue] = useState('');
@@ -50,19 +49,19 @@ const Navigation = () => {
                 if(res.tokenUser) {
                     sessionStorage.setItem('handle', res.tokenUser.handle);
                     setAuthentication(
-                        <DropDown handle={res.tokenUser.handle}>
-                            <ul className="drop">
-                                <li>
-                                    <a className="drop1" href={`/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
-                                </li>
-                                <li>
-                                    <a className="drop2" href="/newpost">New Post</a>
-                                </li>
-                                <li>
-                                    <button className="drop3" onClick={logout}>Logout</button>
-                                </li>
-                            </ul>
-                        </DropDown>
+                        <div>
+                            <li>
+                                <a href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
+                                <ul>
+                                    <li>
+                                        <a href="/newpost">New Post</a>
+                                    </li>
+                                    <li>
+                                        <a onClick={logout}>Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </div>
                     )
                 } else {
                     history.push('/auth')
@@ -82,27 +81,40 @@ const Navigation = () => {
     }
 
     return (
-        <div className="nav">
-            <header className="header">
-                <a className="project-Share" href="/">Project Sh@re</a>
-                <input
-                    className='searchBar'
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
-                    placeholder="Search: " 
-                    onKeyPress={e => handleKeyPress(e)}
-                />
-                {
-                    searchAuthor ? 
-                    <button onClick={click} className="switch-but-nav">Search by Author</button> : <button onClick={click} className="switch-but-nav">Search by Category</button>
-                }
-                <button className="search-button" onClick={push}>Search</button>
-                <a className="trending" href="/trending">Trending</a>
-                <a className="leaderboard" href="/leaderboard">Leaderboard</a>
-                <a className="categories" href="/categories">Categories</a>
-                <a className="requests" href="/requests">Requests</a>
-                {authentication}
-            </header>
+        <div className="dropdown">
+            <nav>
+                <a className="logo" href="/home">Project Sh@are</a>
+                <div>
+                    <input className='searchBar'
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        placeholder="Search: " 
+                        onKeyPress={e => handleKeyPress(e)}
+                    />
+                    {
+                        searchAuthor ? 
+                        <button onClick={click} className="switch-but-nav">Search by Author</button> : <button onClick={click} className="switch-but-nav">Search by Category</button>
+                    }
+                    <button className="search-button" onClick={push}>Search</button>
+                </div>
+                <ul>
+                    <li>
+                        <a className="trending" href="/trending">Trending</a>
+                    </li>
+                    <li>
+                        <a className="leaderboard" href="/leaderboard">Leaderboard</a>
+                    </li>
+                    <li>
+                        <a className="categories" href="/categories">Categories</a>
+                    </li>
+                    <li>
+                        <a className="requests" href="/requests">Requests</a>
+                    </li>
+                    <li>
+                        {authentication}
+                    </li>
+                </ul>
+            </nav>
         </div>
     )
 }
