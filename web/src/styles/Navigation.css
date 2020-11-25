@@ -58,4 +58,10 @@ nav ul ul li {
     display: list-item;
     position: relative;
     left: 10px;
+    margin-top: 5px;
+}
+
+.handle {
+    width: 120px;
+    text-align: center;
 }

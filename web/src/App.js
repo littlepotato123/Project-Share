@@ -4,6 +4,7 @@ import {
   Route, Switch
 } from 'react-router-dom';
 import Navigation from './Components/Navigation/Navigation';
+import About from './Pages/About/About';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
@@ -14,10 +15,10 @@ import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
-import Requests from './Pages/Requests/Requests';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 import './styles/App.css';
+import './styles/Auth.css';
 import './styles/Navigation.css';
 
 const App = () => {
@@ -52,8 +53,8 @@ const App = () => {
         <Route path="/newPost">
           <NewPost />
         </Route>
-        <Route path="/requests">
-          <Requests />
+        <Route path="/about">
+          <About />
         </Route>
         <Route path="/category/:name">
           <CategoryPage />

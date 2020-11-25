@@ -50,7 +50,7 @@ const Navigation = () => {
                     sessionStorage.setItem('handle', res.tokenUser.handle);
                     setAuthentication(
                         <div>
-                            <li>
+                            <li className="handle">
                                 <a href={`http://localhost:3000/user/${res.tokenUser.handle}`}>{res.tokenUser.handle}</a>
                                 <ul>
                                     <li>
@@ -108,7 +108,7 @@ const Navigation = () => {
                         <a className="categories" href="/categories">Categories</a>
                     </li>
                     <li>
-                        <a className="requests" href="/requests">Requests</a>
+                        <a className="requests" href="/about">About</a>
                     </li>
                     <li>
                         {authentication}
