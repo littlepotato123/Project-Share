@@ -4,6 +4,7 @@ import { Category } from './models/Category';
 import { Comment } from './models/Comment';
 import { Message } from './models/Message';
 import { Post } from './models/Post';
+import { Request } from './models/Request';
 import { User } from './models/User';
 
 export const resolvers = {
@@ -47,7 +48,8 @@ export const resolvers = {
     },
     getCategory: async(_, { category }) => {
       return await Category.findOne({ title: category });
-    }
+    },
+    requests: async (_, {}) => await Request.find({})
   },
   Mutation: {
     signup: async (_, { handle, email, password, imageUrl, bio }) => {
@@ -68,6 +70,7 @@ export const resolvers = {
       await Comment.deleteMany({});
       await Category.deleteMany({});
       await Message.deleteMany({});
+      await Request.deleteMany({});
       return true;
     },
     login: async(_, { handle, password }) => {
@@ -145,6 +148,14 @@ export const resolvers = {
     createCategories: async (_, {  }) => {
       (await Category.create({ title: "SampleCategory", description: "Sample Category is cool" })).save();
       return await Category.find();
+    },
+    newRequest: async(_, { name, description }) => {
+      const r = await Request.create({ name, description });
+      return r;
+    },
+    deleteRequest: async (_, { id}) => {
+      await Request.deleteOne({ _id: id }); 
+      return true;
     }
   }
 };

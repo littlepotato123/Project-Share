@@ -139,7 +139,9 @@ input:checked + .slider:before {
   font-size: 20px;;
 }
 .search-button {
-  height: 45px;
+  position: relative;
+  bottom: 3px;
+  height: 47px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   border-color: #213e3b;
