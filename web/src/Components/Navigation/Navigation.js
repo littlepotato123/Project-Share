@@ -2,29 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Fetch } from "../../Tools";
 
-const Navigation = () => {
+const Navigation = (props) => {
   const [value, setValue] = useState("");
   const [text, setText] = useState("Search by Author");
   const [toggle, setToggle] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  const click = () => {
-    let init = toggle;
-    init = !init;
-    setToggle(!toggle);
-    if (init == true) {
-      setText("Search by Author");
-      setProgress(0);
-    } else if (init !== true) {
-      setText("Search by Category");
-      setProgress(100);
-    }
-  };
 
   const push = () => {
-    if (toggle == true) {
+    if (toggle == false) {
       history.push(`/user/${value}`);
-    } else if (toggle !== true) {
+    } else if (toggle !== false) {
       history.push(`/category/${value}`);
     }
   };
@@ -91,6 +77,14 @@ const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    if(toggle == true) {
+      setText('Search by Category');
+    } else if(toggle !== true) {
+      setText('Search by Author');
+    }
+  }, [toggle])
+
   return (
     <div className="dropdown">
       <nav>
@@ -98,15 +92,17 @@ const Navigation = () => {
           Project Sh@are
         </a>
         <div>
-          <div className="progress">
-            {text}
-            <progress value={progress} onClick={click} />
+          <div className="toggle">
+            <label className="switch">
+              <input onChange={() => setToggle(!toggle)} value={toggle} type="checkbox" />
+              <span class="slider round"></span>
+            </label>
           </div>
           <input
             className="searchBar"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder="Search: "
+            placeholder={text}
             onKeyPress={(e) => handleKeyPress(e)}
           />
           <button className="search-button" onClick={push}>
