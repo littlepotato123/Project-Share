@@ -20,7 +20,6 @@ const Login = () => {
             if(res.login) {
                 sessionStorage.setItem('token', res.login);
                 window.location.reload(false);
-                history.push('/home');
             } else {
                 alert('Something went wrong while trying to login. Please try again!');
             }
@@ -31,7 +30,7 @@ const Login = () => {
 
     const handleKeys = (e) => {
         if(e.key == "Enter") {
-            console.log('Enter');
+            submit();
         }
     }
 

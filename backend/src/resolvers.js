@@ -49,7 +49,7 @@ export const resolvers = {
     getCategory: async(_, { category }) => {
       return await Category.findOne({ title: category });
     },
-    requests: async (_, {}) => await Request.find({})
+    requests: async (_, {}) => await Request.find({}).limit(25)
   },
   Mutation: {
     signup: async (_, { handle, email, password, imageUrl, bio }) => {

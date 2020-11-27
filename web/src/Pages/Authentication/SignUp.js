@@ -79,7 +79,6 @@ const SignUp = () => {
           if (res.signup !== undefined && res.signup !== null) {
             sessionStorage.setItem("token", res.signup.password);
             window.location.reload(false);
-            history.push("/home");
           } else {
             alert("Something went wrong. Please try again");
           }

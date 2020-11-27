@@ -37,8 +37,12 @@ const NewPost = () => {
                     }
                 } 
             `);
-      if (res.newPost) {
-        history.push("/");
+      if(res) {
+        if (res.newPost) {
+          history.push("/");
+        } else {
+          alert("Error while posting");
+        }
       } else {
         alert("Error while posting");
       }
