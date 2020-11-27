@@ -21,7 +21,11 @@ const CategoryPage = () => {
                     }  
                 }
             `)
-            setDescription(res.getCategory.description);
+            if(res.getCategory) {
+                setDescription(res.getCategory.description);
+            } else {
+                history.push('/wrongcategory');
+            }
         }
 
         f();
