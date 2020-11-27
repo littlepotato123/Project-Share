@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { storage } from "../../Firebase/index";
 import { Fetch } from "../../Tools";
 
-const SignUp = (props) => {
+const SignUp = () => {
   const [handle, setHandle] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -78,6 +78,7 @@ const SignUp = (props) => {
                     `);
           if (res.signup !== undefined && res.signup !== null) {
             sessionStorage.setItem("token", res.signup.password);
+            window.location.reload(false);
             history.push("/home");
           } else {
             alert("Something went wrong. Please try again");
@@ -110,6 +111,7 @@ const SignUp = (props) => {
 
   return (
     <div>
+      <h1>Sign Up</h1>
       <input
         value={handle}
         placeholder="User Handle"
@@ -140,8 +142,7 @@ const SignUp = (props) => {
       <div>
         <progress value={progress} max="100" />
         <br />
-        <br />
-        <input type="file" onChange={handleChange} />
+        <input type="file" className="file" onChange={handleChange} />
         <button onClick={handleUpload}>Upload</button>
         <br />
       </div>

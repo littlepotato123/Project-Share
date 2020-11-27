@@ -1,31 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 import Login from './Login';
 import SignUp from './SignUp';
 
-const Auth = (props) => {
-    const [auth, setAuth] = useState(true);
-    
-    let authString = 'Login';
-    let authComp = (
-        <SignUp />
-    )
-
-    if(auth) {
-        authComp = (
-            <SignUp setToken={props.setToken} token={props.token} />
-        )
-        authString = 'Login';
-    } else {
-        authComp = (
-            <Login setToken={props.setToken} token={props.token} />
-        )
-        authString = 'SignUp';
-    }
-
+const Auth = () => {
     return (
-        <div>
-            { authComp }
-            <button onClick={() => setAuth(!auth)}>{authString}</button>
+        <div className="auth-out">
+            <div className="signup">
+                <SignUp />
+            </div>
+            <div className="vl"></div>
+            <div className="login">
+                <Login />
+            </div>
         </div>
     )
 }
