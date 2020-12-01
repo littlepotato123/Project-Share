@@ -51,7 +51,13 @@ nav ul ul {
   display: none;
 }
 nav ul li:hover > ul {
-  display: block;
+  display: flex;
+  background-color: #2acec5;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 10px;
+  right: -10px;
 }
 nav ul ul li {
   width: 100px;

@@ -19,6 +19,7 @@ import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
 import './styles/App.css';
 import './styles/Auth.css';
+import './styles/Comments.css';
 import './styles/Navigation.css';
 
 const App = () => {

@@ -7,6 +7,7 @@ const CategoryPage = () => {
     const [posts, setPosts] = useState([]);
     const [description, setDescription] = useState('');
     const { name } = useParams();
+    const [title, setTitle] = useState('');
 
     const history = useHistory();
 
@@ -22,6 +23,7 @@ const CategoryPage = () => {
                 }
             `)
             if(res.getCategory) {
+                setTitle(res.getCategory.title);
                 setDescription(res.getCategory.description);
             } else {
                 history.push('/wrongcategory');
@@ -51,12 +53,12 @@ const CategoryPage = () => {
         }
 
         scoped();
-    }, [])
+    }, [name]);
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center', fontSize: '48px', textDecoration: 'underline' }}>{name}</h1>
-            <h3>{description}</h3>
+            <h1 style={{ textAlign: 'center', fontSize: '48px', textDecoration: 'underline' }}>{title}</h1>
+            <p style={{ textAlign: 'center', fontSize: '30px', textDecoration: 'none' }}>Description: {description}</p>
             { 
                 posts.map(post => <Posts author={post.author} id={post.id} title={post.title} category={post.category} likes={post.likes}>{ post.body }</Posts>)
             }

@@ -5,6 +5,7 @@ import { Fetch } from '../../Tools';
 
 const Home = () => {
     const [posts, setPosts] = useState(null);
+    const [display, setDisplay] = useState(null);
 
     useEffect(() => {
         const scoped = async () => {
@@ -26,25 +27,45 @@ const Home = () => {
         scoped();
     }, [])
 
-    console.log(posts);
+    useEffect(() => {
+        if(posts) {
+            if(posts.length == 0) {
+                setDisplay((
+                    <h1>
+                        Sorry, there are currently no posts available
+                    </h1>
+                ))
+            } else {
+                setDisplay((
+                    <div>
+                        {
+                            posts ? 
+                            posts.map(post => 
+                                <Post
+                                    title={post.title} 
+                                    author={post.author} 
+                                    category={post.category}
+                                    likes={post.likes}
+                                    postId={post.id}
+                                >
+                                    {post.body}
+                                </Post>
+                            )
+                            : <Loading />
+                        }
+                    </div>
+                ))
+            }
+        } else {
+            setDisplay((
+                <Loading />
+            ))
+        }
+    }, [posts])
 
     return (
         <div>
-            {
-                posts ? 
-                posts.map(post => 
-                    <Post
-                        title={post.title} 
-                        author={post.author} 
-                        category={post.category}
-                        likes={post.likes}
-                        postId={post.id}
-                    >
-                        {post.body}
-                    </Post>
-                )
-                : <Loading />
-            }
+            {display}
         </div>
     )
 }

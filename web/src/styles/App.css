@@ -34,6 +34,8 @@
 .post-body {
     font-size: 20px;
     text-align: center;
+    margin-left: 150px;
+    margin-right: 150px;
 }
 
 .post-likes {
