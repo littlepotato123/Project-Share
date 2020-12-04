@@ -26,9 +26,9 @@ const Input = (props) => {
     }
 
     return (
-        <div className="comment-input">
-            <input className="comment-input-field" value={comment} onChange={e => setComment(e.target.value)} onKeyDown={handleKeys} placeholder="Comment..." />
-            <button className="comment-button-field" onClick={submit}>Comment</button>
+        <div>
+            <input value={comment} onChange={e => setComment(e.target.value)} onKeyDown={handleKeys} placeholder="Comment..." />
+            <button onClick={submit}>Comment</button>
         </div>
     )
 }

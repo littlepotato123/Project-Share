@@ -41,7 +41,7 @@ const Navigation = (props) => {
           sessionStorage.setItem("handle", res.tokenUser.handle);
           setAuthentication(
             <div>
-              <li className="handle">
+              <li>
                 <a href={`http://localhost:3000/user/${res.tokenUser.handle}`}>
                   {res.tokenUser.handle}
                 </a>
@@ -64,7 +64,7 @@ const Navigation = (props) => {
       scoped();
     } else {
       setAuthentication(
-        <a className="authentication" href="/auth">
+        <a href="/auth">
           Authentication
         </a>
       );
@@ -86,47 +86,46 @@ const Navigation = (props) => {
   }, [toggle])
 
   return (
-    <div className="dropdown">
+    <div>
       <nav>
-        <a className="logo" href="/home">
+        <a href="/home">
           Project Sh@are
         </a>
         <div>
-          <div className="toggle">
-            <label className="switch">
+          <div>
+            <label>
               <input onChange={() => setToggle(!toggle)} value={toggle} type="checkbox" />
-              <span class="slider round"></span>
+              <span></span>
             </label>
           </div>
           <input
-            className="searchBar"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder={text}
             onKeyPress={(e) => handleKeyPress(e)}
           />
-          <button className="search-button" onClick={push}>
+          <button onClick={push}>
             Search
           </button>
         </div>
         <ul>
           <li>
-            <a className="trending" href="/trending">
+            <a href="/trending">
               Trending
             </a>
           </li>
           <li>
-            <a className="leaderboard" href="/leaderboard">
+            <a href="/leaderboard">
               Leaderboard
             </a>
           </li>
           <li>
-            <a className="categories" href="/categories">
+            <a href="/categories">
               Categories
             </a>
           </li>
           <li>
-            <a className="requests" href="/about">
+            <a href="/about">
               About
             </a>
           </li>

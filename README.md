@@ -5,14 +5,12 @@
 ## Project Details
 
 # Color Scheme
-
-    #28df99
-    #99f3bd
-    #d2f6c5
-    #f6f7d4
+    - #28df99
+    - #99f3bd
+    - #d2f6c5
+    - #f6f7d4
 
 # Github Instructions
-
     git add .
     git commit -m "Commit Message"
     git push origin master

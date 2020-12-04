@@ -13,12 +13,12 @@ const Auth = () => {
     }, [])
 
     return (
-        <div className="auth-out">
-            <div className="signup">
+        <div>
+            <div>
                 <SignUp />
             </div>
-            <div className="vl"></div>
-            <div className="login">
+            <div></div>
+            <div>
                 <Login />
             </div>
         </div>

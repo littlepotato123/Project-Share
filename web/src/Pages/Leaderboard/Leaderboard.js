@@ -4,7 +4,7 @@ import UserList from '../../Components/User List/UserList';
 import { Fetch } from '../../Tools';
 
 const Leaderboard = () => {
-    const [leaderbaord, setLeaderboard] = useState(null)
+    const [leaderboard, setLeaderboard] = useState(null)
 
     useEffect(() => {
         const scoped = async () => {
@@ -24,8 +24,8 @@ const Leaderboard = () => {
 
     return (
         <div>
-            {leaderbaord ?
-                leaderbaord.map(user => < UserList name={user.handle} id={user.userId} />)
+            {leaderboard ?
+                leaderboard.map(user => < UserList name={user.handle} id={user.userId} />)
                 :
                 <Loading />
             }

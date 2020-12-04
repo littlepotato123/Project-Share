@@ -132,7 +132,7 @@ const SignUp = () => {
       <div>
         <progress value={progress} max="100" />
         <br />
-        <input type="file" className="file" onChange={handleChange} />
+        <input type="file" onChange={handleChange} />
         <button onClick={handleUpload}>Upload</button>
         <br />
       </div>

@@ -35,7 +35,7 @@ const About = () => {
         <br />
         others about difficulties and problems being tackled across the globe.{" "}
         <br />
-        Project Sh@re is welcoming to all users to provoke change. 
+        Project Sh@re is welcoming to all users determined to provoke change.
       </p>
       {
         requests ? requests.map(r => <Request id={r.id} name={r.name} description={r.description} />): <Loading />
