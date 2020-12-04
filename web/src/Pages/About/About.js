@@ -6,6 +6,8 @@ import Request from './Request';
 
 const About = () => {
   const [requests, setRequests] = useState(null);
+  
+  const href = (<a href="/home">Project Sh@re</a>);
 
   useEffect(() => {
     const scoped = async () => {
@@ -27,18 +29,29 @@ const About = () => {
 
   return (
     <div>
-      <h1>
-        What is <a href="/home"> Project Sh@re </a>
-      </h1>
+      <h3>About {href} </h3>
       <p>
-        <a href="/home"> Project Sh@re </a> is a platform created to support users who wish to aprise{" "}
+        {href} is a platform created to support users who wish to aprise
         <br />
-        others about difficulties and problems being tackled across the globe.{" "}
+        others about difficulties and problems being tackled across the globe. {href} 
         <br />
-        Project Sh@re is welcoming to all users determined to provoke change.
+        is welcoming to all users determined to provoke change. Users may interact 
+        <br/> 
+        with one another share their ideas.  As a community, we build thoughts, 
+        <br/> 
+        {/* Style seperately - stand out*/} wonder, and supporters to a common cause. Welcome to {href}!
       </p>
+      <h3>Why {href}?</h3>
+      <p>
+        Many ask, <i> why {href}? Why can't I use Facebook or Instagram instead? How is this better?</i> 
+        <br/>
+        
+      </p>
+      <h3>Our Policy</h3>
+      <h3>Our Pages</h3> 
       {
-        requests ? requests.map(r => <Request id={r.id} name={r.name} description={r.description} />): <Loading />
+        requests ? 
+        requests.map(r => <Request id={r.id} name={r.name} description={r.description} />) : <Loading />
       }
       <Input />
     </div>
