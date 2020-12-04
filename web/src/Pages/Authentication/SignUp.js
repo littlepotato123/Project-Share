@@ -5,10 +5,8 @@ import { Fetch } from "../../Tools";
 
 const SignUp = () => {
   const [handle, setHandle] = useState("");
-  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [errors, setErrors] = useState("");
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
@@ -29,7 +27,7 @@ const SignUp = () => {
       (snapshot) => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
+        )
         setProgress(progress);
       },
       (error) => {
@@ -52,7 +50,7 @@ const SignUp = () => {
       if (url !== "") {
         const res = await Fetch(`
                     mutation {
-                        signup(handle: "${handle}", email: "${email}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
+                    signup(handle: "${handle}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
                             password
                         }
                     } 
@@ -69,13 +67,13 @@ const SignUp = () => {
         );
         if (bool == true) {
           const res = await Fetch(`
-                        mutation {
-                            signup(handle: "${handle}", email: "${email}", password: "${pass}", bio: "${bio}") {
-                                password
-                            }
-
-                        }
-                    `);
+            mutation {
+                signup(handle: "${handle}", password: "${pass}", bio: "${bio}") {
+                    password
+                }
+            }
+          `);
+          console.log(res);
           if (res.signup !== undefined && res.signup !== null) {
             sessionStorage.setItem("token", res.signup.password);
             window.location.reload(false);
@@ -89,11 +87,9 @@ const SignUp = () => {
     };
 
     if (
-      email &&
       pass &&
       handle &&
       bio &&
-      email.includes("@") &&
       confirm == pass
     ) {
       scoped();
@@ -115,11 +111,6 @@ const SignUp = () => {
         value={handle}
         placeholder="User Handle"
         onChange={(e) => setHandle(e.target.value)}
-      />
-      <input
-        value={email}
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         value={pass}
@@ -146,7 +137,6 @@ const SignUp = () => {
         <br />
       </div>
       <button onClick={submit}>Sign Up</button>
-      {errors}
     </div>
   );
 };

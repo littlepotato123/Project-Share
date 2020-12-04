@@ -19,9 +19,8 @@ const Leaderboard = () => {
             `);
             setLeaderboard(res.leaderboard);
         }
-
         scoped();
-    })
+    }, [])
 
     return (
         <div>
@@ -31,7 +30,7 @@ const Leaderboard = () => {
                 <Loading />
             }
         </div>
-    )
-}
+    );
+};
 
 export default Leaderboard;

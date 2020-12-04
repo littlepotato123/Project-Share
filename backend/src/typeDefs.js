@@ -57,7 +57,6 @@ export const typeDefs = gql`
   type User {
     id: ID!
     handle: String!
-    email: String!
     password: String!
     imageUrl: String
     supporters: Int!
@@ -65,7 +64,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    signup(handle: String!, email: String!, password: String!, imageUrl: String, bio: String!): User
+    signup(handle: String!, password: String!, imageUrl: String, bio: String!): User
     login(handle: String!, password: String!): String
     clear: Boolean!
     newPost(token: String!, title: String!, category: String!, body: String!): Post

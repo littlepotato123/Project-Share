@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
 import { Fetch } from '../../Tools';
+import NoPosts from '../Errors/NoPosts';
 
 const Home = () => {
     const [posts, setPosts] = useState(null);
@@ -25,15 +26,32 @@ const Home = () => {
         };
 
         scoped();
+
+        const f = async () => {
+            const res = await Fetch(`
+                mutation {
+                    createCategories {
+                        id
+                    }
+                }
+            `);
+            if(!res) {
+                if(window.confirm("Something went wrong, Reload") == true) {
+                    window.location.reload(false);
+                } else {
+                    window.location.reload(false);
+                }
+            }
+        }
+
+        f();
     }, [])
 
     useEffect(() => {
         if(posts) {
             if(posts.length == 0) {
                 setDisplay((
-                    <h1>
-                        Sorry, there are currently no posts available
-                    </h1>
+                    <NoPosts /> 
                 ))
             } else {
                 setDisplay((

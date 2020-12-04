@@ -3,7 +3,7 @@
     height: 100vh;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .auth-out div {
@@ -62,7 +62,7 @@ progress {
     border-left: 6px solid #ffda77;
     height: 100vh;
     position: absolute;
-    left: 50%;
+    left: 55%;
     margin-left: -3px;
     top: 120px;
 }
