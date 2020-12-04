@@ -17,10 +17,6 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
-import './styles/App.css';
-import './styles/Auth.css';
-import './styles/Comments.css';
-import './styles/Navigation.css';
 
 const App = () => {
   return (
