@@ -54,7 +54,7 @@ const Posts = (props) => {
 
         if(liked) {
             like();
-        } else if(liked == false    ) {
+        } else if(liked == false) {
             unlike();
         } else {
             setButton((
@@ -93,6 +93,9 @@ const Posts = (props) => {
         ))
 
         if(props.author == sessionStorage.getItem('handle')) {
+            setButton((
+                <button disabled="true">Like</button>
+            ))
             setDeleteButton(
                 (
                     <button onClick={cut}>Delete Post</button>

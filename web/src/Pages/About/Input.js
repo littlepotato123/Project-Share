@@ -25,15 +25,10 @@ const Input = () => {
         scoped();
     }
 
-    const handleKeys = e => {
-        if(e.key == "Enter") {
-            submit();
-        }
-    }
 
     return (
         <div>
-            <textarea value={description} onKeyDown={handleKeys} onChange={e => setDescription(e.target.value)}></textarea>
+            <textarea value={description} onChange={e => setDescription(e.target.value)}></textarea>
             <button onClick={submit}>Submit Request</button>
         </div>
     )

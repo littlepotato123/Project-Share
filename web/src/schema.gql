@@ -12,6 +12,7 @@ type Query {
     getOneCategory(category: String!): Post
     tokenUser(token: String!): User
     userOnePost(handle: String!): Post
+    allMessages(id: String!): [Message!]!
 }
 
 type Message {

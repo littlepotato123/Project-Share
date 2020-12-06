@@ -66,12 +66,6 @@ const NewPost = () => {
     }
   };
 
-  const handleKey = (e) => {
-    if (e.key == "Enter") {
-      post();
-    }
-  };
-
   return (
     <div>
       <input
@@ -91,7 +85,6 @@ const NewPost = () => {
         value={body}
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post Body"
-        onKeyDown={handleKey}
       ></textarea>
       <button onClick={post}>Post</button>
       <a href="/about">Add Suggestions</a>

@@ -69,6 +69,7 @@ const User = () => {
             const new_supporters = supporters - 1;
             setSupporters(new_supporters);
         }
+        sessionStorage.removeItem(user.id)
         scoped();
     }
 
@@ -84,6 +85,7 @@ const User = () => {
             setSupporters(new_supporters);
         }
         scoped();
+        sessionStorage.setItem(user.id, 'true');
     }
 
     let supportButton = (
@@ -123,7 +125,11 @@ const User = () => {
                 if(res.user.imageUrl){
                     setImageUrl(res.user.imageUrl);
                 } else {
-                    setImageUrl('https://www.iconsdb.com/icons/preview/gray/guest-xxl.png');
+                    setImageUrl('https://firebasestorage.googleapis.com/v0/b/project-share-8244f.appspot.com/o/images%2Fguest.png?alt=media&token=578322c1-1798-4a6e-ae40-c541c2dbb263');
+                }
+                setUser(res.user);
+                if(sessionStorage.getItem(res.user.id)) {
+                    setSupported(true);
                 }
             }
             else {
@@ -145,7 +151,7 @@ const User = () => {
             setPosts(res.userPosts);
         }
         scoped();
-    }, [])
+    }, [userHandle])
 
     let userInfo = (
         <div>

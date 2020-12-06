@@ -31,7 +31,7 @@ export const resolvers = {
       return posts;
     },
     getMessages: async (_, { userId }) => {
-      const messages = await Message.find({ userId });
+      const messages = await Message.find({ userId }).limit(8);
       return messages;
     },
     categoryPost: async (_, { category }) => {
@@ -49,7 +49,10 @@ export const resolvers = {
     getCategory: async(_, { category }) => {
       return await Category.findOne({ title: category });
     },
-    requests: async (_, {}) => await Request.find({}).limit(25)
+    requests: async (_, {}) => await Request.find({}).limit(25),
+    allMessages: async(_, { id }) => {
+      return await Message.find()
+    }
   },
   Mutation: {
     signup: async (_, { handle, password, imageUrl, bio }) => {
@@ -131,15 +134,16 @@ export const resolvers = {
         { _id: id },
         {$set: {'supporters': current_supporters + 1}}
       );
-      return true;
+      const user = await User.findOne({ _id: id });
+      return user.supporters;
     },
     unsupportUser: async (_, { id, current_supporters }) => {
       await User.updateOne(
         { _id: id },
         {$set: {'supporters': current_supporters - 1}}
       );
-      console.log(await User.findOne())
-      return true;
+      const user = await User.findOne({ _id: id });
+      return user.supporters;
     },
     deletePost: async (_, { id }) => {
       await Post.deleteOne({ _id: id });
