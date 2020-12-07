@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Loading from "../../Components/Loading/Loading";
-import { Fetch, getDate } from "../../Tools";
+import Loading from '../../Components/Loading/Loading';
+import { Fetch } from "../../Tools";
+
+const getDate = () => {
+    let date = new Date();
+    const str = date.toString().split(' ');
+    return `${str[1]} ${str[2]} ${str[3]}`;
+}
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
@@ -50,17 +56,7 @@ const NewPost = () => {
     console.log(title, body, category);
 
     if (title && body && category) {
-      if (
-        category.includes("@") ||
-        category.includes("/") ||
-        category.includes("?") ||
-        category.includes("#") ||
-        category.includes("$")
-      ) {
-        alert("Wierd Characters in Category");
-      } else {
-        scoped();
-      }
+      scoped();
     } else {
       alert("Some fields are empty");
     }

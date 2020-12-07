@@ -17,9 +17,3 @@ export const Fetch = async (req) => {
 
     return msg;
 };
-
-export const getDate = () => {
-    let date = new Date();
-    const str = date.toString().split(' ');
-    return `${str[1]} ${str[2]} ${str[3]}`;
-}

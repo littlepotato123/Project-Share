@@ -51,7 +51,7 @@ const Navigation = (props) => {
                     <a href="/newpost">New Post</a>
                   </li>
                   <li>
-                    <a onClick={logout}>Logout</a>
+                    <a href={window.location.href} onClick={logout}>Logout</a>
                   </li>
                 </ul>
               </li>
