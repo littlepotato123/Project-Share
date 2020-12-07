@@ -158,6 +158,7 @@ const Posts = (props) => {
             <p>Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p>Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p>{props.children}</p>
+            <p>{props.date}</p>
             <p>{ likesButton }: {likes}</p>
             <button onClick={() => setComments(!comments)}>Comments</button>
             { display }

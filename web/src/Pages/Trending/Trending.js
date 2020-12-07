@@ -22,6 +22,7 @@ class TopPosts extends React.Component {
                         category
                         likes
                         body
+                        date
                     }
                 }
             `)
@@ -44,7 +45,7 @@ class TopPosts extends React.Component {
                             likes={post.likes}
                             id={post.postId}
                             createdAt={post.createdAt}
-                            token={this.props.token}
+                            date={post.date}
                         >
                             {post.body}
                         </Post>    

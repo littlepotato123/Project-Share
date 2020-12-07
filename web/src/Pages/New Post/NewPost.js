@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Loading from "../../Components/Loading/Loading";
-import { Fetch } from "../../Tools";
+import { Fetch, getDate } from "../../Tools";
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState(null);
+  const [length, setLength] = useState(0);
+  const [keybind, setKeybind] = useState('');
 
   const history = useHistory();
 
@@ -25,14 +27,12 @@ const NewPost = () => {
     scoped();
   }, []);
 
-  console.log(categories);
-
   const post = () => {
     const scoped = async () => {
       const token = sessionStorage.getItem("token");
       const res = await Fetch(`
                 mutation {
-                    newPost(token: "${token}", title: "${title}", body: "${body}", category: "${category}") {
+                    newPost(token: "${token}", date: "${getDate()}", title: "${title}", body: "${body}", category: "${category}") {
                         id
                     }
                 } 
@@ -65,6 +65,19 @@ const NewPost = () => {
       alert("Some fields are empty");
     }
   };
+  
+  const handleKeys = (e) => {
+    setLength(body.length);
+    if(length >= 200) {
+      setBody(body);
+    }
+
+    const key = keybind;
+    if(key == 'Control' && e.key == 'Enter') {
+      post();
+    }
+    setKeybind(e.key);
+  }
 
   return (
     <div>
@@ -85,7 +98,12 @@ const NewPost = () => {
         value={body}
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post Body"
+        onKeyDown={handleKeys}
+        maxLength={200}
       ></textarea>
+      <p>
+      {200 - length} characters left
+      </p>
       <button onClick={post}>Post</button>
       <a href="/about">Add Suggestions</a>
     </div>

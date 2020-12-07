@@ -51,7 +51,7 @@ export const resolvers = {
     },
     requests: async (_, {}) => await Request.find({}).limit(25),
     allMessages: async(_, { id }) => {
-      return await Message.find()
+      return await Message.find({ userId: id });
     }
   },
   Mutation: {
@@ -91,10 +91,10 @@ export const resolvers = {
         }
       }
     },
-    newPost: async (_, { token, title, category, body }) => {
+    newPost: async (_, { token, title, date, category, body }) => {
       const user = await FBauth(token);
       if(user) {
-        const post = await Post.create({ title, category, author: user.handle, likes: 0, body });
+        const post = await Post.create({ title, date, category, author: user.handle, likes: 0, body });
         await post.save();
         return post;
       } else {

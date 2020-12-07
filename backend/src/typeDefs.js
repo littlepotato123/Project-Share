@@ -46,6 +46,7 @@ export const typeDefs = gql`
     author: String!
     category: String!
     likes: Int!
+    date: String!
     body: String!
   }
 
@@ -68,7 +69,7 @@ export const typeDefs = gql`
     signup(handle: String!, password: String!, imageUrl: String, bio: String!): User
     login(handle: String!, password: String!): String
     clear: Boolean!
-    newPost(token: String!, title: String!, category: String!, body: String!): Post
+    newPost(token: String!, date: String!, title: String!, category: String!, body: String!): Post
     newComment(token: String!, body: String!, id: String!): Boolean!
     getComments(id: String!): [Comment!]
     createMessage(token: String!, body: String!, userId: String!): Message!
