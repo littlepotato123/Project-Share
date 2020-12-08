@@ -150,13 +150,13 @@ const Posts = (props) => {
     }
 
     return (
-        <div key={props.postId} className="post-content">
-            <p className="post-title">{props.title}</p>
-            <p className="post-category">Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
-            <p className="post-author">Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
-            <p className="post-body">{props.children}</p>
-            <p className="post-likes">{ likesButton }: {likes}</p>
-            <button className="post-comment-button" onClick={() => setComments(!comments)}>Comments</button>
+        <div key={props.postId}>
+            <p>{props.title}</p>
+            <p>Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
+            <p>Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
+            <p>{props.children}</p>
+            <p>{ likesButton }: {likes}</p>
+            <button onClick={() => setComments(!comments)}>Comments</button>
             { display }
             {deleteBut}
         </div>

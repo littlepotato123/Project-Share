@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import { Fetch } from '../../Tools';
 
-const Login = (props) => {
+const Login = () => {
     const [handle, setHandle] = useState(null);
     const [pass, setPass] = useState(null);
 
@@ -19,7 +19,7 @@ const Login = (props) => {
             `);
             if(res.login) {
                 sessionStorage.setItem('token', res.login);
-                history.push('/home');
+                window.location.reload(false);
             } else {
                 alert('Something went wrong while trying to login. Please try again!');
             }
@@ -30,12 +30,13 @@ const Login = (props) => {
 
     const handleKeys = (e) => {
         if(e.key == "Enter") {
-            console.log('Enter');
+            submit();
         }
     }
 
     return (
         <div>
+            <h1>Login</h1>
             <input value={handle} placeholder="handle" onChange={e => setHandle(e.target.value)} />
             <input type="password" onKeyDown={handleKeys} value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
             <button onClick={submit}>Login</button>

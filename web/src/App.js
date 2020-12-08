@@ -9,7 +9,7 @@ import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
 import HomeRedirect from './Pages/Errors/HomeRedirect';
-import TooManyRequests from './Pages/Errors/TooManyRequests';
+import WrongCategory from './Pages/Errors/WrongCategory';
 import NotFound from './Pages/Errors/WrongPage';
 import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
@@ -17,9 +17,6 @@ import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
 import User from './Pages/User Page/User';
-import './styles/App.css';
-import './styles/Auth.css';
-import './styles/Navigation.css';
 
 const App = () => {
   return (
@@ -59,8 +56,8 @@ const App = () => {
         <Route path="/category/:name">
           <CategoryPage />
         </Route>
-        <Route path="/toomanyrequests">
-          <TooManyRequests />
+        <Route path="/wrongcategory">
+          <WrongCategory />
         </Route>
         <Route path="*">
           <NotFound />

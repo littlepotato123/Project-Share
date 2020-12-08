@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Login from './Login';
 import SignUp from './SignUp';
 
-const Auth = (props) => {
-    const [auth, setAuth] = useState(true);
-    
-    let authString = 'Login';
-    let authComp = (
-        <SignUp />
-    )
+const Auth = () => {
+    const history = useHistory()
 
-    if(auth) {
-        authComp = (
-            <SignUp setToken={props.setToken} token={props.token} />
-        )
-        authString = 'Login';
-    } else {
-        authComp = (
-            <Login setToken={props.setToken} token={props.token} />
-        )
-        authString = 'SignUp';
-    }
+    useEffect(() => {
+        if(sessionStorage.getItem('token')) {
+            history.push('/home');
+        }
+    }, [])
 
     return (
         <div>
-            { authComp }
-            <button onClick={() => setAuth(!auth)}>{authString}</button>
+            <div>
+                <SignUp />
+            </div>
+            <div></div>
+            <div>
+                <Login />
+            </div>
         </div>
     )
 }

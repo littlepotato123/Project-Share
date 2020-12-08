@@ -3,12 +3,10 @@ import { useHistory } from "react-router-dom";
 import { storage } from "../../Firebase/index";
 import { Fetch } from "../../Tools";
 
-const SignUp = (props) => {
+const SignUp = () => {
   const [handle, setHandle] = useState("");
-  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [errors, setErrors] = useState("");
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
@@ -29,7 +27,7 @@ const SignUp = (props) => {
       (snapshot) => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
+        )
         setProgress(progress);
       },
       (error) => {
@@ -52,7 +50,7 @@ const SignUp = (props) => {
       if (url !== "") {
         const res = await Fetch(`
                     mutation {
-                        signup(handle: "${handle}", email: "${email}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
+                    signup(handle: "${handle}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
                             password
                         }
                     } 
@@ -69,16 +67,16 @@ const SignUp = (props) => {
         );
         if (bool == true) {
           const res = await Fetch(`
-                        mutation {
-                            signup(handle: "${handle}", email: "${email}", password: "${pass}", bio: "${bio}") {
-                                password
-                            }
-
-                        }
-                    `);
+            mutation {
+                signup(handle: "${handle}", password: "${pass}", bio: "${bio}") {
+                    password
+                }
+            }
+          `);
+          console.log(res);
           if (res.signup !== undefined && res.signup !== null) {
             sessionStorage.setItem("token", res.signup.password);
-            history.push("/home");
+            window.location.reload(false);
           } else {
             alert("Something went wrong. Please try again");
           }
@@ -89,11 +87,9 @@ const SignUp = (props) => {
     };
 
     if (
-      email &&
       pass &&
       handle &&
       bio &&
-      email.includes("@") &&
       confirm == pass
     ) {
       scoped();
@@ -110,15 +106,11 @@ const SignUp = (props) => {
 
   return (
     <div>
+      <h1>Sign Up</h1>
       <input
         value={handle}
         placeholder="User Handle"
         onChange={(e) => setHandle(e.target.value)}
-      />
-      <input
-        value={email}
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         value={pass}
@@ -140,13 +132,11 @@ const SignUp = (props) => {
       <div>
         <progress value={progress} max="100" />
         <br />
-        <br />
         <input type="file" onChange={handleChange} />
         <button onClick={handleUpload}>Upload</button>
         <br />
       </div>
       <button onClick={submit}>Sign Up</button>
-      {errors}
     </div>
   );
 };
