@@ -17,6 +17,7 @@ export const typeDefs = gql`
     userOnePost(handle: String!): Post
     getCategory(category: String!): Category
     requests: [Request!]
+    allMessages(id: String!): [Message!]!
   }
 
   type Request {
@@ -45,6 +46,7 @@ export const typeDefs = gql`
     author: String!
     category: String!
     likes: Int!
+    date: String!
     body: String!
   }
 
@@ -67,14 +69,14 @@ export const typeDefs = gql`
     signup(handle: String!, password: String!, imageUrl: String, bio: String!): User
     login(handle: String!, password: String!): String
     clear: Boolean!
-    newPost(token: String!, title: String!, category: String!, body: String!): Post
+    newPost(token: String!, date: String!, title: String!, category: String!, body: String!): Post
     newComment(token: String!, body: String!, id: String!): Boolean!
     getComments(id: String!): [Comment!]
     createMessage(token: String!, body: String!, userId: String!): Message!
     likePost(id: String!, current_like: Int!): Int!
     unlikePost(id:String!, current_like: Int!): Int!
-    supportUser(id: String!, current_supporters: Int!): Boolean!
-    unsupportUser(id: String!, current_supporters: Int!): Boolean!
+    supportUser(id: String!, current_supporters: Int!): Int!
+    unsupportUser(id: String!, current_supporters: Int!): Int!
     deletePost(id: String!): Boolean!
     createCategories: [Category!]
     newRequest(name: String!, description: String!): Request!

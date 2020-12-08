@@ -4,7 +4,7 @@ import { Fetch } from "../../Tools";
 
 const Navigation = (props) => {
   const [value, setValue] = useState("");
-  const [text, setText] = useState("Search by Author");
+  const [text, setText] = useState("Author: ");
   const [toggle, setToggle] = useState(false);
 
   const push = () => {
@@ -19,7 +19,8 @@ const Navigation = (props) => {
 
   const logout = () => {
     if (window.confirm("Are You Sure You want to logout")) {
-      sessionStorage.clear();
+      sessionStorage.removeItem('handle');
+      sessionStorage.removeItem('token')
       window.location.reload(false);
     }
   };
@@ -50,7 +51,7 @@ const Navigation = (props) => {
                     <a href="/newpost">New Post</a>
                   </li>
                   <li>
-                    <a onClick={logout}>Logout</a>
+                    <a href={window.location.href} onClick={logout}>Logout</a>
                   </li>
                 </ul>
               </li>
@@ -79,9 +80,9 @@ const Navigation = (props) => {
 
   useEffect(() => {
     if(toggle == true) {
-      setText('Search by Category');
+      setText('Category: ');
     } else if(toggle !== true) {
-      setText('Search by Author');
+      setText('Author: ');
     }
   }, [toggle])
 

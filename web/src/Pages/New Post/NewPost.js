@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Loading from "../../Components/Loading/Loading";
+import Loading from '../../Components/Loading/Loading';
 import { Fetch } from "../../Tools";
+
+const getDate = () => {
+    let date = new Date();
+    const str = date.toString().split(' ');
+    return `${str[1]} ${str[2]} ${str[3]}`;
+}
 
 const NewPost = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState(null);
+  const [length, setLength] = useState(0);
+  const [keybind, setKeybind] = useState('');
 
   const history = useHistory();
 
@@ -25,14 +33,12 @@ const NewPost = () => {
     scoped();
   }, []);
 
-  console.log(categories);
-
   const post = () => {
     const scoped = async () => {
       const token = sessionStorage.getItem("token");
       const res = await Fetch(`
                 mutation {
-                    newPost(token: "${token}", title: "${title}", body: "${body}", category: "${category}") {
+                    newPost(token: "${token}", date: "${getDate()}", title: "${title}", body: "${body}", category: "${category}") {
                         id
                     }
                 } 
@@ -50,27 +56,24 @@ const NewPost = () => {
     console.log(title, body, category);
 
     if (title && body && category) {
-      if (
-        category.includes("@") ||
-        category.includes("/") ||
-        category.includes("?") ||
-        category.includes("#") ||
-        category.includes("$")
-      ) {
-        alert("Wierd Characters in Category");
-      } else {
-        scoped();
-      }
+      scoped();
     } else {
       alert("Some fields are empty");
     }
   };
+  
+  const handleKeys = (e) => {
+    setLength(body.length);
+    if(length >= 200) {
+      setBody(body);
+    }
 
-  const handleKey = (e) => {
-    if (e.key == "Enter") {
+    const key = keybind;
+    if(key == 'Control' && e.key == 'Enter') {
       post();
     }
-  };
+    setKeybind(e.key);
+  }
 
   return (
     <div>
@@ -91,8 +94,12 @@ const NewPost = () => {
         value={body}
         onChange={(e) => setBody(e.target.value)}
         placeholder="Post Body"
-        onKeyDown={handleKey}
+        onKeyDown={handleKeys}
+        maxLength={200}
       ></textarea>
+      <p>
+      {200 - length} characters left
+      </p>
       <button onClick={post}>Post</button>
       <a href="/about">Add Suggestions</a>
     </div>

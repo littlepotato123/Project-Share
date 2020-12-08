@@ -54,7 +54,7 @@ const Posts = (props) => {
 
         if(liked) {
             like();
-        } else if(liked == false    ) {
+        } else if(liked == false) {
             unlike();
         } else {
             setButton((
@@ -93,6 +93,9 @@ const Posts = (props) => {
         ))
 
         if(props.author == sessionStorage.getItem('handle')) {
+            setButton((
+                <button disabled="true">Like</button>
+            ))
             setDeleteButton(
                 (
                     <button onClick={cut}>Delete Post</button>
@@ -155,6 +158,7 @@ const Posts = (props) => {
             <p>Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
             <p>Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
             <p>{props.children}</p>
+            <p>{props.date}</p>
             <p>{ likesButton }: {likes}</p>
             <button onClick={() => setComments(!comments)}>Comments</button>
             { display }

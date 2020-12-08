@@ -19,6 +19,7 @@ const Home = () => {
                         category
                         likes
                         body
+                        date
                     }
                 }
             `);
@@ -65,6 +66,7 @@ const Home = () => {
                                     category={post.category}
                                     likes={post.likes}
                                     postId={post.id}
+                                    date={post.date}
                                 >
                                     {post.body}
                                 </Post>

@@ -16,7 +16,9 @@ import Home from './Pages/Home/Home';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
 import Trending from './Pages/Trending/Trending';
+import MessagePage from './Pages/User Page/MessagePage';
 import User from './Pages/User Page/User';
+import './styles/global.css';
 
 const App = () => {
   return (
@@ -58,6 +60,9 @@ const App = () => {
         </Route>
         <Route path="/wrongcategory">
           <WrongCategory />
+        </Route>
+        <Route exact path="/messages/:id">
+          <MessagePage />
         </Route>
         <Route path="*">
           <NotFound />

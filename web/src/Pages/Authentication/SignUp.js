@@ -128,6 +128,7 @@ const SignUp = () => {
         onChange={(e) => setBio(e.target.value)}
         onKeyDown={handleKeys}
         placeholder="Biography"
+        maxLength={200}
       ></textarea>
       <div>
         <progress value={progress} max="100" />

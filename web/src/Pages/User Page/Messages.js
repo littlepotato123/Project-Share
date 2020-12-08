@@ -5,9 +5,11 @@ import List from './List';
 const Messages = (props) => {
     const [messages, setMessages] = useState(null);
     const [message, setMessage] = useState('');
+    const [loadMore, setLoadMore] = useState(null);
 
     useEffect(() => {
         const scoped = async () => {
+            console.log(props.id);
             const res = await Fetch(`
                 {
                     getMessages(userId: "${props.id}") {
@@ -17,7 +19,13 @@ const Messages = (props) => {
                     }
                 } 
             `);
-            setMessages(res.getMessages);
+            console.log(res.getMessages)
+            if(res.getMessages) {
+                setMessages(res.getMessages);
+                setLoadMore(<a href={`/messages/${props.id}`}>Get All Messages</a>)
+            } else {
+                setMessages([]);
+            }
         };
 
         scoped();
@@ -26,20 +34,21 @@ const Messages = (props) => {
     const send = () => {
         const scoped = async () => {
             const token = sessionStorage.getItem('token');
-            console.log(props.id);
-            console.log(token);
-            console.log(message);
-            const res = await Fetch(`
-                mutation {
-                createMessage(token:"${token}", body:"${message}", userId:"${props.id}") {
-                    id
-                    body
-                    author
-                    userId
-                }
-            } 
-            `);
-            window.location.reload(false);
+            if(token == props.id) {
+                alert('Cannot Message Yourself');
+            } else {
+                const res = await Fetch(`
+                    mutation {
+                        createMessage(token:"${token}", body:"${message}", userId:"${props.id}") {
+                            id
+                            body
+                            author
+                            userId
+                        }
+                    } 
+                `);
+                window.location.reload(false);
+            }
         }
 
         if(message) {
@@ -56,6 +65,9 @@ const Messages = (props) => {
     return (
         <div>
             { messages ? messages.map(m => <List author={m.author} body={m.body} />) : <p>Loading...</p>}
+            {
+                loadMore
+            }
             <input 
                 placeholder="Message to User"
                 value={message}
