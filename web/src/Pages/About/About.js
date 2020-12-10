@@ -20,17 +20,15 @@ const About = () => {
           }
         }
       `);
-      console.log(res);
       setRequests(res.requests);
     };
 
     scoped();
   }, [])
-
+  
   return (
     <div>
-
-      <h2>About {href} </h2>
+      <h2>About {href}</h2>
       <p>
         {href} is a platform created to support users who wish to aprise others about{" "}
         <br />

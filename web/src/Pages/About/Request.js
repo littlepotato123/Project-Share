@@ -22,7 +22,7 @@ const Requests = (props) => {
     };
 
     useEffect(() => {
-        if(sessionStorage.getItem('handle') == "Project Share") {
+        if(sessionStorage.getItem('handle') == process.env.REACT_APP_HANDLE) {
             setBut((
                 <button onClick={cut}>Delete</button>
             ))
@@ -33,6 +33,7 @@ const Requests = (props) => {
         <div key={props.id}>
             {props.name}
             {props.description}
+            {but}
         </div>
     )
 }

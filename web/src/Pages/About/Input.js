@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Fetch } from '../../Tools';
+import { Fetch, handleKeys } from '../../Tools';
 
 const Input = () => {
     const [description, setDescription] = useState('');
+    const [key, setKey] = useState('');
 
     const submit = () => {
         const scoped = async () => {
@@ -25,10 +26,9 @@ const Input = () => {
         scoped();
     }
 
-
     return (
         <div>
-            <textarea value={description} onChange={e => setDescription(e.target.value)}></textarea>
+            <textarea value={description} onKeyDown={e => handleKeys(e, key, setKey, submit)} onChange={e => setDescription(e.target.value)}></textarea>
             <button onClick={submit}>Submit Request</button>
         </div>
     )

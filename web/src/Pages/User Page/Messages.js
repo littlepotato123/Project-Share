@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Fetch } from '../../Tools';
+import { Fetch, handleKeys } from '../../Tools';
 import List from './List';
 
 const Messages = (props) => {
     const [messages, setMessages] = useState(null);
     const [message, setMessage] = useState('');
     const [loadMore, setLoadMore] = useState(null);
+    const [key, setKey] = useState('');
 
     useEffect(() => {
         const scoped = async () => {
@@ -56,12 +57,6 @@ const Messages = (props) => {
         }
     }
 
-    const handleKeys = (e) => {
-        if(e.key == "Enter") {
-            send();
-        }
-    }
-
     return (
         <div>
             { messages ? messages.map(m => <List author={m.author} body={m.body} />) : <p>Loading...</p>}
@@ -72,7 +67,7 @@ const Messages = (props) => {
                 placeholder="Message to User"
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                onKeyDown={handleKeys}
+                onKeyDown={e => handleKeys(e, key, setKey, send)}
             />
             <button onClick={send}>Send</button>
         </div>

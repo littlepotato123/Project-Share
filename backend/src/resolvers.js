@@ -61,7 +61,7 @@ export const resolvers = {
         return null;
       } else {
         const crypt_pass = AES.encrypt(password, 'key').toString();
-        const user = await User.create({ handle, password: crypt_pass, supporters: 0, imageUrl, bio })
+        const user = await User.create({ handle, password: crypt_pass, supporters: 0, imageUrl, bio, liked: [], supported: [], supporting: [] })
         await user.save()
         return user;
       }
@@ -94,7 +94,7 @@ export const resolvers = {
     newPost: async (_, { token, title, date, category, body }) => {
       const user = await FBauth(token);
       if(user) {
-        const post = await Post.create({ title, date, category, author: user.handle, likes: 0, body });
+        const post = await Post.create({ title, date, category, author: user.handle, likes: 0, body, liked: [] });
         await post.save();
         return post;
       } else {
@@ -105,7 +105,6 @@ export const resolvers = {
       const user = await FBauth(token);
       const comment = await Comment.create({ body, postId: id, author: user.handle });
       await comment.save();
-      console.log(comment);
       return true;
     },
     createMessage: async (_, { token, body, userId }) => {
@@ -113,37 +112,112 @@ export const resolvers = {
       const message = await Message.create({ body, userId, author: user.handle });
       return message;
     },
-    likePost: async (_, { id, current_like }) => {
-      await Post.updateOne(
-        { _id: id },
-        {$set: {'likes': current_like + 1 }}
-      );
-      const post = await Post.findOne({ _id: id });
-      return post.likes;
+    likePost: async (_, { id, current_like, token }) => {
+      let post = await Post.findOne({ _id: id });
+      if(post) {
+        await Post.updateOne(
+          { _id: id },
+          {$set:{'likes': current_like + 1}}
+        );
+        if(token) {
+          const user = await User.findOne({ password: token });
+          if(user) {
+            let liked = user.liked;
+            let post_liked = post.liked;
+            if(post_liked.includes(token)) {
+              return null;
+            } else {
+              post_liked.push(token);
+              liked.push(id);
+              await Post.updateOne(
+                { _id: id },
+                {$set: {'liked': post_liked}}
+              );
+              await User.updateOne(
+                { password: token },
+                {$set:{'liked': liked}}
+              );
+            }
+          }
+        } 
+        post = await Post.findOne({ _id: id });
+        return post.likes;
+      } else {
+        return null;
+      }
     },
-    unlikePost: async (_, { id, current_like }) => {
-      await Post.updateOne(
-        { _id: id },
-        {$set: {'likes': current_like - 1 }}
-      );
-      const post = await Post.findOne({ _id: id });
-      return post.likes;
+    unlikePost: async (_, { id, current_like, token }) => {
+      let post = await Post.findOne({ _id: id });
+      let user = await User.findOne({ password: token });
+      if(post) {
+        await Post.updateOne(
+          {_id: id},
+          {$set: {'likes': current_like - 1}}
+        )
+        if(token && user) {
+          let liked = user.liked;
+          let post_liked = post.liked;
+          post_liked.remove(token);
+          liked.remove(id);
+          console.log(liked);
+          console.log(post_liked);
+          await Post.updateOne(
+            { _id: id },
+            {$set: {'liked': post_liked}}
+          );
+          await User.updateOne(
+            { password: token },
+            {$set:{'liked': liked}}
+          );
+        }
+        post = await Post.findOne({ _id: id });
+        return post.likes;
+      }
+      return null;
     },
-    supportUser: async (_, { id, current_supporters }) => {
-      await User.updateOne(
-        { _id: id },
-        {$set: {'supporters': current_supporters + 1}}
-      );
-      const user = await User.findOne({ _id: id });
-      return user.supporters;
+    supportUser: async (_, { id, current_supporters, token }) => {
+      let main_user = await User.findOne({ password: id });
+      let user = await User.findOne({ password: token });
+      if(main_user && user) {
+        const supported = user.supported;
+        const supporting = user.supporting;
+        supported.push(token);
+        supporting.push(id);
+        if(supported.includes(token) || supporting.includes(id)) {
+          return null;
+        } else {
+          await User.updateOne(
+            { password: token },
+            {$set: {'supporting': supporting, 'suporters': current_supporters + 1}}
+          );
+          await User.updateOne(
+            { password: id },
+            {$set: {'supported': supported}}
+          );
+          return main_user.supporters;
+        }
+      } 
+      return null;
     },
-    unsupportUser: async (_, { id, current_supporters }) => {
-      await User.updateOne(
-        { _id: id },
-        {$set: {'supporters': current_supporters - 1}}
-      );
-      const user = await User.findOne({ _id: id });
-      return user.supporters;
+    unsupportUser: async (_, { id, current_supporters, token }) => {
+      let main_user = await User.findOne({ password: id });
+      let user = await User.findOne({ password: token });
+      if(main_user && user) {
+        const supported = user.supported;
+        const supporting = user.supporting;
+        supported.remove(token);
+        supporting.remove(id);
+        await User.updateOne(
+          { password: token },
+          {$set: {'supporting': supporting, 'suporters': current_supporters - 1}}
+        );
+        await User.updateOne(
+          { password: id },
+          {$set: {'supported': supported}}
+        );
+        return main_user.supporters;
+      } 
+      return null;
     },
     deletePost: async (_, { id }) => {
       await Post.deleteOne({ _id: id });

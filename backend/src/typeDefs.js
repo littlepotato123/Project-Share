@@ -48,6 +48,7 @@ export const typeDefs = gql`
     likes: Int!
     date: String!
     body: String!
+    liked: [String!]
   }
 
   type Category {
@@ -63,6 +64,9 @@ export const typeDefs = gql`
     imageUrl: String
     supporters: Int!
     bio: String!
+    liked: [String!]
+    supported: [String!]
+    supporting: [String!]
   }
 
   type Mutation {
@@ -73,10 +77,10 @@ export const typeDefs = gql`
     newComment(token: String!, body: String!, id: String!): Boolean!
     getComments(id: String!): [Comment!]
     createMessage(token: String!, body: String!, userId: String!): Message!
-    likePost(id: String!, current_like: Int!): Int!
-    unlikePost(id:String!, current_like: Int!): Int!
-    supportUser(id: String!, current_supporters: Int!): Int!
-    unsupportUser(id: String!, current_supporters: Int!): Int!
+    likePost(id: String!, current_like: Int!, token: String): Int
+    unlikePost(id:String!, current_like: Int!, token: String): Int
+    supportUser(id: String!, current_supporters: Int!, token: String!): Int
+    unsupportUser(id: String!, current_supporters: Int!, token: String!): Int
     deletePost(id: String!): Boolean!
     createCategories: [Category!]
     newRequest(name: String!, description: String!): Request!

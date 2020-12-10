@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Fetch } from "../../Tools";
+import { Fetch, remove_token } from "../../Tools";
 
 const Navigation = (props) => {
   const [value, setValue] = useState("");
@@ -20,7 +20,7 @@ const Navigation = (props) => {
   const logout = () => {
     if (window.confirm("Are You Sure You want to logout")) {
       sessionStorage.removeItem('handle');
-      sessionStorage.removeItem('token')
+      remove_token();
       window.location.reload(false);
     }
   };
@@ -43,7 +43,7 @@ const Navigation = (props) => {
           setAuthentication(
             <div>
               <li>
-                <a href={`http://localhost:3000/user/${res.tokenUser.handle}`}>
+                <a href={`${process.env.REACT_APP_URL}/user/${res.tokenUser.handle}`}>
                   {res.tokenUser.handle}
                 </a>
                 <ul>
@@ -58,7 +58,7 @@ const Navigation = (props) => {
             </div>
           );
         } else {
-          history.push("/auth");
+          window.location.reload(false);
         }
       };
 

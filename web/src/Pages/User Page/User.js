@@ -127,10 +127,7 @@ const User = () => {
                 } else {
                     setImageUrl('https://firebasestorage.googleapis.com/v0/b/project-share-8244f.appspot.com/o/images%2Fguest.png?alt=media&token=578322c1-1798-4a6e-ae40-c541c2dbb263');
                 }
-                setUser(res.user);
-                if(sessionStorage.getItem(res.user.id)) {
-                    setSupported(true);
-                }
+                
             }
             else {
                 history.push('/wronguser')

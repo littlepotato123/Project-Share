@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Fetch } from '../../Tools';
+import { add_liked, Fetch, liked_posts, remove_liked } from '../../Tools';
 import Input from './Input';
 import List from './List';
 
@@ -105,10 +105,12 @@ const Posts = (props) => {
             setDeleteButton(null);
         }
 
-        if(sessionStorage.getItem(props.postId)) {
-            setButton((
-                <button disabled="true">Likes</button>
-            ))
+        if(liked_posts()) {
+            if(liked_posts().includes(props.postId)) {
+                setButton((
+                    <button disabled="true">Likes</button>
+                ))
+            }
         }
     }, [])
 
@@ -120,7 +122,7 @@ const Posts = (props) => {
                 } 
             `);
             setLikes(res.likePost);
-            sessionStorage.setItem(props.postId, 'true');
+            add_liked(props.postId);
             setButton((
                 <button onClick={() => setLiked(!liked)}>Unlike</button>
             ))
@@ -137,7 +139,7 @@ const Posts = (props) => {
                 }
             `);
             setLikes(res.unlikePost);
-            sessionStorage.removeItem(props.postId);
+            remove_liked(props.postId);
             setButton((
                 <button onClick={() => setLiked(!liked)}>Like</button>
             ))
@@ -155,8 +157,8 @@ const Posts = (props) => {
     return (
         <div key={props.postId}>
             <p>{props.title}</p>
-            <p>Category: <a href={`http://localhost:3000/category/${props.category}`}>{props.category}</a></p>
-            <p>Author: <a href={`http://localhost:3000/user/${props.author}`}>{props.author}</a></p>
+            <p>Category: <a href={`${process.env.REACT_APP_URL}/category/${props.category}`}>{props.category}</a></p>
+            <p>Author: <a href={`${process.env.REACT_APP_URL}/user/${props.author}`}>{props.author}</a></p>
             <p>{props.children}</p>
             <p>{props.date}</p>
             <p>{ likesButton }: {likes}</p>

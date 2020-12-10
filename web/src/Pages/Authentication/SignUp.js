@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { storage } from "../../Firebase/index";
-import { Fetch } from "../../Tools";
+import { Fetch, handleKeys } from "../../Tools";
 
 const SignUp = () => {
   const [handle, setHandle] = useState("");
@@ -11,6 +11,7 @@ const SignUp = () => {
   const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [bio, setBio] = useState("");
+  const [key, setKey] = useState('');
 
   const history = useHistory();
 
@@ -21,28 +22,32 @@ const SignUp = () => {
   };
 
   const handleUpload = () => {
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        )
-        setProgress(progress);
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then((url) => {
-            setUrl(url);
-          });
-      }
-    );
+    if(image.name.endsWith('.png') || image.name.endsWith('.jpg')) {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          )
+          setProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then((url) => {
+              setUrl(url);
+            });
+        }
+      );
+    } else {
+      alert('Must be PNG file or JPG file')
+    }
   };
 
   const submit = () => {
@@ -98,12 +103,6 @@ const SignUp = () => {
     }
   };
 
-  const handleKeys = (e) => {
-    if (e.key == "Enter") {
-      submit();
-    }
-  };
-
   return (
     <div>
       <h1>Sign Up</h1>
@@ -126,7 +125,7 @@ const SignUp = () => {
       />
       <textarea
         onChange={(e) => setBio(e.target.value)}
-        onKeyDown={handleKeys}
+        onKeyDown={e => handleKeys(e, key, setKey, submit)}
         placeholder="Biography"
         maxLength={200}
       ></textarea>
