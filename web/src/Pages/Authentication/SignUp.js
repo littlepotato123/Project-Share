@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { storage } from "../../Firebase/index";
-import { Fetch, handleKeys } from "../../Tools";
+import { add_token, Fetch, handleKeys } from "../../Tools";
 
 const SignUp = () => {
   const [handle, setHandle] = useState("");
@@ -61,7 +61,7 @@ const SignUp = () => {
                     } 
                 `);
         if (res.signup !== undefined && res.signup !== null) {
-          sessionStorage.setItem("token", res.signup.password);
+          add_token(res.signup.password);
           history.push("/home");
         } else {
           alert("Something went wrong. Please try again");

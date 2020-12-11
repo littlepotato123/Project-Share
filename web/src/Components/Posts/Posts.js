@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { add_liked, Fetch, liked_posts, remove_liked } from '../../Tools';
+import { Fetch, get_token } from '../../Tools';
 import Input from './Input';
 import List from './List';
 
@@ -56,10 +56,6 @@ const Posts = (props) => {
             like();
         } else if(liked == false) {
             unlike();
-        } else {
-            setButton((
-                <button disabled="true">Like</button>
-            ))
         }
     }, [liked])
 
@@ -105,24 +101,40 @@ const Posts = (props) => {
             setDeleteButton(null);
         }
 
-        if(liked_posts()) {
-            if(liked_posts().includes(props.postId)) {
-                setButton((
-                    <button disabled="true">Likes</button>
-                ))
-            }
+        if(JSON.parse(sessionStorage.getItem('liked')).includes(props.postId)) {
+            setButton(
+                <button onClick={unlike}>Unlike</button>
+            )
         }
     }, [])
 
     const like = () => {
         const scoped = async () => {
-            const res = await Fetch(`
-                mutation {
-                    likePost(id:"${props.postId}", current_like: ${likes})
-                } 
-            `);
-            setLikes(res.likePost);
-            add_liked(props.postId);
+            let res;
+            if(get_token()) {
+                res = await Fetch(`
+                    mutation {
+                        likePost(id: "${props.postId}", current_like: ${likes}, token: "${get_token()}")
+                    }
+                `);
+                console.log(res);
+                setLikes(res.likePost);
+                res = await Fetch(`
+                    {
+                        tokenUser(token: "${get_token()}") {
+                            liked
+                        }
+                    }
+                `);
+                sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
+            } else {
+                res = await Fetch(`
+                    mutation {
+                        likePost(id:"${props.postId}", current_like: ${likes})
+                    } 
+                `);
+                setLikes(res.likePost);
+            }
             setButton((
                 <button onClick={() => setLiked(!liked)}>Unlike</button>
             ))
@@ -133,32 +145,44 @@ const Posts = (props) => {
 
     const unlike = () => {
         const scoped = async () => {
-            const res = await Fetch(`
-                mutation {
-                    unlikePost(id: "${props.postId}", current_like: ${likes})
-                }
-            `);
-            setLikes(res.unlikePost);
-            remove_liked(props.postId);
+            let res;
+            if(get_token()) {
+                res = await Fetch(`
+                    mutation {
+                        unlikePost(id: "${props.postId}", current_like: ${likes}, token: "${get_token()}")
+                    }
+                `);
+                console.log(res);
+                setLikes(res.unlikePost);
+                res = await Fetch(`
+                    {
+                        tokenUser(token: "${get_token()}") {
+                            liked
+                        }
+                    }
+                `);
+                sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
+            } else {
+                res = await Fetch(`
+                    mutation {
+                        likePost(id:"${props.postId}", current_like: ${likes})
+                    } 
+                `);
+                setLikes(res.likePost);
+            }
             setButton((
                 <button onClick={() => setLiked(!liked)}>Like</button>
             ))
-        }
+        };
 
         scoped();
-
-        if(props.author == sessionStorage.getItem('handle')) {
-            setDeleteButton((
-                <button onClick={cut}>Delete Post</button>
-            ))
-        }
     }
 
     return (
         <div key={props.postId}>
             <p>{props.title}</p>
-            <p>Category: <a href={`${process.env.REACT_APP_URL}/category/${props.category}`}>{props.category}</a></p>
-            <p>Author: <a href={`${process.env.REACT_APP_URL}/user/${props.author}`}>{props.author}</a></p>
+            <p>Category: <a href={`/category/${props.category}`}>{props.category}</a></p>
+            <p>Author: <a href={`/user/${props.author}`}>{props.author}</a></p>
             <p>{props.children}</p>
             <p>{props.date}</p>
             <p>{ likesButton }: {likes}</p>

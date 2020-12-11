@@ -181,11 +181,11 @@ export const resolvers = {
       if(main_user && user) {
         const supported = user.supported;
         const supporting = user.supporting;
-        supported.push(token);
-        supporting.push(id);
         if(supported.includes(token) || supporting.includes(id)) {
           return null;
         } else {
+          supported.push(token);
+          supporting.push(id);
           await User.updateOne(
             { password: token },
             {$set: {'supporting': supporting, 'suporters': current_supporters + 1}}
@@ -195,7 +195,7 @@ export const resolvers = {
             {$set: {'supported': supported}}
           );
           return main_user.supporters;
-        }
+        } 
       } 
       return null;
     },

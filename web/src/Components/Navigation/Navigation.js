@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Fetch, remove_token } from "../../Tools";
+import { Fetch, get_token } from "../../Tools";
 
 const Navigation = (props) => {
   const [value, setValue] = useState("");
@@ -19,8 +19,7 @@ const Navigation = (props) => {
 
   const logout = () => {
     if (window.confirm("Are You Sure You want to logout")) {
-      sessionStorage.removeItem('handle');
-      remove_token();
+      sessionStorage.clear();
       window.location.reload(false);
     }
   };
@@ -28,22 +27,30 @@ const Navigation = (props) => {
   let history = useHistory();
 
   useEffect(() => {
-    const t = sessionStorage.getItem("token");
-    if (t !== null) {
+    console.log(get_token());
+    if (get_token() !== null | undefined) {
       const scoped = async () => {
         const res = await Fetch(`
-                    {
-                        tokenUser(token: "${t}") {
-                            handle
-                        }
-                    } 
-                `);
+          {
+            tokenUser(token: "${get_token()}") {
+              handle
+              liked
+              supported
+            }
+          } 
+        `);
+        console.log(res);
         if (res.tokenUser) {
           sessionStorage.setItem("handle", res.tokenUser.handle);
+          sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
+          sessionStorage.setItem('supported', JSON.stringify(res.tokenUser.supported));
+          if(res.tokenUser.handle == null | undefined) {
+            history.push('/auth');
+          }
           setAuthentication(
             <div>
               <li>
-                <a href={`${process.env.REACT_APP_URL}/user/${res.tokenUser.handle}`}>
+                <a href={`/user/${res.tokenUser.handle}`}>
                   {res.tokenUser.handle}
                 </a>
                 <ul>
@@ -57,8 +64,7 @@ const Navigation = (props) => {
               </li>
             </div>
           );
-        } else {
-          window.location.reload(false);
+          // window.location.reload(false);
         }
       };
 

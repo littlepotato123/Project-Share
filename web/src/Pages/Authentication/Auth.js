@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { get_token } from '../../Tools';
 import Login from './Login';
 import SignUp from './SignUp';
 
@@ -7,7 +8,7 @@ const Auth = () => {
     const history = useHistory()
 
     useEffect(() => {
-        if(sessionStorage.getItem('token')) {
+        if(get_token() !== null | undefined) {
             history.push('/home');
         }
     }, [])
@@ -17,7 +18,6 @@ const Auth = () => {
             <div>
                 <SignUp />
             </div>
-            <div></div>
             <div>
                 <Login />
             </div>
