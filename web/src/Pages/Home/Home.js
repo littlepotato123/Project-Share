@@ -23,7 +23,11 @@ const Home = () => {
                     }
                 }
             `);
-            setPosts(res.homePage);
+            if(res) {
+                setPosts(res.homePage);
+            } else {
+                alert("Error while getting home page");
+            }
         };
 
         scoped();

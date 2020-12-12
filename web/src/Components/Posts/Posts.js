@@ -101,10 +101,12 @@ const Posts = (props) => {
             setDeleteButton(null);
         }
 
-        if(JSON.parse(sessionStorage.getItem('liked')).includes(props.postId)) {
-            setButton(
-                <button onClick={unlike}>Unlike</button>
-            )
+        if(sessionStorage.getItem('liked')) {
+            if(JSON.parse(sessionStorage.getItem('liked')).includes(props.postId)) {
+                setButton(
+                    <button onClick={unlike}>Unlike</button>
+                )
+            }
         }
     }, [])
 
