@@ -25,35 +25,37 @@ const About = () => {
 
     scoped();
   }, [])
-  
+
   return (
     <div>
       <h2>About {href}</h2>
       <p>
-        {href} is a platform created to support users who wish to aprise others about{" "}
+        {href} is a platform created to support users who wish to apprise others about{" "}
         <br />
-          difficulties and problems being tackled across the globe. As a community, we discuss {" "}
+          struggles and problems being tackled across the globe. As a community, we discuss {" "}
         <br />
-          to improve oursleves and determine solutions to mistakes and problems we cause in
+          to improve ourselves and determine solutions to mistakes and problems we cause in
           <br />
-          our daily lives. As people we need to better oursleves and <a href="/home"> Project Sh@re </a> gives us an
+          our daily lives. As people, we need to better ourselves and <a href="/home"> Project Sh@re </a> gives us an
           <br />
-          opporunity. {href} is welcoming to all users to provoke change. Users may interact
+          opportunity. {href} is welcoming to all users to provoke change. Users may interact
           <br />
-          with one another share their ideas. Here, we build thoughts,
+          with one another to share their ideas. Here, we build thoughts,
           <br />
           wonder, and supporters to a common cause. {/* Style seperately - stand out*/}  Welcome to {href}!
         </p>
 
       <h2>Why {href}?</h2>
       <p>
-        Many ask, <i> why {href}? Why can't I use Facebook or Instagram instead? How is this any
+        Many ask, <i> why {href}? Why shouldn't I use another social media instead? How is this any
           <br />
           different? </i> {href} is specifically created to help discuss world-wide issues. A platform
           <br />
-          only used to inform, learn, and promote. As we thrive, many experience worsen lives. This platform
+          only used to inform, learn, and promote. Not all communities thrive as ours do; it's important
           <br />
-          is not used for any personal gain. {/* Style seperately - stand out*/} At {href}, we take part in making the world a better place!
+          for the world to understand different and newer points of view. This platform is not used for any
+        <br />
+        personal gain.{/* Style seperately - stand out*/} At {href}, we take part in making the world a better place!
         </p>
 
       <h2>Our Policy</h2>
@@ -61,7 +63,7 @@ const About = () => {
         <ol>
           <li>All users must be treated with respect. Everyone at {href} makes a change; all
           <br />
-          thought's and opinions matter.</li>
+          thoughts and opinions matter.</li>
           <li>All comments and posts must be appropriate and respectful at all times.</li>
           <li>Users may not express any offensive thoughts</li>
           <li>Unnecessary spam will prevent users from commenting and/or posting for a certain
@@ -90,11 +92,13 @@ const About = () => {
         <br />
         <strong><a href="/categories">Categories: </a></strong> The <a href="/categories">categories</a> page contains all the different categories/topics supported
         <br />
-        supported {href}. There is a suggestions box in the <a href="/about">about </a> page which allows
+        supported {href}. There is a suggestions' box in the <a href="/about">about </a> page which allows
         <br />
         users to give their suggestions about categories.
         <br />
         <br />
+
+        SHOULD WE DELETE THE FOLLOWING (COMMENTED)?
         <strong><a href="/about">About:</a></strong> The <a href="/about">about</a> page explains to users
         <br />
         about: {href}, Why {href}?, Our Policy, and our Pages.
