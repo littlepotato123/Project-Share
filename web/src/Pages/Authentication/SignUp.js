@@ -60,7 +60,7 @@ const SignUp = () => {
                         }
                     } 
                 `);
-        if (res.signup !== undefined && res.signup !== null) {
+        if (res !== undefined | null) {
           add_token(res.signup.password);
           history.push("/home");
         } else {
