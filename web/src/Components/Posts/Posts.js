@@ -117,7 +117,6 @@ const Posts = (props) => {
                         likePost(id: "${props.postId}", current_like: ${likes}, token: "${get_token()}")
                     }
                 `);
-                console.log(res);
                 setLikes(res.likePost);
                 res = await Fetch(`
                     {
@@ -127,17 +126,12 @@ const Posts = (props) => {
                     }
                 `);
                 sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
+                setButton((
+                    <button onClick={() => setLiked(!liked)}>Unlike</button>
+                ))
             } else {
-                res = await Fetch(`
-                    mutation {
-                        likePost(id:"${props.postId}", current_like: ${likes})
-                    } 
-                `);
-                setLikes(res.likePost);
+                alert('Must be logged in to like a post');
             }
-            setButton((
-                <button onClick={() => setLiked(!liked)}>Unlike</button>
-            ))
         };
 
         scoped();
@@ -162,17 +156,12 @@ const Posts = (props) => {
                     }
                 `);
                 sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
+                setButton((
+                    <button onClick={() => setLiked(!liked)}>Like</button>
+                ))
             } else {
-                res = await Fetch(`
-                    mutation {
-                        likePost(id:"${props.postId}", current_like: ${likes})
-                    } 
-                `);
-                setLikes(res.likePost);
+                alert('Must be logged in to like post');
             }
-            setButton((
-                <button onClick={() => setLiked(!liked)}>Like</button>
-            ))
         };
 
         scoped();
