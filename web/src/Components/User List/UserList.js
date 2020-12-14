@@ -5,7 +5,6 @@ import Posts from '../Posts/Posts';
 const UserList = (props) => {
     const [post, setPost] = useState(null);
     
-
     useEffect(() => {
         const scoped = async () => {
             const res = await Fetch(`

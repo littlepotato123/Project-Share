@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import {
     useHistory,
     useParams
@@ -10,14 +10,16 @@ import { Fetch } from '../../Tools';
 import Messages from './Messages';
 
 const User = () => {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
     const [supporters, setSupporters] = useState(null);
     const [posts, setPosts] = useState(null);
-    let [share, setShare] = useState(null);
-    let [messages, setMessages] = useState(false);
+    const [share, setShare] = useState(null);
+    const [messages, setMessages] = useState(false);
     const [show, setShow] = useState(false);
     const [display, setDisplay] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
+    const [button, setButton] = useState(null);
+    const [supported, setSupported] = useState(false);
 
     useEffect(() => {
         if(show) {
@@ -56,55 +58,9 @@ const User = () => {
         message = null;
     }
 
-    const [supported, setSupported] = useState(false);
-
-    const unsupport = () => {
-        setSupported(!supported);
-        const scoped = async () => {
-            await Fetch(`
-                mutation {
-                    unsupportUser(id:"${user.id}", current_supporters:${supporters})
-                }
-            `)
-            const new_supporters = supporters - 1;
-            setSupporters(new_supporters);
-        }
-        sessionStorage.removeItem(user.id)
-        scoped();
-    }
-
-    const support = () => {
-        setSupported(!supported);
-        const scoped = async () => {
-            await Fetch(`
-                mutation {
-                    supportUser(id:"${user.id}", current_supporters:${supporters})
-                }
-            `);
-            const new_supporters = supporters + 1;
-            setSupporters(new_supporters);
-        }
-        scoped();
-        sessionStorage.setItem(user.id, 'true');
-    }
-
-    let supportButton = (
-        <button onClick={support}>Support</button>
-    )
-
     const { userHandle } = useParams();
     
     const history = useHistory();
-
-    if(supported) {
-        supportButton = (
-            <button onClick={unsupport}>Unsupport</button>
-        );
-    } else {
-        supportButton = (
-            <button onClick={support}>Support</button>
-        )
-    }
 
     useEffect(() => {
         const scoped = async () => {
@@ -115,6 +71,7 @@ const User = () => {
                         bio
                         supporters
                         imageUrl
+                        password
                         handle
                     }
                 }
@@ -122,12 +79,25 @@ const User = () => {
             if(res.user) {
                 setSupporters(res.user.supporters)
                 setShare(`localhost:3000/user/${res.user.handle}`)
+                setUser(res.user);
+                sessionStorage.setItem('supporters', res.user.supporters)
+                if(res.user.password == sessionStorage.getItem('token')) {
+                    setButton((<button disabled="true">Support</button>))
+                    setSupported(null);
+                }
+                const arr = JSON.parse(sessionStorage.getItem('supported'));
+                console.log(arr);
+                if(arr.includes(res.user.password)) {
+                    setSupported(true);
+                } else {
+                    setSupported(false);
+                }
+                sessionStorage.setItem('curr_user', res.user.password)
                 if(res.user.imageUrl){
                     setImageUrl(res.user.imageUrl);
                 } else {
                     setImageUrl('https://firebasestorage.googleapis.com/v0/b/project-share-8244f.appspot.com/o/images%2Fguest.png?alt=media&token=578322c1-1798-4a6e-ae40-c541c2dbb263');
                 }
-                
             }
             else {
                 history.push('/wronguser')
@@ -150,6 +120,97 @@ const User = () => {
         scoped();
     }, [userHandle])
 
+    useEffect(() => {
+        if(supported == false) {
+            setButton((<button onClick={support}>Support</button>))
+        } else if(supported == true) {
+            setButton((<button onClick={unsupport}>Unsupport</button>))
+        } else if(supported == null) {
+            setButton((<button disabled="true">Support</button>))
+        }
+    }, [supported])
+
+    const support = () => {
+        const scoped = async () => {
+            const val = parseInt(sessionStorage.getItem('supporters'));
+            let res = await Fetch(`
+            mutation {
+                supportUser(
+                  id:"${sessionStorage.getItem('curr_user')}",
+                  token:"${sessionStorage.getItem('token')}",
+                  current_supporters:${val}
+                )
+              }
+            `);
+            if(res) {
+                if(res.supportUser !== null) {
+                    setSupporters(res.supportUser);
+                    sessionStorage.setItem('supporters', res.supportUser);
+                    setSupported(!supported);
+                } else {
+                    alert('You have already supported this user');
+                }
+            } else {
+                alert('Error while Supporting');
+            }
+
+            res = await Fetch(`
+                {
+                    tokenUser(token:"${sessionStorage.getItem('token')}") {
+                        supported
+                    }
+                }
+            `);
+            if(res) {
+                sessionStorage.setItem('supported', res.tokenUser.supported);
+            }
+        }
+        if(sessionStorage.getItem('token')) {
+            scoped();
+        } else {
+            alert('Must be logged in');
+        }
+    };
+
+    const unsupport = () => {
+        const scoped = async () => {
+            const val = parseInt(sessionStorage.getItem('supporters'));
+            let res = await Fetch(`
+                mutation {
+                    unsupportUser(
+                        id:"${sessionStorage.getItem('curr_user')}",
+                        token:"${sessionStorage.getItem('token')}",
+                        current_supporters:${val}
+                    )
+                }
+            `);
+            if(res) {
+                setSupporters(res.unsupportUser);
+                sessionStorage.setItem('supporters', res.unsupportUser);
+                setSupported(!supported);
+            } else {
+                alert("Error while supporting")
+            }
+
+            res = await Fetch(`
+                {
+                    tokenUser(token:"${sessionStorage.getItem('token')}") {
+                        supported
+                    }
+                }
+            `);
+            console.log(res);
+            if(res) {
+                sessionStorage.setItem('supported', res.tokenUser.supported);
+            }
+        }
+        if(sessionStorage.getItem('token')) {
+            scoped();
+        } else {
+            alert('Must be logged in');
+        }
+    };
+    
     let userInfo = (
         <div>
             {
@@ -162,8 +223,8 @@ const User = () => {
                     <div>
                         {user.handle} <br />
                         {supporters} <br />
+                        {button}
                         <h3>{user.bio}</h3> <br />
-                        { supportButton }
                         <CopyToClipboard text={share}>
                             <button>Copy Share Link</button>
                         </CopyToClipboard>

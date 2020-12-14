@@ -184,16 +184,18 @@ export const resolvers = {
         if(supported.includes(token) || supporting.includes(id)) {
           return null;
         } else {
-          supported.push(token);
-          supporting.push(id);
-          await User.updateOne(
-            { password: token },
-            {$set: {'supporting': supporting, 'suporters': current_supporters + 1}}
-          );
+          supported.push(id);
+          supporting.push(token);
           await User.updateOne(
             { password: id },
+            {$set: {'supporting': supporting, 'supporters': current_supporters + 1}}
+          );
+          await User.updateOne(
+            { password: token },
             {$set: {'supported': supported}}
           );
+          main_user = await User.findOne({ password: id });
+          user = await User.findOne({ password: token });
           return main_user.supporters;
         } 
       } 
@@ -205,17 +207,23 @@ export const resolvers = {
       if(main_user && user) {
         const supported = user.supported;
         const supporting = user.supporting;
-        supported.remove(token);
-        supporting.remove(id);
-        await User.updateOne(
-          { password: token },
-          {$set: {'supporting': supporting, 'suporters': current_supporters - 1}}
-        );
-        await User.updateOne(
-          { password: id },
-          {$set: {'supported': supported}}
-        );
-        return main_user.supporters;
+        if(supported.includes(token) || supporting.includes(id)) {
+          return null;
+        } else {
+          supported.remove(id);
+          supporting.remove(token);
+          await User.updateOne(
+            { password: id },
+            {$set: {'supporting': supporting, 'supporters': current_supporters - 1}}
+          );
+          await User.updateOne(
+            { password: token },
+            {$set: {'supported': supported}}
+          );
+          main_user = await User.findOne({ password: id });
+          user = await User.findOne({ password: token });
+          return main_user.supporters;
+        } 
       } 
       return null;
     },

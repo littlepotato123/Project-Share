@@ -27,7 +27,6 @@ const Navigation = (props) => {
   let history = useHistory();
 
   useEffect(() => {
-    console.log(get_token());
     if (get_token() !== null | undefined) {
       const scoped = async () => {
         const res = await Fetch(`
@@ -39,7 +38,6 @@ const Navigation = (props) => {
             }
           } 
         `);
-        console.log(res);
         if (res.tokenUser) {
           sessionStorage.setItem("handle", res.tokenUser.handle);
           sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
