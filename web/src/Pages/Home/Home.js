@@ -65,8 +65,7 @@ const Home = () => {
                             posts ? 
                             posts.map(post => 
                                 <Post
-                                    title={post.title} 
-                                    author={post.author} 
+                                    title={post.title} author={post.author} 
                                     category={post.category}
                                     likes={post.likes}
                                     postId={post.id}
