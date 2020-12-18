@@ -64,7 +64,7 @@ const User = () => {
 
     useEffect(() => {
         const scoped = async () => {
-            let res = await Fetch(`
+            const res = await Fetch(`
                 {
                     user(handle: "${userHandle}"){
                         id
@@ -74,12 +74,21 @@ const User = () => {
                         password
                         handle
                     }
+                    userPosts(handle: "${userHandle}") {
+                        id
+                        author
+                        category
+                        title
+                        body
+                        likes
+                    }
                 }
             `);
-            if(res.user) {
+            if(res.user && res.userPosts){
                 setSupporters(res.user.supporters)
                 setShare(`localhost:3000/user/${res.user.handle}`)
                 setUser(res.user);
+                setPosts(res.userPosts);
                 sessionStorage.setItem('supporters', res.user.supporters)
                 if(res.user.password == sessionStorage.getItem('token')) {
                     setButton((<button disabled="true">Support</button>))
@@ -98,24 +107,9 @@ const User = () => {
                 } else {
                     setImageUrl('https://firebasestorage.googleapis.com/v0/b/project-share-8244f.appspot.com/o/images%2Fguest.png?alt=media&token=578322c1-1798-4a6e-ae40-c541c2dbb263');
                 }
+            } else {
+                history.push('/wronguser');
             }
-            else {
-                history.push('/wronguser')
-            }
-
-            res = await Fetch(`
-                {
-                    userPosts(handle: "${userHandle}") {
-                        id
-                        author
-                        category
-                        title
-                        body
-                        likes
-                    }
-                }
-            `);
-            setPosts(res.userPosts);
         }
         scoped();
     }, [userHandle])
