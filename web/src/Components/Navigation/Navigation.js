@@ -62,7 +62,6 @@ const Navigation = (props) => {
               </li>
             </div>
           );
-          // window.location.reload(false);
         }
       };
 

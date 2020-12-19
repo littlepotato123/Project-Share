@@ -10,7 +10,7 @@ const Home = () => {
 
     useEffect(() => {
         const scoped = async () => {
-            const res = await Fetch(`
+            let res = await Fetch(`
                 {
                     homePage {
                         id
@@ -25,31 +25,22 @@ const Home = () => {
             `);
             if(res) {
                 setPosts(res.homePage);
+                res = await Fetch(`
+                    mutation {
+                        createCategories {
+                            id
+                        }
+                    }
+                `)
+                if(res == null | undefined) {
+                    alert('Error creating categories');
+                }
             } else {
                 alert("Error while getting home page");
             }
         };
 
         scoped();
-
-        const f = async () => {
-            const res = await Fetch(`
-                mutation {
-                    createCategories {
-                        id
-                    }
-                }
-            `);
-            if(!res) {
-                if(window.confirm("Something went wrong, Reload") == true) {
-                    window.location.reload(false);
-                } else {
-                    window.location.reload(false);
-                }
-            }
-        }
-
-        f();
     }, [])
 
     useEffect(() => {

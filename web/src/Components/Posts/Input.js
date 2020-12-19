@@ -9,9 +9,9 @@ const Input = (props) => {
 
         const scoped = async () => {
             const res = await Fetch(`
-                    mutation {
-                        newComment(token:"${token}", body:"${comment}", id:"${props.id}")
-                    }
+                mutation {
+                    newComment(token:"${token}", body:"${comment}", id:"${props.id}")
+                }
             `);
             setComment('');
             window.location.reload(false);

@@ -54,12 +54,12 @@ const SignUp = () => {
     const scoped = async () => {
       if (url !== "") {
         const res = await Fetch(`
-                    mutation {
-                    signup(handle: "${handle}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
-                            password
-                        }
-                    } 
-                `);
+          mutation {
+            signup(handle: "${handle}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
+              password
+            }
+          } 
+        `);
         if (res !== undefined | null) {
           add_token(res.signup.password);
           history.push("/home");

@@ -13,9 +13,9 @@ const Login = () => {
     const submit = () => {
         const scoped = async () => {
             const res = await Fetch(`
-                    mutation {
-                        login(handle:"${handle}", password:"${pass}")
-                    }
+                mutation {
+                    login(handle:"${handle}", password:"${pass}")
+                }
             `);
             if(res.login) {
                 sessionStorage.setItem('token', res.login);

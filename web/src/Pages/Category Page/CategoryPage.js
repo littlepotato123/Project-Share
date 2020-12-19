@@ -12,7 +12,7 @@ const CategoryPage = () => {
     const history = useHistory();
 
     useEffect(() => {
-        const f = async () => {
+        const scoped = async () => {
             const res = await Fetch(`
                 {
                     getCategory(category:"${name}") {
@@ -20,35 +20,22 @@ const CategoryPage = () => {
                         title
                         description
                     }  
+                    categoryPosts(category:"${name}"){
+                        id
+                        title
+                        category
+                        likes
+                        body
+                        author
+                    }
                 }
             `)
-            if(res.getCategory) {
+            if(res.getCategory && res.categoryPosts) {
                 setTitle(res.getCategory.title);
+                setPosts(res.categoryPosts);
                 setDescription(res.getCategory.description);
             } else {
                 history.push('/wrongcategory');
-            }
-        }
-
-        f();
-
-        const scoped = async () => {
-            const res = await Fetch(`
-                    {
-                        categoryPosts(category:"${name}"){
-                            id
-                            title
-                            category
-                            likes
-                            body
-                            author
-                        }
-                    }
-            `);
-            if(res) {
-                setPosts(res.categoryPosts);
-            } else {
-                history.push('/home');
             }
         }
 
