@@ -23,7 +23,7 @@ const Home = () => {
                     }
                 }
             `);
-            if(res) {
+            if (res) {
                 setPosts(res.homePage);
                 res = await Fetch(`
                     mutation {
@@ -32,7 +32,7 @@ const Home = () => {
                         }
                     }
                 `)
-                if(res == null | undefined) {
+                if (res == null | undefined) {
                     alert('Error creating categories');
                 }
             } else {
@@ -44,28 +44,28 @@ const Home = () => {
     }, [])
 
     useEffect(() => {
-        if(posts) {
-            if(posts.length == 0) {
+        if (posts) {
+            if (posts.length == 0) {
                 setDisplay((
-                    <NoPosts /> 
+                    <NoPosts />
                 ))
             } else {
                 setDisplay((
                     <div>
                         {
-                            posts ? 
-                            posts.map(post => 
-                                <Post
-                                    title={post.title} author={post.author} 
-                                    category={post.category}
-                                    likes={post.likes}
-                                    postId={post.id}
-                                    date={post.date}
-                                >
-                                    {post.body}
-                                </Post>
-                            )
-                            : <Loading />
+                            posts ?
+                                posts.map(post =>
+                                    <Post
+                                        title={post.title} author={post.author}
+                                        category={post.category}
+                                        likes={post.likes}
+                                        postId={post.id}
+                                        date={post.date}
+                                    >
+                                        {post.body}
+                                    </Post>
+                                )
+                                : <Loading />
                         }
                     </div>
                 ))
