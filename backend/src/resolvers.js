@@ -129,7 +129,7 @@ export const resolvers = {
     newPost: async (_, { token, title, date, category, body }) => {
       const user = await FBauth(token);
       if(user) {
-        const post = await Post.create({ title, date, category, author: user.handle, likes: 0, body, liked: [] });
+        const post = await Post.create({ title, date, layout: 0, category, author: user.handle, likes: 0, body, liked: [] });
         await post.save();
         return post;
       } else {
@@ -307,6 +307,23 @@ export const resolvers = {
         user = await User.findOne({ password: token });
         console.log(user);
         return true;
+      } else {
+        return null;
+      }
+    },
+    updateUser: async (_, { token, bio, layout }) => {
+      const user = await User.findOne({ password: token });
+      if(user) {
+        await User.updateOne(
+          { _id: user.id },
+          { $set: { 
+              bio,
+              layout
+           } 
+          }
+        );
+        const r = await User.findOne({ _id: user.id });
+        return r;
       } else {
         return null;
       }

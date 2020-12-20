@@ -75,6 +75,7 @@ export const typeDefs = gql`
     supporting: [String!]
     points: Int!
     awards: [Award!]!
+    layout: Int!
   }
 
   type Mutation {
@@ -94,5 +95,6 @@ export const typeDefs = gql`
     newRequest(name: String!, description: String!): Request!
     deleteRequest(id: String!): Boolean!
     newAward(token: String!, title: String!, points: Int!): Boolean
+    updateUser(token: String!, bio: String!, layout: Int!): User
   }
 `
