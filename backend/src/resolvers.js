@@ -1,5 +1,6 @@
 import { AES } from 'crypto-js';
 import { FBauth } from './Fbauth';
+import { Award } from './models/Award';
 import { Category } from './models/Category';
 import { Comment } from './models/Comment';
 import { Message } from './models/Message';
@@ -16,6 +17,7 @@ export const resolvers = {
     },
     user: async (_, { handle }) => {
       const user = await User.findOne({ handle });
+      console.log(user)
       return user;
     },
     getCategories: async (_, {}) => {
@@ -38,7 +40,38 @@ export const resolvers = {
       const post = await Post.findOne({ category });
       return post;
     },
-    leaderboard: async () => await User.find().sort({ supporters: -1 }).limit(5),
+    leaderboard: async () => {
+      let l = await User.find().sort({ supporters: -1 }).limit(5)
+      for(var i = 0; i < l.length; i++) {
+        const current = l[i];
+        const next = l[i + 1];
+        const curr_sup = current.supporters;
+        const next_sup = next.supporters;
+        const range = curr_sup / 10;
+        if(curr_sup - next_sup > range) {
+          continue;
+        } else {
+        if(next && current) {
+          if(next.points > current.points) {
+            l[i + 1] = current;
+            l[i] = next;
+          }
+          if(next.awards.length > current.awards.length) {
+            l[i + i] = current;
+            l[i] = next;
+          } else {
+            l[i] = current;
+            l[i + 1] = next;
+          }
+        } else {
+          break;
+        }
+
+        } 
+      };
+      console.log(l);
+      return l;
+    },
     getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20),
     getOneCategory: async (_, { category }) => await Post.findOne({ category }),
     tokenUser: async(_, { token }) => await FBauth(token),
@@ -61,7 +94,9 @@ export const resolvers = {
         return null;
       } else {
         const crypt_pass = AES.encrypt(password, 'key').toString();
-        const user = await User.create({ handle, password: crypt_pass, supporters: 0, imageUrl, bio, liked: [], supported: [], supporting: [] })
+        const awards = [];
+        const points = 0;
+        const user = await User.create({ handle, password: crypt_pass, supporters: 0, points, awards, imageUrl, bio, liked: [], supported: [], supporting: [] });
         await user.save()
         return user;
       }
@@ -250,9 +285,31 @@ export const resolvers = {
       const r = await Request.create({ name, description });
       return r;
     },
-    deleteRequest: async (_, { id}) => {
+    deleteRequest: async (_, { id }) => {
       await Request.deleteOne({ _id: id }); 
       return true;
+    },
+    newAward: async (_, { token, title, points }) => {
+      const award = await Award.create({ title, points });
+      let user = await User.findOne({ password: token });
+      if(user) {
+        let awards = user.awards;
+        console.log(user.points);
+        awards.push(award);
+        console.log(awards);
+        const p = user.points + points;
+        await User.updateOne(
+          { password: token },
+          {
+            $set: { points: p, awards }
+          }
+        );
+        user = await User.findOne({ password: token });
+        console.log(user);
+        return true;
+      } else {
+        return null;
+      }
     }
   }
 };

@@ -22,12 +22,12 @@ const NewPost = () => {
   useEffect(() => {
     const scoped = async () => {
       const res = await Fetch(`
-                {
-                    getCategories {
-                        title
-                    }
-                }
-            `);
+        {
+            getCategories {
+                title
+            }
+        }
+      `);
       setCategories(res.getCategories);
     };
     scoped();
@@ -37,12 +37,12 @@ const NewPost = () => {
     const scoped = async () => {
       const token = sessionStorage.getItem("token");
       const res = await Fetch(`
-                mutation {
-                    newPost(token: "${token}", date: "${getDate()}", title: "${title}", body: "${body}", category: "${category}") {
-                        id
-                    }
-                } 
-            `);
+        mutation {
+            newPost(token: "${token}", date: "${getDate()}", title: "${title}", body: "${body}", category: "${category}") {
+                id
+            }
+        } 
+      `);
       if(res) {
         if (res.newPost) {
           history.push("/");

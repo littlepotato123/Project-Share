@@ -40,6 +40,12 @@ export const typeDefs = gql`
     postId: String!
   }
 
+  type Award {
+    id: ID!
+    title: String!
+    points: Int!
+  }
+
   type Post {
     id: ID!
     title: String!
@@ -67,6 +73,8 @@ export const typeDefs = gql`
     liked: [String!]
     supported: [String!]
     supporting: [String!]
+    points: Int!
+    awards: [Award!]!
   }
 
   type Mutation {
@@ -85,5 +93,6 @@ export const typeDefs = gql`
     createCategories: [Category!]
     newRequest(name: String!, description: String!): Request!
     deleteRequest(id: String!): Boolean!
+    newAward(token: String!, title: String!, points: Int!): Boolean
   }
-`;
+`
