@@ -57,3 +57,84 @@ export const set_supported = (val) => {
 export const set_liked = (val) => {
     sessionStorage.setItem('liked', JSON.stringify(val));
 }
+
+export const layouts = [
+    {
+        id: 0,
+        title: 'Layout 1',
+        information: [
+            {
+                title: 'Supporters',
+                checked: true
+            },
+            {
+                title: 'Post Count',
+                checked: true
+            },
+            {
+                title: 'Bio',
+                checked: false
+            },
+            {
+                title: 'Messages',
+                checked: true
+            },
+            {
+                title: 'Shareable Link',
+                checked: true
+            }
+        ]
+    },
+    {
+        id: 1,
+        title: 'Layout 2',
+        information: [
+            {
+                title: 'Supporters',
+                checked: false
+            },
+            {
+                title: 'Post Count',
+                checked: true
+            },
+            {
+                title: 'Bio',
+                checked: true
+            },
+            {
+                title: 'Messages',
+                checked: false
+            },
+            {
+                title: 'Shareable Link',
+                checked: true
+            }
+        ]
+    },
+    {
+        id: 2,
+        title: 'Layout 3',
+        information: [
+            {
+                title: 'Supporters',
+                checked: true
+            },
+            {
+                title: 'Post Count',
+                checked: false
+            },
+            {
+                title: 'Bio',
+                checked: true
+            },
+            {
+                title: 'Messages',
+                checked: true
+            },
+            {
+                title: 'Shareable Link',
+                checked: true
+            }
+        ]
+    }
+];

@@ -8,6 +8,7 @@ import About from './Pages/About/About';
 import Auth from './Pages/Authentication/Auth';
 import Categories from './Pages/Categories/Categories';
 import CategoryPage from './Pages/Category Page/CategoryPage';
+import Edit from './Pages/Edit/Edit';
 import HomeRedirect from './Pages/Errors/HomeRedirect';
 import WrongCategory from './Pages/Errors/WrongCategory';
 import NotFound from './Pages/Errors/WrongPage';
@@ -63,6 +64,9 @@ const App = () => {
         </Route>
         <Route exact path="/messages/:id">
           <MessagePage />
+        </Route>
+        <Route exact path="/edit">
+          <Edit />
         </Route>
         <Route path="*">
           <NotFound />

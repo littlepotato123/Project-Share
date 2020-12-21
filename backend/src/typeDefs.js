@@ -96,5 +96,6 @@ export const typeDefs = gql`
     deleteRequest(id: String!): Boolean!
     newAward(token: String!, title: String!, points: Int!): Boolean
     updateUser(token: String!, bio: String!, layout: Int!): User
+    newPassword(token: String!, new_pass: String!): Boolean!
   }
 `

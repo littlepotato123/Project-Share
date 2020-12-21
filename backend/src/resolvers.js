@@ -96,7 +96,7 @@ export const resolvers = {
         const crypt_pass = AES.encrypt(password, 'key').toString();
         const awards = [];
         const points = 0;
-        const user = await User.create({ handle, password: crypt_pass, supporters: 0, points, awards, imageUrl, bio, liked: [], supported: [], supporting: [] });
+        const user = await User.create({ handle, password: crypt_pass, supporters: 0, points, layout: 0, awards, imageUrl, bio, liked: [], supported: [], supporting: [] });
         await user.save()
         return user;
       }
@@ -326,6 +326,19 @@ export const resolvers = {
         return r;
       } else {
         return null;
+      }
+    },
+    newPassword: async (_, { token, new_pass }) => {
+      const user = await User.findOne({ password: token });
+      if(user) {
+        const new_password = AES.encrypt('hi', 'key')
+        await User.updateOne(
+          { id: user.id },
+          { $set: { password: new_password }}
+        )
+        return true;
+      } else {
+        return false;
       }
     }
   }

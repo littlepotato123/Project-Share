@@ -21,6 +21,8 @@ const User = () => {
     const [button, setButton] = useState(null);
     const [supported, setSupported] = useState(false);
 
+    const [edit, setEdit] = useState(null);
+
     useEffect(() => {
         if(show) {
             setDisplay((
@@ -86,6 +88,7 @@ const User = () => {
             `);
             if(res.user && res.userPosts){
                 setSupporters(res.user.supporters)
+                sessionStorage.setItem('bio', res.user.bio);
                 setShare(`localhost:3000/user/${res.user.handle}`)
                 setUser(res.user);
                 setPosts(res.userPosts);
@@ -93,6 +96,9 @@ const User = () => {
                 if(res.user.password == sessionStorage.getItem('token')) {
                     setButton((<button disabled="true">Support</button>))
                     setSupported(null);
+                    setEdit(
+                        <a href="/edit">Edit Page</a>
+                    )
                 }
                 const arr = JSON.parse(sessionStorage.getItem('supported'));
                 console.log(arr);
@@ -216,6 +222,7 @@ const User = () => {
                 user ? 
                     <div>
                         {user.handle} <br />
+                        {edit} <br />
                         {supporters} <br />
                         {button}
                         <h3>{user.bio}</h3> <br />
