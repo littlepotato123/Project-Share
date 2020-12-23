@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Fetch, get_token } from "../../Tools";
 
-const Navigation = (props) => {
+const Navigation = () => {
   const [value, setValue] = useState("");
   const [text, setText] = useState("Author: ");
   const [toggle, setToggle] = useState(false);
@@ -31,20 +31,20 @@ const Navigation = (props) => {
       const scoped = async () => {
         const res = await Fetch(`
           {
-            tokenUser(token: "${get_token()}") {
+            tokenUser(token:"${sessionStorage.getItem('token')}"){
               handle
               liked
               supported
+              layout
             }
-          } 
+          }
         `);
+        console.log(res);
         if (res.tokenUser) {
           sessionStorage.setItem("handle", res.tokenUser.handle);
           sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
           sessionStorage.setItem('supported', JSON.stringify(res.tokenUser.supported));
-          if(res.tokenUser.handle == null | undefined) {
-            history.push('/auth');
-          }
+          sessionStorage.setItem('layout', res.tokenUser.layout);
           setAuthentication(
             <div>
               <li>
@@ -61,6 +61,12 @@ const Navigation = (props) => {
                 </ul>
               </li>
             </div>
+          );
+        } else {
+          setAuthentication(
+            <a href="/auth">
+              Authentication
+            </a>
           );
         }
       };

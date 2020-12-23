@@ -172,6 +172,7 @@ const Posts = (props) => {
     return (
         <div key={props.postId}>
             <p>{props.title}</p>
+            <p>{props.count}</p>
             <p>Category: <a href={`/category/${props.category}`}>{props.category}</a></p>
             <p>Author: <a href={`/user/${props.author}`}>{props.author}</a></p>
             <p>{props.children}</p>

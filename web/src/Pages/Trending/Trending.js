@@ -37,7 +37,7 @@ class TopPosts extends React.Component {
             <div>
                 {
                     this.state.posts ? 
-                    this.state.posts.map(post => 
+                    this.state.posts.map((post, index)=> 
                         <Post
                             title={post.title} 
                             author={post.author} 
@@ -46,6 +46,7 @@ class TopPosts extends React.Component {
                             id={post.postId}
                             createdAt={post.createdAt}
                             date={post.date}
+                            count={index + 1}
                         >
                             {post.body}
                         </Post>    
