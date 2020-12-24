@@ -36,7 +36,7 @@ const About = () => {
         <br />
           to improve ourselves and determine solutions to mistakes and problems we cause in
           <br />
-          our daily lives. As people, we need to better ourselves and <a href="/home"> Project Sh@re </a> gives us an
+          our daily lives. As people, we need to better ourselves and <a href="/home"> Project Sh@re</a> gives us an
           <br />
           opportunity. {href} is welcoming to all users to provoke change. Users may interact
           <br />
@@ -45,7 +45,7 @@ const About = () => {
           wonder, and supporters to a common cause. {/* Style seperately - stand out*/}  Welcome to {href}!
         </p>
 
-      <h2>Why {href}?</h2>
+      <h2>Why should{href}?</h2>
       <p>
         Many ask, <i> why {href}? Why shouldn't I use another social media instead? How is this any
           <br />
@@ -61,9 +61,6 @@ const About = () => {
       <h2>Our Policy</h2>
       <p>
         <ol>
-          <li>All users must be treated with respect. Everyone at {href} makes a change; all
-          <br />
-          thoughts and opinions matter.</li>
           <li>All comments and posts must be appropriate and respectful at all times.</li>
           <li>Users may not express any offensive thoughts</li>
           <li>Unnecessary spam will prevent users from commenting and/or posting for a certain
@@ -97,28 +94,40 @@ const About = () => {
         users to give their suggestions about categories.
         <br />
         <br />
-
-        SHOULD WE DELETE THE FOLLOWING (COMMENTED)?
-        <strong><a href="/about">About:</a></strong> The <a href="/about">about</a> page explains to users
-        <br />
-        about: {href}, Why {href}?, Our Policy, and our Pages.
+        <strong><a href="/about">About:</a></strong> Talk about the requests and how they work
         <br />
         <br />
-        <strong><a href="/auth">Authenticaiton:</a></strong> In our <a href="/auth">authenticaiton</a> page, we allow users to long in/out,
+        <strong><a href="/auth">Authentication:</a></strong> In our <a href="/auth">authenticaiton</a> page, we allow users to log in/out,
         <br />
         sign-up, and create posts.
+        <br/>
+        <br/>
+        <strong><a href="/user/:userHandle">User Page:</a></strong> The user page contains information about {href}'s users, however, 
+        <br/>
+        only what is approved by the user will be displayed. The page contains their posts, supporters, and the other users supported by the
+        <br/> account.
       </p>
-
+  
       <h2>Guest VS User</h2>
-      {/* Note: Om please fill this out in bullet points, I think you know more about this than I do.  */}
-
+      <Input />
       {
         requests ?
           requests.map(r => <Request id={r.id} name={r.name} description={r.description} />) : <Loading />
       }
-      <Input />
     </div>
   );
 };
+
+/*
+New Tabs
+  - Guest vs User (Limitations of Guests)
+
+New Info
+  - CONTROL + ENTER Functionality
+  - Add Requests Info to the About Page Description
+  - Award Info
+    - How it works
+    - Ways to earn
+*/
 
 export default About;

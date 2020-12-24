@@ -36,6 +36,7 @@ const Navigation = () => {
               liked
               supported
               layout
+              bio
             }
           }
         `);
@@ -45,6 +46,7 @@ const Navigation = () => {
           sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
           sessionStorage.setItem('supported', JSON.stringify(res.tokenUser.supported));
           sessionStorage.setItem('layout', res.tokenUser.layout);
+          sessionStorage.setItem('bio', res.tokenUser.bio);
           setAuthentication(
             <div>
               <li>
@@ -99,7 +101,7 @@ const Navigation = () => {
     <div>
       <nav>
         <a href="/home">
-          Project Sh@are
+          Project Sh@re
         </a>
         <div>
           <div>

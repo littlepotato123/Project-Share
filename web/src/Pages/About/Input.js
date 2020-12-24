@@ -17,11 +17,15 @@ const Input = () => {
                     }
                 }
             `);
-            if(res.newRequest) {
-                window.location.reload(false);
+            if(res) {
+                if(res.newRequest) {
+                    window.location.reload(false);
+                } else {
+                    alert("Failed to Request");
+                };
             } else {
-                alert("Failed to Request");
-            };
+                alert('Failed to Request');
+            }
         }
         scoped();
     }

@@ -41,35 +41,33 @@ export const resolvers = {
       return post;
     },
     leaderboard: async () => {
-      let l = await User.find().sort({ supporters: -1 }).limit(5)
-      for(var i = 0; i < l.length; i++) {
+      let l = await User.find().sort({ supporters: -1 }).limit(5);
+      for(let i = 0; i < 3; i++) {
         const current = l[i];
         const next = l[i + 1];
-        const curr_sup = current.supporters;
-        const next_sup = next.supporters;
-        const range = curr_sup / 10;
-        if(curr_sup - next_sup > range) {
-          continue;
-        } else {
-        if(next && current) {
-          if(next.points > current.points) {
-            l[i + 1] = current;
-            l[i] = next;
-          }
-          if(next.awards.length > current.awards.length) {
-            l[i + i] = current;
-            l[i] = next;
+        if(current && next) {
+          const curr_sup = current.supporters;
+          const next_sup = next.supporters;
+          const range = curr_sup / 10;
+          if(curr_sup - next_sup > range) {
+            continue;
           } else {
-            l[i] = current;
-            l[i + 1] = next;
+            if(next.points > current.points) {
+              l[i + 1] = current;
+              l[i] = next;
+            }
+            if(next.awards.length > current.awards.length) {
+              l[i + i] = current;
+              l[i] = next;
+            } else {
+              l[i] = current;
+              l[i + 1] = next;
+            }
           }
         } else {
           break;
         }
-
-        } 
-      };
-      console.log(l);
+      }
       return l;
     },
     getPopular: async () => await Post.find().sort({ likes: -1 }).limit(20),

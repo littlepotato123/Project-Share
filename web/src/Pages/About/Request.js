@@ -27,12 +27,11 @@ const Requests = (props) => {
                 <button onClick={cut}>Delete</button>
             ))
         }
-    }, [])
+    }, []);
 
     return (
         <div key={props.id}>
-            {props.name}
-            {props.description}
+            <strong>{props.name}</strong>: {props.description}
             {but}
         </div>
     )

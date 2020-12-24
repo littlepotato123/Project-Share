@@ -14,7 +14,7 @@ const Edit = () => {
                     updateUser(
                         token:"${sessionStorage.getItem('token')}",
                         bio:"${bio}",
-                        layout:${parseInt(sessionStorage.getItem('layout'))}
+                        layout:${parseInt(sessionStorage.getItem('curr_layout'))}
                     ) {
                         id
                     }
@@ -48,7 +48,6 @@ const Edit = () => {
     return (
         <div>
             <textarea
-                placeholder="Hi"
                 value={bio}
                 onChange={e => {
                     setBio(e.target.value);
@@ -59,7 +58,7 @@ const Edit = () => {
             </textarea>
             <Selection />
             <button onClick={submit}>Update</button>
-            <input placeholder="New Password" value={pass} onChange={e => setPass(e.target.value)} onKeyDown={e => {
+            <input placeholder="New Password" type="password" value={pass} onChange={e => setPass(e.target.value)} onKeyDown={e => {
                 if(e.key == "Enter") {
                     password();
                 }

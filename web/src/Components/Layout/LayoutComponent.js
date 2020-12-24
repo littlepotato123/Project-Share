@@ -20,12 +20,15 @@ class LayoutComponent extends Component {
         }
     }
 
+    click = () => {
+        window.location.reload(false);
+        sessionStorage.setItem('curr_layout', this.props.id);
+        console.log(sessionStorage.getItem('curr_layout'))
+    }
+
     render() {
         return (
-            <div onClick={() => {
-                sessionStorage.setItem('layout', this.props.id);
-                window.location.reload(false);
-            }} style={this.state.styles}>
+            <div onClick={this.click} style={this.state.styles}>
                 {this.props.id} <br />
                 {this.props.title} <br />
                 {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Fetch, get_token } from '../../Tools';
+import { Fetch, get_token, liked_posts } from '../../Tools';
 import Input from './Input';
 import List from './List';
 
@@ -47,7 +47,6 @@ const Posts = (props) => {
             `);
             if(res) {
                 setC(res.getComments);
-                console.log(res.getComments);
             }
         }
         scoped();
@@ -101,13 +100,13 @@ const Posts = (props) => {
             setDeleteButton(null);
         }
 
-        if(sessionStorage.getItem('liked')) {
-            if(JSON.parse(sessionStorage.getItem('liked')).includes(props.postId)) {
+        if(liked_posts()) {
+            if(liked_posts().includes(props.postId)) {
                 setButton(
                     <button onClick={unlike}>Unlike</button>
-                )
+                );
             }
-        }
+        }    
     }, [])
 
     const like = () => {
