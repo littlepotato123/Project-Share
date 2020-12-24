@@ -24,24 +24,24 @@ const User = () => {
     const [edit, setEdit] = useState(null);
 
     useEffect(() => {
-        if(show) {
+        if (show) {
             setDisplay((
                 <div>
                     {
-                        posts ? 
-                        posts.map(post => 
-                            <Post
-                                title={post.title} 
-                                author={post.author} 
-                                category={post.category}
-                                likes={post.likes}
-                                id={post.postId}
-                                createdAt={post.createdAt}
-                            >
-                                {post.body}
-                            </Post>
-                        ) :
-                        null
+                        posts ?
+                            posts.map(post =>
+                                <Post
+                                    title={post.title}
+                                    author={post.author}
+                                    category={post.category}
+                                    likes={post.likes}
+                                    id={post.postId}
+                                    createdAt={post.createdAt}
+                                >
+                                    {post.body}
+                                </Post>
+                            ) :
+                            null
                     }
                 </div>
             ));
@@ -50,9 +50,9 @@ const User = () => {
         }
     }, [show])
 
-    let message =  null;
+    let message = null;
 
-    if(messages) {
+    if (messages) {
         message = (
             <Messages id={user.id} />
         )
@@ -61,7 +61,7 @@ const User = () => {
     }
 
     const { userHandle } = useParams();
-    
+
     const history = useHistory();
 
     useEffect(() => {
@@ -86,14 +86,14 @@ const User = () => {
                     }
                 }
             `);
-            if(res.user && res.userPosts){
+            if (res.user && res.userPosts) {
                 setSupporters(res.user.supporters)
                 sessionStorage.setItem('bio', res.user.bio);
                 setShare(`localhost:3000/user/${res.user.handle}`)
                 setUser(res.user);
                 setPosts(res.userPosts);
                 sessionStorage.setItem('supporters', res.user.supporters)
-                if(res.user.password == sessionStorage.getItem('token')) {
+                if (res.user.password == sessionStorage.getItem('token')) {
                     setButton((<button disabled="true">Support</button>))
                     setSupported(null);
                     setEdit(
@@ -102,13 +102,13 @@ const User = () => {
                 }
                 const arr = JSON.parse(sessionStorage.getItem('supported'));
                 console.log(arr);
-                if(arr.includes(res.user.password)) {
+                if (arr.includes(res.user.password)) {
                     setSupported(true);
                 } else {
                     setSupported(false);
                 }
                 sessionStorage.setItem('curr_user', res.user.password)
-                if(res.user.imageUrl){
+                if (res.user.imageUrl) {
                     setImageUrl(res.user.imageUrl);
                 } else {
                     setImageUrl('https://firebasestorage.googleapis.com/v0/b/project-share-8244f.appspot.com/o/images%2Fguest.png?alt=media&token=578322c1-1798-4a6e-ae40-c541c2dbb263');
@@ -121,11 +121,11 @@ const User = () => {
     }, [userHandle])
 
     useEffect(() => {
-        if(supported == false) {
+        if (supported == false) {
             setButton((<button onClick={support}>Support</button>))
-        } else if(supported == true) {
+        } else if (supported == true) {
             setButton((<button onClick={unsupport}>Unsupport</button>))
-        } else if(supported == null) {
+        } else if (supported == null) {
             setButton((<button disabled="true">Support</button>))
         }
     }, [supported])
@@ -142,8 +142,8 @@ const User = () => {
                 )
               }
             `);
-            if(res) {
-                if(res.supportUser !== null) {
+            if (res) {
+                if (res.supportUser !== null) {
                     setSupporters(res.supportUser);
                     sessionStorage.setItem('supporters', res.supportUser);
                     setSupported(!supported);
@@ -161,11 +161,11 @@ const User = () => {
                     }
                 }
             `);
-            if(res) {
+            if (res) {
                 sessionStorage.setItem('supported', res.tokenUser.supported);
             }
         }
-        if(sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             scoped();
         } else {
             alert('Must be logged in');
@@ -184,7 +184,7 @@ const User = () => {
                     )
                 }
             `);
-            if(res) {
+            if (res) {
                 setSupporters(res.unsupportUser);
                 sessionStorage.setItem('supporters', res.unsupportUser);
                 setSupported(!supported);
@@ -200,26 +200,26 @@ const User = () => {
                 }
             `);
             console.log(res);
-            if(res) {
+            if (res) {
                 sessionStorage.setItem('supported', res.tokenUser.supported);
             }
         }
-        if(sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             scoped();
         } else {
             alert('Must be logged in');
         }
     };
-    
+
     let userInfo = (
         <div>
             {
-                imageUrl ? 
-                <img width="600px" src={imageUrl} />
-                : <Loading />
+                imageUrl ?
+                    <img width="600px" src={imageUrl} />
+                    : <Loading />
             }
             {
-                user ? 
+                user ?
                     <div>
                         {user.handle} <br />
                         {edit} <br />
@@ -230,11 +230,11 @@ const User = () => {
                             <button>Copy Share Link</button>
                         </CopyToClipboard>
                         <button onClick={() => setMessages(!messages)}>Messages</button>
-                        { message }
+                        {message}
                         <button onClick={() => setShow(!show)}>Load Posts</button>
                         {display}
-                    </div> 
-                : <Loading />
+                    </div>
+                    : <Loading />
             }
         </div>
     )
