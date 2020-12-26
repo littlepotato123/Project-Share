@@ -20,7 +20,7 @@ export const Fetch = async (req) => {
 
 // Textarea onChange Values
 export const handleKeys = (e, state, setState, submit) => {
-    if(state == "Control" && e.key == "Enter") {
+    if(state == "Control" || "Meta" && e.key == "Enter") {
         submit();
     } else {
         setState(e.key);
