@@ -94,21 +94,66 @@ const About = () => {
         users to give their suggestions about categories.
         <br />
         <br />
-        <strong><a href="/about">About:</a></strong> Talk about the requests and how they work
+        <strong><a href="/about">About:</a></strong> The about page describes {href} as a platform and parts of it which users can access. There is a suggestions/concerns
         <br />
+        box where users can help us improve the platform.
         <br />
         <strong><a href="/auth">Authentication:</a></strong> In our <a href="/auth">authenticaiton</a> page, we allow users to log in/out,
         <br />
         sign-up, and create posts.
-        <br/>
-        <br/>
-        <strong><a href="/user/:userHandle">User Page:</a></strong> The user page contains information about {href}'s users, however, 
-        <br/>
-        only what is approved by the user will be displayed. The page contains their posts, supporters, and the other users supported by the
-        <br/> account.
+        <br />
+        <br />
+        <strong><a href="/user/:userHandle">User Page:</a></strong> The user page contains information about {href}'s users, however,
+        <br />
+        only what is approved by the user will be displayed. Information like posts, post count, supporters, supporting, bio, awards, etc.
+        <br />
+        <br />
+        <strong><a href="/newPost">New Post:</a></strong> Creating a post, is its own page; it consists of a title, topic, and a body. When the
+        <br />
+        post is displayed, the audience can identify the user, comments, likes, publish date, title, and category.
+        <br />
+        <br />
       </p>
-  
-      <h2>Guest VS User</h2>
+
+      <h2>Guests</h2>
+      <p>
+        INCOMPLETE
+      </p>
+      <h2>Users</h2>
+      <p>
+        INCLOMPLETE
+      </p>
+
+      <h2>Special Features</h2>
+      <p>Ways to submit:</p>
+      <li>  BUTTON NAMNES PENDING</li>
+      <li>  Windows - "Ctrl + Shift"</li>
+      <li>  IOS - "PENDING"</li>
+      <p>
+        <strong>Awards:</strong>
+        <br />
+        <p>
+          Points earned through POSTS:
+        </p>
+        <ol>10 Posts: 5 Points</ol>
+        <ol>100 Posts: 50 Points</ol>
+        <ol>250 Posts: 100 Points</ol>
+        <ol>500 Posts: 200 Points</ol>
+        <ol>1000 Posts: 500 points</ol>
+        <p>
+          Points earned through SUPPORTERS:
+        </p>
+        <ol>1000 Supporters: 100 Points</ol>
+        <ol>10,000 Supporters: 200 Points</ol>
+        <ol>50,000 Supporters: 500 Points</ol>
+        <ol>100,000 Supporters: 1000 Points</ol>
+        <ol>Everyday on Top of the Leaderboard (2nd and 3rd): 50 Points</ol>
+        <ol>Everyday on the Top of the Leaderboard: 100 Points</ol>
+      </p>
+      <strong>How AWARDS work:</strong>
+      <p>PENDING</p>
+
+
       <Input />
       {
         requests ?
@@ -122,7 +167,7 @@ const About = () => {
 New Tabs
   - Guest vs User (Limitations of Guests)
 
-New Info
+New Info (Extra info)
   - CONTROL + ENTER Functionality
   - Add Requests Info to the About Page Description
   - Award Info
