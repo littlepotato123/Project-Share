@@ -20,6 +20,7 @@ const User = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [button, setButton] = useState(null);
     const [supported, setSupported] = useState(false);
+    const [count, setCount] = useState(null);
 
     const [edit, setEdit] = useState(null);
 
@@ -88,6 +89,7 @@ const User = () => {
             `);
             if (res.user && res.userPosts) {
                 setSupporters(res.user.supporters)
+                setCount(res.userPosts.length);
                 sessionStorage.setItem('bio', res.user.bio);
                 setShare(`localhost:3000/user/${res.user.handle}`)
                 setUser(res.user);
@@ -101,11 +103,12 @@ const User = () => {
                     )
                 }
                 const arr = JSON.parse(sessionStorage.getItem('supported'));
-                console.log(arr);
-                if (arr.includes(res.user.password)) {
-                    setSupported(true);
-                } else {
-                    setSupported(false);
+                if(arr) {
+                    if (arr.includes(res.user.password)) {
+                        setSupported(true);
+                    } else {
+                        setSupported(false);
+                    }
                 }
                 sessionStorage.setItem('curr_user', res.user.password)
                 if (res.user.imageUrl) {
@@ -224,6 +227,9 @@ const User = () => {
                         {user.handle} <br />
                         {edit} <br />
                         {supporters} <br />
+                        {count} <br />
+                        <a href={`/supporting/${userHandle}`}>Supporting Users</a> <br />
+                        <a href={`/supported/${userHandle}`}>Supported Users</a> <br />
                         {button}
                         <h3>{user.bio}</h3> <br />
                         <CopyToClipboard text={share}>

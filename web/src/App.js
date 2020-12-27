@@ -16,6 +16,8 @@ import WrongUser from './Pages/Errors/WrongUser';
 import Home from './Pages/Home/Home';
 import Leaderboard from './Pages/Leaderboard/Leaderboard';
 import NewPost from './Pages/New Post/NewPost';
+import Supported from './Pages/Supporting/Supported';
+import Supporting from './Pages/Supporting/Supporting';
 import Trending from './Pages/Trending/Trending';
 import MessagePage from './Pages/User Page/MessagePage';
 import User from './Pages/User Page/User';
@@ -46,6 +48,12 @@ const App = () => {
         </Route>
         <Route path="/categories">
           <Categories />
+        </Route>
+        <Route exact path="/supported/:handle">
+          <Supported /> 
+        </Route>
+        <Route exact path="/supporting/:handle">
+          <Supporting />
         </Route>
         <Route path="/wronguser">
           <WrongUser />
