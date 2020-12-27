@@ -8,9 +8,9 @@ const Popup = (props) => {
             {props.children}
             <button onClick={() => {
                 setStyles('hidden');
-            }}>X</button>
+            }}>Close</button>
         </div>
     )
 }
 
-export default Popup
+export default Popup;

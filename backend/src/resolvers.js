@@ -99,16 +99,6 @@ export const resolvers = {
         return user;
       }
     },
-    clear: async (_, {}) => {
-      // Delete Many deletes any object it finds with the specific parameters
-      await User.deleteMany({});
-      await Post.deleteMany({});
-      await Comment.deleteMany({});
-      await Category.deleteMany({});
-      await Message.deleteMany({});
-      await Request.deleteMany({});
-      return true;
-    },
     login: async(_, { handle, password }) => {
       const user = await User.findOne({ handle });
       if(user == null) {
