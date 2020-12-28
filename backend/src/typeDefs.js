@@ -1,25 +1,6 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
-  type Query {
-    homePage: [Post!]!
-    getComments(id: String!): [Comment!]!
-    user(handle: String!): User
-    getCategories: [Category!]
-    categoryPosts(category: String!): [Post!]
-    userPosts(handle: String!): [Post!]
-    getMessages(userId: String!): [Message!]
-    categoryPost(category: String!): Post
-    leaderboard: [User!]
-    getPopular: [Post!]
-    getOneCategory(category: String!): Post
-    tokenUser(token: String!): User
-    userOnePost(handle: String!): Post
-    getCategory(category: String!): Category
-    requests: [Request!]
-    allMessages(id: String!): [Message!]!
-  }
-
   type Request {
     id: ID!
     name: String!
@@ -78,13 +59,31 @@ export const typeDefs = gql`
     layout: Int!
   }
 
+  type Query {
+    homePage: [Post!]!
+    getComments(id: String!): [Comment!]!
+    user(handle: String!): User
+    getCategories: [Category!]
+    categoryPosts(category: String!): [Post!]
+    userPosts(handle: String!): [Post!]
+    getMessages(userId: String!): [Message!]
+    categoryPost(category: String!): Post
+    leaderboard: [User!]
+    getPopular: [Post!]
+    getOneCategory(category: String!): Post
+    tokenUser(token: String!): User
+    userOnePost(handle: String!): Post
+    getCategory(category: String!): Category
+    requests: [Request!]
+    allMessages(id: String!): [Message!]!
+    getComments(id: String!): [Comment!]
+  }
+
   type Mutation {
     signup(handle: String!, password: String!, imageUrl: String, bio: String!): User
     login(handle: String!, password: String!): String
-    clear: Boolean!
     newPost(token: String!, date: String!, title: String!, category: String!, body: String!): Post
     newComment(token: String!, body: String!, id: String!): Boolean!
-    getComments(id: String!): [Comment!]
     createMessage(token: String!, body: String!, userId: String!): Message!
     likePost(id: String!, current_like: Int!, token: String): Int
     unlikePost(id:String!, current_like: Int!, token: String): Int
