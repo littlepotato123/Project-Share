@@ -76,7 +76,6 @@ export const typeDefs = gql`
     getCategory(category: String!): Category
     requests: [Request!]
     allMessages(id: String!): [Message!]!
-    getComments(id: String!): [Comment!]
   }
 
   type Mutation {
