@@ -57,7 +57,6 @@ const About = () => {
         </ol>
       </p>
 
-<<<<<<< HEAD
       <h2>Pages</h2>
       <p>
         <strong><a href="/home"> Home: </a></strong> The <a href="/home"> home </a> page contains a navigation bar that allows users to access other pages,
@@ -109,19 +108,19 @@ const About = () => {
       <p></p>
       <strong>User</strong>
       <p></p>
-=======
+
       <h2>Guest VS User</h2>
       <p>As members of {href}, users have access to all the features on the platform. However, as guests, they have limited access to the website. Guests are prevented to taking part in the following:</p>
       <li>Like posts</li>
       <li>Comment on posts</li>
       <li>Support Users</li>
       <li>Message Users</li>
-        
+
       <h2>Special Features</h2>
       <h4>Message User</h4>
       <p>
         {href}'s users get the opportunity to message other influencers about anything they beleive in. Up to eight messages are displayed to the reciever, the rest of the messages are
-        linked to another page. Users on both ends can communicate with each other constantly.   
+        linked to another page. Users on both ends can communicate with each other constantly.
       </p>
       <h4>Ways to Submit</h4>
       <ul>
@@ -131,11 +130,11 @@ const About = () => {
       <h4>Leaderboard Algorithm</h4>
       <p>
         The leaderboard algorithm is just a sorting algorithm that takes the top 5 users, with the highest supporters and ranks them.
-        After getting the top 5 users, we start sorting through the top 3, so if you are in 4th or 5th place, you will stay in ranking. 
+        After getting the top 5 users, we start sorting through the top 3, so if you are in 4th or 5th place, you will stay in ranking.
         If you are in any ranking above that, just purily based on the amount of supporters, there is a chance that your ranking might change!
-        We go through the top 3 users from the top 5 based on supporters, and we check if the user that was in the ranking right before the user that we 
+        We go through the top 3 users from the top 5 based on supporters, and we check if the user that was in the ranking right before the user that we
         currently are checking, is relatively close in the amount of supporters. We determine this by checking if the number of supporters of the user ranking below is atleast
-        90% of the user that we are currently checking. If the supporter count is relatively close between the two users, then we check if the amount of points is greater, for the user with the lower ranking. 
+        90% of the user that we are currently checking. If the supporter count is relatively close between the two users, then we check if the amount of points is greater, for the user with the lower ranking.
         If the lower ranking user does have more points, then the current user and the user ranking below it switch places. After that we check for the amount of awards that each user has won. This is the crucial factor, since this is that last  factor that can switch your ranking.
         If the user ranking below has less awards, in the end, they maintain their rank.
         <h2>Awards</h2>
@@ -151,7 +150,7 @@ const About = () => {
           <li>100,000 Supporters: 1000 Points</li>
         </ul>
       </p>
->>>>>>> 26a886af86ee802b0e93879eafb2e119f6129432
+
 
       <Input />
       {
