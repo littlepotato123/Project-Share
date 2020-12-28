@@ -115,14 +115,11 @@ const About = () => {
         <br />
       </p>
 
-      <h2>Guests</h2>
-      <p>
-        INCOMPLETE
-      </p>
-      <h2>Users</h2>
-      <p>
-        INCLOMPLETE
-      </p>
+      <h2>Guest vs. User</h2>
+      <strong>Guest</strong>
+      <p></p>
+      <strong>User</strong>
+      <p></p>
 
       <h2>Special Features</h2>
       <p>Ways to submit:</p>
