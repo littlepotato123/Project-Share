@@ -2,8 +2,8 @@
   "name": "project-share",
   "version": "1.0.0",
   "scripts": {
-    "web": "cd web && yarn start",
-    "api": "cd backend && yarn start"
+    "web": "cd web && npm run start",
+    "api": "cd backend && npm run start"
   },
   "repository": {
     "type": "git",
@@ -12,6 +12,5 @@
   "bugs": {
     "url": "https://github.com/littlepotato123/Project-Share/issues"
   },
-  "homepage": "https://github.com/littlepotato123/Project-Share#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/littlepotato123/Project-Share#readme"
 }
