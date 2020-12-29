@@ -17,7 +17,9 @@ const startServer = async () => {
   await mongoose.connect("mongodb://localhost/project-share", {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  });
+  })
+  .then(() => console.log('Conected'))
+  .catch(e => console.log(e));
 
   app.listen({ port: 4000 }, () =>
     console.log(`Server ready at http://localhost:4000${server.graphqlPath}`)
