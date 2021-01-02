@@ -10,7 +10,7 @@ import { User } from './models/User';
 
 export const resolvers = {
   Query: {
-    homePage: async () => await Post.find(),
+    homePage: async () => await Post.find().limit(50),
     getComments: async (_, { id }) => {
       const comments = await Comment.find({ postId: id });
       return comments;

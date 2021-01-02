@@ -1,0 +1,38 @@
+{
+  "name": "project-share-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "dev": "nodemon --exec babel-node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/littlepotato123/Babel-Setup.git"
+  },
+  "keywords": [
+    "Setup",
+    "Babel",
+    "Es6"
+  ],
+  "author": "Om Shivam Panda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/littlepotato123/Babel-Setup/issues"
+  },
+  "homepage": "https://github.com/littlepotato123/Babel-Setup#readme",
+  "dependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "apollo-server": "^2.19.1",
+    "graphql": "^15.4.0",
+    "knex": "^0.21.15",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
