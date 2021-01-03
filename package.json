@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "web": "cd web && npm run start",
-    "api": "cd backend && npm run start"
+    "api": "cd api && npm run dev"
   },
   "repository": {
     "type": "git",
