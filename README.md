@@ -14,6 +14,10 @@
   - 10,000 Supporters --> 200 Points
   - 50,000 Supporters --> 500 Points
   - 100,000 Supporters --> 1000 Points
+  
+# Backend Resources
+  - <a href="https://github.com/bkonkle/node-knex-typescript-example">Sample Repository</a>
+  - <a href="https://knexjs.org/#typescript-support">Documentation</a>
 
 # Pages Info
   <h2>Pages</h2>
