@@ -13,13 +13,15 @@ const apollo_server_1 = require("apollo-server");
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const HelloWorldResolvers_1 = require("./resolvers/HelloWorldResolvers");
+const AuthResolvers_1 = require("./resolvers/AuthResolvers");
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    yield typeorm_1.createConnection();
+    yield typeorm_1.createConnection()
+        .then(() => console.log('Connected to Database'))
+        .catch(e => console.log(e));
     const server = new apollo_server_1.ApolloServer({
         playground: true,
         schema: yield type_graphql_1.buildSchema({
-            resolvers: [HelloWorldResolvers_1.HelloWorldResolver]
+            resolvers: [AuthResolvers_1.AuthResolver]
         }),
         context: ({ req, res }) => ({ req, res })
     });
