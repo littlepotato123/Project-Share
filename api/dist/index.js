@@ -1,16 +1,34 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_1 = require("apollo-server");
-const resolvers_1 = require("./graphql/resolvers");
-const typeDefs_1 = require("./graphql/typeDefs");
-const server = new apollo_server_1.ApolloServer({
-    playground: true,
-    resolvers: resolvers_1.resolvers,
-    typeDefs: typeDefs_1.typeDefs
-});
-server.listen()
-    .then(({ url }) => {
-    console.log(`Server started at ${url}`);
-})
-    .catch((e) => console.log(e));
+require("reflect-metadata");
+const type_graphql_1 = require("type-graphql");
+const typeorm_1 = require("typeorm");
+const AuthResolvers_1 = require("./resolvers/AuthResolvers");
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield typeorm_1.createConnection()
+        .then(() => console.log('Connected to Database'))
+        .catch(e => console.log(e));
+    const server = new apollo_server_1.ApolloServer({
+        playground: true,
+        schema: yield type_graphql_1.buildSchema({
+            resolvers: [AuthResolvers_1.AuthResolver]
+        }),
+        context: ({ req, res }) => ({ req, res })
+    });
+    server.listen()
+        .then(({ url }) => {
+        console.log(`Server started at ${url}`);
+    })
+        .catch(e => console.log(e));
+}))();
 //# sourceMappingURL=index.js.map
