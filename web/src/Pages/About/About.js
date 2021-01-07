@@ -37,7 +37,7 @@ const About = () => {
           wonder, and supporters to a common cause. {/* Style seperately - stand out*/}  Welcome to {href}!
         </p>
 
-      <h2>Why should{href}?</h2>
+      <h2>Why {href}?</h2>
       <p>
         Many ask, <i> why {href}? Why shouldn't I use another social media instead? How is this any
           different? </i> {href} is specifically created to help discuss world-wide issues. A platform
@@ -102,12 +102,6 @@ const About = () => {
         <br />
         <br />
       </p>
-
-      <h2>Guest vs. User</h2>
-      <strong>Guest</strong>
-      <p></p>
-      <strong>User</strong>
-      <p></p>
 
       <h2>Guest VS User</h2>
       <p>As members of {href}, users have access to all the features on the platform. However, as guests, they have limited access to the website. Guests are prevented to taking part in the following:</p>
