@@ -4,6 +4,8 @@ import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { HelloWorldResolver } from "./resolvers/HelloWorldResolvers";
 
+// Reference: https://github.com/benawad/typescript-graphql-crud-example
+
 (async () => {
     await createConnection();
 
