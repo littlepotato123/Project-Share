@@ -2,17 +2,19 @@ import { ApolloServer } from 'apollo-server';
 import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
-import { HelloWorldResolver } from "./resolvers/HelloWorldResolvers";
+import { AuthResolver } from './resolvers/AuthResolvers';
 
 // Reference: https://github.com/benawad/typescript-graphql-crud-example
 
 (async () => {
-    await createConnection();
+    await createConnection()
+        .then(() => console.log('Connected to Database'))
+        .catch(e => console.log(e))
 
     const server = new ApolloServer({
         playground: true,
         schema: await buildSchema({
-            resolvers: [HelloWorldResolver]
+            resolvers: [AuthResolver]
         }),
         context: ({ req, res}) => ({ req, res })
     });
