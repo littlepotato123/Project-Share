@@ -2,18 +2,31 @@ import { ApolloServer } from 'apollo-server';
 import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
-import { AuthResolver } from './resolvers/AuthResolvers';
+import { AboutPageResolver } from './resolvers/About/AboutPageResolver';
+import { TestingResolver } from './resolvers/Testing/TestingResolver';
+import { AuthResolver } from './resolvers/User/AuthResolvers';
+import { EditUserResolver } from './resolvers/User/EditUserResolver';
+import { UserPageResolver } from './resolvers/User/UserPageResolvers';
 
 (async () => {
     await createConnection()
         .then(() => console.log('Connected to Database'))
         .catch(e => console.log(e))
 
+    
+    const schema = await buildSchema({
+        resolvers: [
+            AuthResolver, 
+            TestingResolver, 
+            UserPageResolver, 
+            EditUserResolver,
+            AboutPageResolver
+        ]
+    });
+
     const server = new ApolloServer({
         playground: true,
-        schema: await buildSchema({
-            resolvers: [AuthResolver]
-        }),
+        schema,
         context: ({ req, res}) => ({ req, res })
     });
 

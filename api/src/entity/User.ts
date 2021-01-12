@@ -44,4 +44,8 @@ export class User extends BaseEntity {
     @Field(() => [String])
     @Column("simple-array")
     supporting: Array<String>
+
+    @Field(() => Int)
+    @Column("int", { default: 0 })
+    layout: number;
 }
