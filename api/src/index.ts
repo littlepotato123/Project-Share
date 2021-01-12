@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm';
 import { AboutPageResolver } from './resolvers/About/AboutPageResolver';
 import { TestingResolver } from './resolvers/Testing/TestingResolver';
 import { AuthResolver } from './resolvers/User/AuthResolvers';
+import { AwardResolver } from './resolvers/User/AwardResolver';
 import { EditUserResolver } from './resolvers/User/EditUserResolver';
 import { UserPageResolver } from './resolvers/User/UserPageResolvers';
 
@@ -20,7 +21,8 @@ import { UserPageResolver } from './resolvers/User/UserPageResolvers';
             TestingResolver, 
             UserPageResolver, 
             EditUserResolver,
-            AboutPageResolver
+            AboutPageResolver,
+            AwardResolver
         ]
     });
 

@@ -16,6 +16,7 @@ const typeorm_1 = require("typeorm");
 const AboutPageResolver_1 = require("./resolvers/About/AboutPageResolver");
 const TestingResolver_1 = require("./resolvers/Testing/TestingResolver");
 const AuthResolvers_1 = require("./resolvers/User/AuthResolvers");
+const AwardResolver_1 = require("./resolvers/User/AwardResolver");
 const EditUserResolver_1 = require("./resolvers/User/EditUserResolver");
 const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
 (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,7 +29,8 @@ const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
             TestingResolver_1.TestingResolver,
             UserPageResolvers_1.UserPageResolver,
             EditUserResolver_1.EditUserResolver,
-            AboutPageResolver_1.AboutPageResolver
+            AboutPageResolver_1.AboutPageResolver,
+            AwardResolver_1.AwardResolver
         ]
     });
     const server = new apollo_server_1.ApolloServer({
