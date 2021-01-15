@@ -1,6 +1,5 @@
 import { Field, Int, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Award } from "./Award";
 
 @ObjectType()
 @Entity()
@@ -29,9 +28,9 @@ export class User extends BaseEntity {
     @Column("int")
     points: number;
 
-    @Field(() => [Award])
+    @Field(() => [String])
     @Column("simple-array")
-    awards: Array<Award>;
+    awards: Array<String>;
 
     @Field(() => Int)
     @Column("int", { default: 0 })
@@ -44,4 +43,16 @@ export class User extends BaseEntity {
     @Field(() => [String])
     @Column("simple-array")
     supporting: Array<String>
-}
+
+    @Field(() => Int)
+    @Column("int", { default: 0 })
+    layout: number;
+
+    @Field(() => [String])
+    @Column("simple-array")
+    messages: Array<String>
+
+    @Field(() => [Int])
+    @Column("simple-array")
+    liked: number[];
+};
