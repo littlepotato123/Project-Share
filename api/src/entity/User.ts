@@ -51,4 +51,8 @@ export class User extends BaseEntity {
     @Field(() => [String])
     @Column("simple-array")
     messages: Array<String>
+
+    @Field(() => [Int])
+    @Column("simple-array")
+    liked: number[];
 };

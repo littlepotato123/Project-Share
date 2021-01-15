@@ -14,6 +14,9 @@ require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const AboutPageResolver_1 = require("./resolvers/About/AboutPageResolver");
+const CategoryResolver_1 = require("./resolvers/Category/CategoryResolver");
+const GetPostResolver_1 = require("./resolvers/Post/GetPostResolver");
+const MutationPostResolver_1 = require("./resolvers/Post/MutationPostResolver");
 const TestingResolver_1 = require("./resolvers/Testing/TestingResolver");
 const AuthResolvers_1 = require("./resolvers/User/AuthResolvers");
 const AwardResolver_1 = require("./resolvers/User/AwardResolver");
@@ -30,7 +33,10 @@ const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
             UserPageResolvers_1.UserPageResolver,
             EditUserResolver_1.EditUserResolver,
             AboutPageResolver_1.AboutPageResolver,
-            AwardResolver_1.AwardResolver
+            AwardResolver_1.AwardResolver,
+            GetPostResolver_1.GetPostResolver,
+            CategoryResolver_1.CategoryResolver,
+            MutationPostResolver_1.MutationPostResolver
         ]
     });
     const server = new apollo_server_1.ApolloServer({

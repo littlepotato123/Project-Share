@@ -137,4 +137,36 @@ export class UserPageResolver extends BaseEntity {
             return null;
         }
     }
+
+    @Query(() => [User], { nullable: true })
+    async leaderboard() {
+        let init = (await User.find()).sort((a, b) => (a.supporters > b.supporters) ? 1 : -1);
+        for(let i: number = 0; i < 3; i++) {
+            const current = init[i];
+            const next = init[i + 1];
+            if(current && next) {
+                const curr_sup = current.supporters;
+                const next_sup = next.supporters;
+                const range = curr_sup / 10;
+                if(curr_sup - next_sup > range) {
+                    continue;
+                } else {
+                    if(next.points > current.points) {
+                        init[i + 1] = current;
+                        init[i] = next;
+                    }
+                    if(next.awards.length > current.awards.length) {
+                        init[i + 1] = current;
+                        init[i] = next;
+                    } else {
+                        init[i] = current;
+                        init[i + 1] = next
+                    }
+                }
+            } else {
+                break;
+            }
+        };
+        return init;
+    }
 }

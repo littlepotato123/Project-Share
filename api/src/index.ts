@@ -3,6 +3,9 @@ import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import { AboutPageResolver } from './resolvers/About/AboutPageResolver';
+import { CategoryResolver } from './resolvers/Category/CategoryResolver';
+import { GetPostResolver } from './resolvers/Post/GetPostResolver';
+import { MutationPostResolver } from './resolvers/Post/MutationPostResolver';
 import { TestingResolver } from './resolvers/Testing/TestingResolver';
 import { AuthResolver } from './resolvers/User/AuthResolvers';
 import { AwardResolver } from './resolvers/User/AwardResolver';
@@ -22,7 +25,10 @@ import { UserPageResolver } from './resolvers/User/UserPageResolvers';
             UserPageResolver, 
             EditUserResolver,
             AboutPageResolver,
-            AwardResolver
+            AwardResolver,
+            GetPostResolver,
+            CategoryResolver,
+            MutationPostResolver
         ]
     });
 
