@@ -6,7 +6,7 @@ import Request from './Request';
 
 const About = () => {
   const [requests, setRequests] = useState(null);
-  const href = (<a href="/home">Project Sh@re</a>);
+  const href = (<a style={{ textDecoration: "none" }} href="/home">Project Sh@re</a>);
 
   useEffect(() => {
     const scoped = async () => {
@@ -88,20 +88,6 @@ const About = () => {
         If the lower ranking user does have more points, then the current user and the user ranking below it switch places. After that we check for the amount of awards that each user has won. This is the crucial factor, since this is that last  factor that can switch your ranking.
         If the user ranking below has less awards, in the end, they maintain their rank.
         </p>
-      <h2 className="awardsTitle">Awards</h2>
-      <p className="awards_paragraph">
-        <ul>
-          <li>10 Posts: 5 Points</li>
-          <li>100 Posts: 50 Points</li>
-          <li>250 Posts: 100 Points</li>
-          <li>500 Posts: 200 Points</li>
-          <li>1000 Posts: 500 Points</li>
-          <li>1000 Supporters: 100 Points</li>
-          <li>10,000 Supporters: 200 Points</li>
-          <li>50,000 Supporters: 500 Points</li>
-          <li>100,000 Supporters: 1000 Points</li>
-        </ul>
-      </p>
 
 
       <Input className="inputBox" />
