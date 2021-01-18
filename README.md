@@ -4,6 +4,9 @@
   - `yarn web` 
   - `yarn api`
 
+# Backend URL
+  - Deployed: https://projectshare-api.herokuapp.com/
+  - Repository: https://github.com/littlepotato123/Project-Share-API
 # Awards
   - 10 Posts --> 5 Points
   - 100 Posts --> 50 Points

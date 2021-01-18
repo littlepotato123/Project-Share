@@ -1,4 +1,5 @@
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
 import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
@@ -12,6 +13,12 @@ import { EditUserResolver } from './resolvers/User/EditUserResolver';
 import { UserPageResolver } from './resolvers/User/UserPageResolvers';
 
 (async () => {
+    const app = express();
+    
+    app.get('/', (_: any, res) => {
+        res.send("Go to <a href='/graphql'>GraphQL</a>")
+    })
+    
     await createConnection()
         .then(() => console.log('Connected to Database'))
         .catch(e => console.log(e))
@@ -35,10 +42,12 @@ import { UserPageResolver } from './resolvers/User/UserPageResolvers';
         schema,
         context: ({ req, res}) => ({ req, res })
     });
+    
+    server.applyMiddleware({ app });
 
-    server.listen()
-        .then(({ url }) => {
-            console.log(`Server started at ${url}`)
-        })
-        .catch(e => console.log(e));
+    const PORT = process.env.PORT || 4000;
+    
+    app.listen(PORT, () => {
+        console.log(`Server started on http://localhost:${PORT}${server.graphqlPath}`);
+    });
 })();
