@@ -29,7 +29,7 @@ export class GetPostResolver extends BaseEntity {
 
     @Query(() => [Post], { nullable: true })
     async trending_posts() {
-        let posts = (await Post.find()).sort((a, b) => (a.likes > b.likes) ? 1 : -1);
+        let posts = (await Post.find()).sort((a, b) => (a.likes < b.likes) ? 1 : -1);
         if(posts.length > 20) {
             return posts.splice(0, 21)
         } else {

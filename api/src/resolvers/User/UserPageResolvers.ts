@@ -10,9 +10,6 @@ class UserSupportingInput {
 
     @Field()
     token: string;
-
-    @Field(() => Int)
-    supporters: number;
 }
 
 @InputType()
@@ -68,15 +65,18 @@ export class UserPageResolver extends BaseEntity {
         const second = await User.findOne({ where: { password: input.token } });
         if(main && second) {
             let supported = main.supported;
-            supported.push(input.token);
             let supporting = second.supporting;
+            if(supported.includes(second.password) && supporting.includes(main.password)) {
+                return null;
+            }
+            supported.push(input.token);
             supporting.push(main.password)
             await User.update(
                 {
                     id: input.id
                 },
                 {
-                    supporters: input.supporters + 1,
+                    supporters: main.supporters + 1,
                     supported
                 }
             );
@@ -108,31 +108,36 @@ export class UserPageResolver extends BaseEntity {
         if(main && second) {
             let supported = main.supported;
             let supporting = second.supporting;
-            supported = remove(supported, input.token)
-            supporting = remove(supporting, main.password);
-            await User.update(
-                {
-                    id: input.id
-                },
-                {
-                    supporters: input.supporters - 1,
-                    supported
+            if(supported.includes(second.password) && supporting.includes(main.password)) {
+                supported = remove(supported, input.token)
+                supporting = remove(supporting, main.password);
+                await User.update(
+                    {
+                        id: input.id
+                    },
+                    {
+                        supporters: main.supporters - 1,
+                        supported
+                    }
+                );
+                await User.update(
+                    {
+                        id: second.id
+                    },
+                    {
+                        supporting
+                    }
+                );
+                const user = await User.findOne({ where: { id: main.id } })
+                if(user) {
+                    return user.supporters
+                } else {
+                    return null;
                 }
-            );
-            await User.update(
-                {
-                    id: second.id
-                },
-                {
-                    supporting
+                    
+                } else {
+                    return null;
                 }
-            );
-            const user = await User.findOne({ where: { id: main.id } })
-            if(user) {
-                return user.supporters
-            } else {
-                return null;
-            }
         } else {
             return null;
         }
@@ -140,7 +145,7 @@ export class UserPageResolver extends BaseEntity {
 
     @Query(() => [User], { nullable: true })
     async leaderboard() {
-        let init = (await User.find()).sort((a, b) => (a.supporters > b.supporters) ? 1 : -1);
+        let init = (await User.find()).sort((a, b) => (a.supporters < b.supporters) ? 1 : -1);
         for(let i: number = 0; i < 3; i++) {
             const current = init[i];
             const next = init[i + 1];
@@ -155,7 +160,7 @@ export class UserPageResolver extends BaseEntity {
                         init[i + 1] = current;
                         init[i] = next;
                     }
-                    if(next.awards.length > current.awards.length) {
+                    if(next.awards.length >= current.awards.length) {
                         init[i + 1] = current;
                         init[i] = next;
                     } else {

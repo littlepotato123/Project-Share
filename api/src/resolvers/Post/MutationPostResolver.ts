@@ -51,9 +51,6 @@ class LikePostInput {
 
     @Field()
     token: string;
-
-    @Field()
-    current_likes: number;
 }
 
 @Resolver()
@@ -122,6 +119,9 @@ export class MutationPostResolver extends BaseEntity {
         const post = await Post.findOne({ where: { id: input.id } });
         if(user && post) {
             let arr = post.liked;
+            if(arr.includes(user.password)) {
+                return null;
+            } 
             arr.push(user.password);
             await Post.update(
                 {
@@ -148,7 +148,7 @@ export class MutationPostResolver extends BaseEntity {
         }
     }
 
-    @Mutation(() => Int)
+    @Mutation(() => Int, { nullable: true })
     async unlike_post(
         @Arg("input", () => LikePostInput) input: LikePostInput
     ) {
@@ -156,7 +156,10 @@ export class MutationPostResolver extends BaseEntity {
         const post = await Post.findOne({ where: { id: input.id } });
         if(user && post) {
             let arr = post.liked;
-            arr =   remove(arr, user.password);
+            if(!arr.includes(user.password)) {
+                return null;
+            }
+            arr = remove(arr, user.password);
             await Post.update(
                 {
                     id: input.id

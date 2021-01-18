@@ -70,7 +70,8 @@ export class AuthResolver {
             supporting: [],
             supporters: 0,
             layout: 0,
-            messages: []
+            messages: [],
+            liked: []
         }).save();
         return user;
     }

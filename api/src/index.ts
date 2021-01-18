@@ -6,7 +6,6 @@ import { AboutPageResolver } from './resolvers/About/AboutPageResolver';
 import { CategoryResolver } from './resolvers/Category/CategoryResolver';
 import { GetPostResolver } from './resolvers/Post/GetPostResolver';
 import { MutationPostResolver } from './resolvers/Post/MutationPostResolver';
-import { TestingResolver } from './resolvers/Testing/TestingResolver';
 import { AuthResolver } from './resolvers/User/AuthResolvers';
 import { AwardResolver } from './resolvers/User/AwardResolver';
 import { EditUserResolver } from './resolvers/User/EditUserResolver';
@@ -21,7 +20,6 @@ import { UserPageResolver } from './resolvers/User/UserPageResolvers';
     const schema = await buildSchema({
         resolvers: [
             AuthResolver, 
-            TestingResolver, 
             UserPageResolver, 
             EditUserResolver,
             AboutPageResolver,

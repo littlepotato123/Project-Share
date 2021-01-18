@@ -17,7 +17,6 @@ const AboutPageResolver_1 = require("./resolvers/About/AboutPageResolver");
 const CategoryResolver_1 = require("./resolvers/Category/CategoryResolver");
 const GetPostResolver_1 = require("./resolvers/Post/GetPostResolver");
 const MutationPostResolver_1 = require("./resolvers/Post/MutationPostResolver");
-const TestingResolver_1 = require("./resolvers/Testing/TestingResolver");
 const AuthResolvers_1 = require("./resolvers/User/AuthResolvers");
 const AwardResolver_1 = require("./resolvers/User/AwardResolver");
 const EditUserResolver_1 = require("./resolvers/User/EditUserResolver");
@@ -29,7 +28,6 @@ const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
     const schema = yield type_graphql_1.buildSchema({
         resolvers: [
             AuthResolvers_1.AuthResolver,
-            TestingResolver_1.TestingResolver,
             UserPageResolvers_1.UserPageResolver,
             EditUserResolver_1.EditUserResolver,
             AboutPageResolver_1.AboutPageResolver,
