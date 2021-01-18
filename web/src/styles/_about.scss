@@ -12,7 +12,7 @@ $text_color: #180f0f;
     padding: 20px 0px;
 }
 
-.aboutTitle, .whyTitle, .policyTitle, .guestVSuserTitle, .special-featuresTitle, .awardsTitle{
+.aboutTitle, .whyTitle, .policyTitle, .guestVSuserTitle, .special-featuresTitle{
     width: 45%;
     height: 50px;
     line-height: 50px;
@@ -20,9 +20,10 @@ $text_color: #180f0f;
     text-align: center;
     margin-left: 55px;
     margin-bottom: -40px;
+    
 }
 
-.aboutTitle_paragraph, .why_paragraph, .policy_paragraph, .gVSu_paragraph, .sf_paragraph, .awards_paragraph {
+.aboutTitle_paragraph, .why_paragraph, .policy_paragraph, .gVSu_paragraph, .sf_paragraph{
     text-align: left;
     text-decoration:none;
     font-size: 15px;
@@ -66,17 +67,17 @@ $text_color: #180f0f;
     margin-top: 20px;
 }
 
-.awardsTitle {
-    float: right;
-    margin-top: -509px;
-}
-
-.awards_paragraph {
-    float: right;
-    margin-top: -459px;
-    margin-right: 0px;
-}
-
-.aboutTitle_paragraph, .why_paragraph, .policy_paragraph, .gVSu_paragrap, .awards_paragraph {
+.aboutTitle_paragraph, .why_paragraph, .policy_paragraph, .gVSu_paragrap {
     height: 210px;
+}
+
+// Input.js styling below
+
+.inputArea {
+    width: 30%;
+    height: 100px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
 }

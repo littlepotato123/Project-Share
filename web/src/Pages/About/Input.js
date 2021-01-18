@@ -17,8 +17,8 @@ const Input = () => {
                     }
                 }
             `);
-            if(res) {
-                if(res.newRequest) {
+            if (res) {
+                if (res.newRequest) {
                     window.location.reload(false);
                 } else {
                     alert("Failed to Request");
@@ -32,7 +32,7 @@ const Input = () => {
 
     return (
         <div>
-            <textarea value={description} onKeyDown={e => handleKeys(e, key, setKey, submit)} onChange={e => setDescription(e.target.value)}></textarea>
+            <input className="inputArea" value="" maxlength="100" value={description} onKeyDown={e => handleKeys(e, key, setKey, submit)} onChange={e => setDescription(e.target.value)}></input>
             <button onClick={submit}>Submit Request</button>
         </div>
     )
