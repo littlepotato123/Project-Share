@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const apollo_server_1 = require("apollo-server");
+const apollo_server_express_1 = require("apollo-server-express");
+const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
@@ -22,6 +26,10 @@ const AwardResolver_1 = require("./resolvers/User/AwardResolver");
 const EditUserResolver_1 = require("./resolvers/User/EditUserResolver");
 const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
 (() => __awaiter(void 0, void 0, void 0, function* () {
+    const app = express_1.default();
+    app.get('/', (_, res) => {
+        res.send("Go to <a href='/graphql'>GraphQL</a>");
+    });
     yield typeorm_1.createConnection()
         .then(() => console.log('Connected to Database'))
         .catch(e => console.log(e));
@@ -37,15 +45,15 @@ const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
             MutationPostResolver_1.MutationPostResolver
         ]
     });
-    const server = new apollo_server_1.ApolloServer({
+    const server = new apollo_server_express_1.ApolloServer({
         playground: true,
         schema,
         context: ({ req, res }) => ({ req, res })
     });
-    server.listen()
-        .then(({ url }) => {
-        console.log(`Server started at ${url}`);
-    })
-        .catch(e => console.log(e));
+    server.applyMiddleware({ app });
+    const PORT = process.env.PORT || 4000;
+    app.listen(PORT, () => {
+        console.log(`Server started on http://localhost:${PORT}${server.graphqlPath}`);
+    });
 }))();
 //# sourceMappingURL=index.js.map
