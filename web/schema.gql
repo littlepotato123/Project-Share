@@ -1,0 +1,160 @@
+input AddMessageInput {
+  body: String!
+  userId: Int!
+}
+
+input AddRequestInput {
+  name: String!
+  description: String!
+}
+
+type Category {
+  id: Int!
+  title: String!
+  description: String!
+}
+
+type Comment {
+  id: Int!
+  postId: Int!
+  body: String!
+  author: String!
+}
+
+input CreateCategoryInput {
+  title: String!
+  description: String!
+}
+
+input CreateCommentInput {
+  postId: Int!
+  token: String!
+  body: String!
+}
+
+input CreatePostInput {
+  token: String!
+  title: String!
+  category: String!
+  createdAt: String!
+  body: String!
+}
+
+input DeletePostInput {
+  id: Float!
+  token: String!
+}
+
+input LikePostInput {
+  id: Float!
+  token: String!
+}
+
+input LoginInput {
+  handle: String!
+  password: String!
+}
+
+type Mutation {
+  add_request(input: AddRequestInput!): Request!
+  category_init: Boolean!
+  create_category(input: CreateCategoryInput!): Category!
+  create_post(input: CreatePostInput!): Post
+  delete_post(input: DeletePostInput!): Boolean!
+  create_comment(input: CreateCommentInput!): Comment
+  like_post(input: LikePostInput!): Int
+  unlike_post(input: LikePostInput!): Int
+  signup(input: SignupInput!): User
+  login(input: LoginInput!): String!
+  new_award(input: NewAwardInput!): Int
+  new_bio(input: NewBioInput!): String
+  new_layout(input: NewLayoutInput!): Int
+  new_password(input: NewPasswordInput!): String
+  add_message(input: AddMessageInput!): String
+  support(input: UserSupportingInput!): Int
+  unsupport(input: UserSupportingInput!): Int
+}
+
+input NewAwardInput {
+  id: Int!
+  title: String!
+  points: Int!
+}
+
+input NewBioInput {
+  id: Int!
+  bio: String!
+}
+
+input NewLayoutInput {
+  id: Int!
+  layout: Int!
+}
+
+input NewPasswordInput {
+  token: String!
+  password: String!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  author: String!
+  category: String!
+  body: String!
+  createdAt: String!
+  likes: Int!
+  liked: [String!]!
+}
+
+type Query {
+  all_requests: [Request!]!
+  all_categories: [Category!]
+  one_category(title: String!): Category
+  category_posts(title: String!): [Post!]
+  sample_category_post(title: String!): Post
+  homepage: [Post!]
+  user_posts(handle: String!): [Post!]
+  user_post(handle: String!): Post
+  trending_posts: [Post!]
+  get_comments(id: Int!): [Comment!]
+  user_handle(handle: String!): User
+  user_token(token: String!): User
+  awards(id: Int!): [String!]
+  all_messages(id: Int!): [String!]
+  leaderboard: [User!]
+}
+
+type Request {
+  id: Int!
+  name: String!
+  description: String!
+}
+
+input SignupInput {
+  handle: String!
+  password: String!
+  imageUrl: String!
+  bio: String!
+}
+
+type User {
+  id: Int!
+  handle: String!
+  password: String!
+  imageUrl: String!
+  bio: String!
+  points: Int!
+  awards: [String!]!
+  supporters: Int!
+  supported: [String!]!
+  supporting: [String!]!
+  layout: Int!
+  messages: [String!]!
+  liked: [Int!]!
+}
+
+input UserSupportingInput {
+  id: Int!
+  token: String!
+}

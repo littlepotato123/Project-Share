@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading/Loading';
 import Post from '../../Components/Posts/Posts';
-import { Fetch } from '../../Tools';
 import NoPosts from '../Errors/NoPosts';
 
 const Home = () => {
@@ -9,38 +8,6 @@ const Home = () => {
     const [display, setDisplay] = useState(null);
 
     useEffect(() => {
-        const scoped = async () => {
-            let res = await Fetch(`
-                {
-                    homePage {
-                        id
-                        title
-                        author
-                        category
-                        likes
-                        body
-                        date
-                    }
-                }
-            `);
-            if (res) {
-                setPosts(res.homePage);
-                res = await Fetch(`
-                    mutation {
-                        createCategories {
-                            id
-                        }
-                    }
-                `)
-                if (res == null | undefined) {
-                    alert('Error creating categories');
-                }
-            } else {
-                alert("Error while getting home page");
-            }
-        };
-
-        scoped();
     }, [])
 
     useEffect(() => {
