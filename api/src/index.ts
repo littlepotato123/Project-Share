@@ -1,4 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
+import cors from "cors";
 import express from 'express';
 import "reflect-metadata";
 import { buildSchema } from 'type-graphql';
@@ -14,6 +15,7 @@ import { UserPageResolver } from './resolvers/User/UserPageResolvers';
 
 (async () => {
     const app = express();
+    app.use(cors());
     
     app.get('/', (_: any, res) => {
         res.send("Go to <a href='/graphql'>GraphQL</a>")

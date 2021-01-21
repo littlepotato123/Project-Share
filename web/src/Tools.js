@@ -1,10 +1,11 @@
 export const Fetch = async (req) => {
-    let msg;
+    let msg = {};
 
-    await fetch(`http://localhost:4000/graphql`, {
+    await fetch(`https://projectshare-api.herokuapp.com/graphql`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': "*"
         },
         body: JSON.stringify({
             query: req
@@ -13,7 +14,8 @@ export const Fetch = async (req) => {
     .then(res => res.json())
     .then(data => {
         msg = data.data;
-    });
+    })
+    .catch(e => console.log(e));
 
     return msg;
 };
