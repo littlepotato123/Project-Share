@@ -5,7 +5,7 @@
   - `yarn api`
 
 # Backend URL
-  - Deployed: https://projectshare-api.herokuapp.com/
+  - Deployed: https://project-share-api.herokuapp.com/graphql
 # Awards
   - 10 Posts --> 5 Points
   - 100 Posts --> 50 Points
