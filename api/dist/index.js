@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_express_1 = require("apollo-server-express");
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 require("reflect-metadata");
 const type_graphql_1 = require("type-graphql");
@@ -21,12 +22,14 @@ const AboutPageResolver_1 = require("./resolvers/About/AboutPageResolver");
 const CategoryResolver_1 = require("./resolvers/Category/CategoryResolver");
 const GetPostResolver_1 = require("./resolvers/Post/GetPostResolver");
 const MutationPostResolver_1 = require("./resolvers/Post/MutationPostResolver");
+const TestingResolver_1 = require("./resolvers/Testing/TestingResolver");
 const AuthResolvers_1 = require("./resolvers/User/AuthResolvers");
 const AwardResolver_1 = require("./resolvers/User/AwardResolver");
 const EditUserResolver_1 = require("./resolvers/User/EditUserResolver");
 const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const app = express_1.default();
+    app.use(cors_1.default());
     app.get('/', (_, res) => {
         res.send("Go to <a href='/graphql'>GraphQL</a>");
     });
@@ -42,7 +45,8 @@ const UserPageResolvers_1 = require("./resolvers/User/UserPageResolvers");
             AwardResolver_1.AwardResolver,
             GetPostResolver_1.GetPostResolver,
             CategoryResolver_1.CategoryResolver,
-            MutationPostResolver_1.MutationPostResolver
+            MutationPostResolver_1.MutationPostResolver,
+            TestingResolver_1.TestingResolver
         ]
     });
     const server = new apollo_server_express_1.ApolloServer({
