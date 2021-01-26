@@ -17,6 +17,7 @@ export class CategoryResolver extends BaseEntity {
     @Mutation(() => Boolean) 
     async category_init() {
         const categories = await Category.find();
+        // Testing
         if(categories.length > 0) {
             return false;
         } else {
