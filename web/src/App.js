@@ -1,4 +1,5 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   BrowserRouter as Router,
   Route, Switch
@@ -21,66 +22,75 @@ import Supporting from './Pages/Supporting/Supporting';
 import Trending from './Pages/Trending/Trending';
 import MessagePage from './Pages/User Page/MessagePage';
 import User from './Pages/User Page/User';
+import Fetching from './Sample/Fetching';
 import './styles/global.scss';
+
+
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <Router>
-      <Navigation />
-      <Switch>
-        <Route exact path="/">
-          <HomeRedirect />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/auth">
-          <Auth />
-        </Route>
-        <Route exact path="/trending">
-          <Trending />
-        </Route>
-        <Route exact path="/leaderboard">
-          <Leaderboard />
-        </Route>
-        <Route path="/user/:userHandle">
-          <User />
-        </Route>
-        <Route path="/categories">
-          <Categories />
-        </Route>
-        <Route exact path="/supported/:handle">
-          <Supported /> 
-        </Route>
-        <Route exact path="/supporting/:handle">
-          <Supporting />
-        </Route>
-        <Route path="/wronguser">
-          <WrongUser />
-        </Route>
-        <Route path="/newPost">
-          <NewPost />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/category/:name">
-          <CategoryPage />
-        </Route>
-        <Route path="/wrongcategory">
-          <WrongCategory />
-        </Route>
-        <Route exact path="/messages/:id">
-          <MessagePage />
-        </Route>
-        <Route exact path="/edit">
-          <Edit />
-        </Route>
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Navigation />
+        <Switch>
+          <Route exact path="/">
+            <HomeRedirect />
+          </Route>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/auth">
+            <Auth />
+          </Route>
+          <Route exact path="/trending">
+            <Trending />
+          </Route>
+          <Route exact path="/leaderboard">
+            <Leaderboard />
+          </Route>
+          <Route path="/user/:userHandle">
+            <User />
+          </Route>
+          <Route path="/categories">
+            <Categories />
+          </Route>
+          <Route exact path="/supported/:handle">
+            <Supported /> 
+          </Route>
+          <Route exact path="/supporting/:handle">
+            <Supporting />
+          </Route>
+          <Route path="/wronguser">
+            <WrongUser />
+          </Route>
+          <Route path="/fetch">
+            <Fetching />
+          </Route>
+          <Route path="/newPost">
+            <NewPost />
+          </Route>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/category/:name">
+            <CategoryPage />
+          </Route>
+          <Route path="/wrongcategory">
+            <WrongCategory />
+          </Route>
+          <Route exact path="/messages/:id">
+            <MessagePage />
+          </Route>
+          <Route exact path="/edit">
+            <Edit />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
+    </QueryClientProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 export const Fetch = async (req) => {
     let msg = {};
 
-    await fetch(`https://projectshare-api.herokuapp.com/graphql`, {
+    await fetch(`https://project-share-api.herokuapp.com/graphql`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
