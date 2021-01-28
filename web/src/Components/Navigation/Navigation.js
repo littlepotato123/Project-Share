@@ -90,15 +90,15 @@ const Navigation = () => {
   };
 
   useEffect(() => {
-    if(toggle == true) {
+    if (toggle == true) {
       setText('Category: ');
-    } else if(toggle !== true) {
+    } else if (toggle !== true) {
       setText('Author: ');
     }
   }, [toggle])
 
   return (
-    <div>
+    <div className="navBar">
       <nav>
         <a href="/home">
           Project Sh@re
@@ -120,28 +120,28 @@ const Navigation = () => {
             Search
           </button>
         </div>
-        <ul>
-          <li>
+        <ul className="pages">
+          <li className="trending">
             <a href="/trending">
               Trending
             </a>
           </li>
-          <li>
+          <li className="leaderboard">
             <a href="/leaderboard">
               Leaderboard
             </a>
           </li>
-          <li>
+          <li className="categories">
             <a href="/categories">
               Categories
             </a>
           </li>
-          <li>
+          <li className="about">
             <a href="/about">
               About
             </a>
           </li>
-          <li>{authentication}</li>
+          <li className="authentication">{authentication}</li>
         </ul>
       </nav>
     </div>
