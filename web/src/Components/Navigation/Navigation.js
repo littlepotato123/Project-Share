@@ -117,10 +117,11 @@ const Navigation = () => {
             onKeyPress={(e) => handleKeyPress(e)}
           />
           <button onClick={push}>
+
             Search
           </button>
         </div>
-        <ul className="pages">
+        <ul className="pages"> <a>Navigation</a>
           <li className="trending">
             <a href="/trending">
               Trending
