@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     useHistory
 } from 'react-router-dom';
-import { Fetch } from '../../Tools';
+import { add_token, Fetch } from '../../Tools';
 
 const Login = () => {
     const [handle, setHandle] = useState(null);
@@ -14,11 +14,16 @@ const Login = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 mutation {
-                    login(handle:"${handle}", password:"${pass}")
+                    login(
+                        input: {
+                            handle: "${handle}",
+                            password: "${pass}"
+                        }
+                    )
                 }
             `);
-            if(res.login) {
-                sessionStorage.setItem('token', res.login);
+            if(res) {
+                add_token(res.login);
                 window.location.reload(false);
             } else {
                 alert('Something went wrong while trying to login. Please try again!');

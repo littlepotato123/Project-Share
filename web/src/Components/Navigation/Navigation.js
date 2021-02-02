@@ -29,9 +29,11 @@ const Navigation = () => {
   useEffect(() => {
     if (get_token() !== null | undefined) {
       const scoped = async () => {
+        const token = get_token();
         const res = await Fetch(`
           {
-            tokenUser(token:"${sessionStorage.getItem('token')}"){
+            user_token(token:"U2FsdGVkX186kM2qV5kwzXfsSzeA5Os3QHwXr8JO1ng="){
+              id
               handle
               liked
               supported
@@ -41,17 +43,18 @@ const Navigation = () => {
           }
         `);
         console.log(res);
-        if (res.tokenUser) {
-          sessionStorage.setItem("handle", res.tokenUser.handle);
-          sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
-          sessionStorage.setItem('supported', JSON.stringify(res.tokenUser.supported));
-          sessionStorage.setItem('layout', res.tokenUser.layout);
-          sessionStorage.setItem('bio', res.tokenUser.bio);
+        if (res.user_token) {
+          sessionStorage.setItem("id", res.user_token.id);
+          sessionStorage.setItem("handle", res.user_token.handle);
+          sessionStorage.setItem('liked', JSON.stringify(res.user_token.liked));
+          sessionStorage.setItem('supported', JSON.stringify(res.user_token.supported));
+          sessionStorage.setItem('layout', res.user_token.layout);
+          sessionStorage.setItem('bio', res.user_token.bio);
           setAuthentication(
             <div>
               <li>
-                <a href={`/user/${res.tokenUser.handle}`}>
-                  {res.tokenUser.handle}
+                <a href={`/user/${res.user_token.handle}`}>
+                  {res.user_token.handle}
                 </a>
                 <ul>
                   <li>

@@ -1,28 +1,29 @@
+import { gql, useQuery } from '@apollo/client';
 import React from 'react';
-import { useQuery } from 'react-query';
-import { Fetch } from '../Tools';
+
+const ALL_CATEGORIES = gql`
+    query {
+        all_categories {
+            id
+            title
+            description
+        }
+    }
+`;
 
 const Fetching = () => {
-    const { isLoading, data } = useQuery('demoFetch', async () => {
-        const res = await Fetch(`
-            {
-                all_categories {
-                    id
-                    title
-                    description
-                }
-            } 
-        `);
-        return res;
-    });
-   
+    const { loading, error, data } = useQuery(ALL_CATEGORIES);
+
+    if(loading) return <p>Loading...</p>
+    if(error) return <p>Error Occured</p>
+
     return (
         <div>
             {
-                isLoading ? <p>Loading...</p> : data.all_categories.map(c => <p>{c.title}</p>)
+                data.all_categories.map(c => <p>{c.title}: {c.description}</p>)
             }
         </div>
     )
-};
+}
 
 export default Fetching;

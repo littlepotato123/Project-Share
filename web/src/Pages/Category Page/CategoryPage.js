@@ -15,12 +15,12 @@ const CategoryPage = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    getCategory(category:"${name}") {
+                    one_category(title:"${name}") {
                         id
                         title
                         description
                     }  
-                    categoryPosts(category:"${name}"){
+                    category_posts(title:"${name}"){
                         id
                         title
                         category
@@ -30,12 +30,11 @@ const CategoryPage = () => {
                     }
                 }
             `)
-            if(res.getCategory && res.categoryPosts) {
-                setTitle(res.getCategory.title);
-                setPosts(res.categoryPosts);
-                setDescription(res.getCategory.description);
-            } else {
-                history.push('/wrongcategory');
+            console.log(res);
+            if(res) {
+                setTitle(res.one_category.title);
+                setPosts(res.category_posts);
+                setDescription(res.one_category.description);
             }
         }
 

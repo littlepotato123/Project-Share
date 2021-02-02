@@ -1,28 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Loading from '../../Components/Loading/Loading';
-import { Fetch } from '../../Tools';
 import Input from "./Input";
 import Request from './Request';
 
 const About = () => {
   const [requests, setRequests] = useState(null);
   const href = (<a style={{ textDecoration: "none" }} href="/home">Project Sh@re</a>);
-
-  useEffect(() => {
-    const scoped = async () => {
-      const res = await Fetch(`
-        {
-          requests {
-            id
-            name
-            description
-          }
-        }
-      `);
-      setRequests(res.requests);
-    };
-    scoped();
-  }, []);
 
   return (
     <div className="about_page">
