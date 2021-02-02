@@ -15,14 +15,15 @@ class TopPosts extends React.Component {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    getPopular {
+                    trending_posts {
                         id
                         title
                         author
                         category
-                        likes
                         body
-                        date
+                        createdAt
+                        likes
+                        liked
                     }
                 }
             `)

@@ -10,7 +10,7 @@ const Supporting = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    user(handle: "${handle}") {
+                    user_handle(handle: "${handle}") {
                         supporting
                     }
                 }

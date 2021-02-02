@@ -69,7 +69,7 @@ const User = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    user(handle: "${userHandle}"){
+                    user_handle(handle: "${userHandle}"){
                         id
                         bio
                         supporters
@@ -77,7 +77,7 @@ const User = () => {
                         password
                         handle
                     }
-                    userPosts(handle: "${userHandle}") {
+                    user_posts(handle: "${userHandle}") {
                         id
                         author
                         category
@@ -138,7 +138,11 @@ const User = () => {
             const val = parseInt(sessionStorage.getItem('supporters'));
             let res = await Fetch(`
             mutation {
-                supportUser(
+                support(
+                    input: {
+                        id: "${sessionStorage.getItem('curr_user')}",
+                        token: "${sessionStorage.getItem('token')};
+                    }
                   id:"${sessionStorage.getItem('curr_user')}",
                   token:"${sessionStorage.getItem('token')}",
                   current_supporters:${val}

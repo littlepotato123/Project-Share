@@ -13,11 +13,7 @@ const Messages = (props) => {
             console.log(props.id);
             const res = await Fetch(`
                 {
-                    getMessages(userId: "${props.id}") {
-                        id
-                        author
-                        body
-                    }
+                    all_messages(id: "${props.id}")
                 } 
             `);
             console.log(res.getMessages)
@@ -40,12 +36,12 @@ const Messages = (props) => {
             } else {
                 const res = await Fetch(`
                     mutation {
-                        createMessage(token:"${token}", body:"${message}", userId:"${props.id}") {
-                            id
-                            body
-                            author
-                            userId
-                        }
+                        add_message(
+                            input: {
+                                userId: ${props.id},
+                                body: "${message}
+                            }
+                        )
                     } 
                 `);
                 window.location.reload(false);

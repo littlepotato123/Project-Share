@@ -9,13 +9,15 @@ const UserList = (props) => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    userOnePost(handle: "${props.name}") {
+                    user_post(handle: "${props.name}") {
                         id
                         title
                         author
                         category
-                        likes
                         body
+                        createdAt
+                        likes
+                        liked
                     }
                 }
             `);
