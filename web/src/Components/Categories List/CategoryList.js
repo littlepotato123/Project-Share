@@ -14,13 +14,13 @@ const CategoryList = (props) => {
     const history = useHistory();
 
     useEffect(() => {
-        if(posted) {
+        if (posted) {
             setText('Hide Post');
             setPost(posts);
-       } else if(!posted) {
-           setPost(null);
-           setText('Display Post');
-       }
+        } else if (!posted) {
+            setPost(null);
+            setText('Display Post');
+        }
     }, [posted])
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const CategoryList = (props) => {
             <h3>{props.description}</h3>
             <button onClick={() => setPosted(!posted)}>{text}</button>
             {
-                post ? <Post author={post.author} title={post.title} category={post.category} likes={post.likes} id={post.id}>{ post.body }</Post> : null
+                post ? <Post author={post.author} title={post.title} category={post.category} likes={post.likes} id={post.id}>{post.body}</Post> : null
             }
         </div>
     );
