@@ -2,17 +2,22 @@ import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 
 const ALL_CATEGORIES = gql`
-    query {
+    {
         all_categories {
             id
             title
             description
+        }
+        homepage {
+            id
+            title
         }
     }
 `;
 
 const Fetching = () => {
     const { loading, error, data } = useQuery(ALL_CATEGORIES);
+    // const { loading, error, data } = useMutation(ALL_CATEGORIES); if mutation
 
     if(loading) return <p>Loading...</p>
     if(error) return <p>Error Occured</p>
