@@ -11,11 +11,7 @@ const MessagePage = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    allMessages(id:"${id}") {
-                        id
-                        body
-                        author
-                    }
+                    all_messages(id: "${id}")
                 }
             `);
             if(res) {

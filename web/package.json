@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.7",
     "firebase": "^8.0.2",
+    "graphql": "^15.5.0",
     "node-sass": "4.14.1",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
-    "react-query": "^3.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "yarn.lock": "^0.0.1-security"

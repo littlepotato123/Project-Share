@@ -1,5 +1,5 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   BrowserRouter as Router,
   Route, Switch
@@ -25,12 +25,14 @@ import User from './Pages/User Page/User';
 import Fetching from './Sample/Fetching';
 import './styles/global.scss';
 
-
-const queryClient = new QueryClient();
+const client = new ApolloClient({
+  uri: 'https://project-share-api.herokuapp.com/graphql',
+  cache: new InMemoryCache()
+})
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
       <Router>
         <Navigation />
         <Switch>
@@ -90,7 +92,7 @@ const App = () => {
           </Route>
         </Switch>
       </Router>
-    </QueryClientProvider>
+    </ApolloProvider>
   );
 }
 

@@ -27,7 +27,7 @@ const CategoryList = (props) => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    categoryPost(category: "${props.title}") {
+                    sample_category_post(title: "${props.title}") {
                         id
                         title
                         category
@@ -37,7 +37,7 @@ const CategoryList = (props) => {
                     }
                 }
             `)
-            setPosts(res.categoryPost);
+            setPosts(res.sample_category_post);
         }
         scoped();
     })

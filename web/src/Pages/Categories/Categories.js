@@ -15,7 +15,7 @@ const Categories = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    getCategories {
+                    all_categories {
                         id
                         title
                         description
@@ -23,7 +23,7 @@ const Categories = () => {
                 }
             `);
             if(res) {
-                setCategories(res.getCategories);
+                setCategories(res.all_categories);
             } else {
                 alert('something went wrong');
                 history.push('/home');

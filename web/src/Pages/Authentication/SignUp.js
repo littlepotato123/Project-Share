@@ -55,12 +55,19 @@ const SignUp = () => {
       if (url !== "") {
         const res = await Fetch(`
           mutation {
-            signup(handle: "${handle}", password: "${pass}", imageUrl: "${url}", bio: "${bio}") {
+            signup(
+              input: {
+                handle: "${handle}",
+                password: "${pass}",
+                imageUrl: "${url}",
+                bio: "${bio}"
+              }
+            ) {
               password
             }
           } 
         `);
-        if (res !== undefined | null) {
+        if (res) {
           add_token(res.signup.password);
           history.push("/home");
         } else {

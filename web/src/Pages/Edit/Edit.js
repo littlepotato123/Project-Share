@@ -9,19 +9,27 @@ const Edit = () => {
 
     const submit = () => {
         const scoped = async () => {
+            const id = parseInt(sessionStorage.getItem('id'));
             const res = await Fetch(`
                 mutation {
-                    updateUser(
-                        token:"${sessionStorage.getItem('token')}",
-                        bio:"${bio}",
-                        layout:${parseInt(sessionStorage.getItem('curr_layout'))}
-                    ) {
-                        id
-                    }
+                    new_bio(
+                        input: {
+                            id: ${id},
+                            bio: "${bio}
+                        }
+                    )
+                    new_layout(
+                        input: {
+                            id: ${id},
+                            layout: ${parseInt(sessionStorage.getItem('curr_layout'))}
+                        }
+                    )
                 }
             `);
             if(res) {
                 alert('Successfully updated user');
+                sessionStorage.setItem('bio', res.new_bio);
+                sessionStorage.setItem('layout', res.new_layout);
             } else {
                 alert('Try again, there was an error')
             }
@@ -34,13 +42,14 @@ const Edit = () => {
         const scoped = async () => {
             const res = await Fetch(`
                 mutation {
-                    newPassword(
-                        token:"${sessionStorage.getItem('token')}",
-                        new_pass:"${pass}"
+                    new_password(
+                        input: {
+
+                        }
                     )
                 }
             `);
-            console.log(res);
+            sessionStorage.setItem('token', res.new_password);
         };
         scoped();
     }

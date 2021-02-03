@@ -10,7 +10,12 @@ const Input = () => {
             const name = sessionStorage.getItem('handle') ? sessionStorage.getItem('handle') : "Guest";
             const res = await Fetch(`
                 mutation {
-                    newRequest(name:"${name}", description:"${description}"){
+                    add_request(
+                        input: {
+                            name: "${name}",
+                            description: "${description}"
+                        }
+                    ){
                         id
                         name
                         description
@@ -18,7 +23,7 @@ const Input = () => {
                 }
             `);
             if (res) {
-                if (res.newRequest) {
+                if (res.add_request) {
                     window.location.reload(false);
                 } else {
                     alert("Failed to Request");

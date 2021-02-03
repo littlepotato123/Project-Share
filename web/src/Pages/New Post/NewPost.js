@@ -23,12 +23,12 @@ const NewPost = () => {
     const scoped = async () => {
       const res = await Fetch(`
         {
-            getCategories {
-                title
-            }
+          all_categories {
+              title
+          }
         }
       `);
-      setCategories(res.getCategories);
+      setCategories(res.all_categories);
     };
     scoped();
   }, []);
@@ -38,13 +38,21 @@ const NewPost = () => {
       const token = sessionStorage.getItem("token");
       const res = await Fetch(`
         mutation {
-            newPost(token: "${token}", date: "${getDate()}", title: "${title}", body: "${body}", category: "${category}") {
-                id
+          create_post(
+            input: {
+              token: "${token}",
+              title: "${title}",
+              category: "${category}",
+              createdAt: "${getDate()}",
+              body: "${body}"
             }
+          ) {
+            id
+          }
         } 
       `);
       if(res) {
-        if (res.newPost) {
+        if (res.create_post) {
           history.push("/");
         } else {
           alert("Error while posting");
@@ -53,7 +61,6 @@ const NewPost = () => {
         alert("Error while posting");
       }
     };
-    console.log(title, body, category);
 
     if (title && body && category) {
       scoped();

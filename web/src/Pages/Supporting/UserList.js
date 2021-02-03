@@ -8,7 +8,7 @@ const UserList = (props) => {
         const scoped = async () => {
             const res = await Fetch(`
                 {
-                    tokenUser(token: "${props.id}") {
+                    user_token(token: "${props.id}") {
                         handle
                     } 
                 } 

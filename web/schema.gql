@@ -1,3 +1,4 @@
+directive @specifiedBy(url: String!) on SCALAR
 input AddMessageInput {
   body: String!
   userId: Int!
@@ -64,6 +65,7 @@ type Mutation {
   create_comment(input: CreateCommentInput!): Comment
   like_post(input: LikePostInput!): Int
   unlike_post(input: LikePostInput!): Int
+  clear: Boolean!
   signup(input: SignupInput!): User
   login(input: LoginInput!): String!
   new_award(input: NewAwardInput!): Int
