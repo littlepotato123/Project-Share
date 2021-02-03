@@ -22,7 +22,6 @@ import Supporting from './Pages/Supporting/Supporting';
 import Trending from './Pages/Trending/Trending';
 import MessagePage from './Pages/User Page/MessagePage';
 import User from './Pages/User Page/User';
-import Fetching from './Sample/Fetching';
 import './styles/global.scss';
 
 const client = new ApolloClient({
@@ -65,9 +64,6 @@ const App = () => {
           </Route>
           <Route path="/wronguser">
             <WrongUser />
-          </Route>
-          <Route path="/fetch">
-            <Fetching />
           </Route>
           <Route path="/newPost">
             <NewPost />

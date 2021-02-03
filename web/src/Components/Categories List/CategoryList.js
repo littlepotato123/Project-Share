@@ -40,7 +40,7 @@ const CategoryList = (props) => {
             setPosts(res.sample_category_post);
         }
         scoped();
-    })
+    });
 
     return (
         <div>
