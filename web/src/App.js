@@ -56,7 +56,7 @@ const App = () => {
             <Categories />
           </Route>
           <Route exact path="/supported/:handle">
-            <Supported /> 
+            <Supported />
           </Route>
           <Route exact path="/supporting/:handle">
             <Supporting />
