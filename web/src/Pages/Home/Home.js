@@ -19,9 +19,9 @@ const HOME_PAGE = gql`
 const Home = () => {
     const { loading, error, data } = useQuery(HOME_PAGE);
 
-    if(loading) return <p>Loading Homepage...</p>
+    if (loading) return <p>Loading Homepage...</p>
 
-    if(error) {
+    if (error) {
         window.location.reload();
     }
 
