@@ -79,14 +79,13 @@ const SignUp = () => {
           }
         } })
           .then(({ data }) => {
-            console.log(data);
             sessionStorage.setItem('token', data.signup.password);
             sessionStorage.setItem('handle', data.signup.handle);
             set_liked(data.signup.liked)
             set_supported(data.signup.supported);
             sessionStorage.setItem('layout', data.signup.layout);
             sessionStorage.setItem('bio', data.signup.bio);
-            // window.location.reload();
+            window.location.reload();
           })
       } else {
         window.confirm('Are you sure you want to continue without profile picture')
@@ -99,16 +98,17 @@ const SignUp = () => {
           }
         } })
           .then(({ data }) => {
-            console.log(data);
             sessionStorage.setItem('token', data.signup.password);
             sessionStorage.setItem('handle', data.signup.handle);
             set_liked(data.signup.liked)
             set_supported(data.signup.supported);
             sessionStorage.setItem('layout', data.signup.layout);
             sessionStorage.setItem('bio', data.signup.bio);
-            // window.location.reload();
+            window.location.reload();
           })
       }
+    } else {
+      alert('Form not Filled Out')
     }
   };
 

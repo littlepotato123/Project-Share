@@ -5,7 +5,7 @@ import Request from './Request';
 
 const ALL_REQUESTS = gql`
   query {
-    all_requests {
+    requests: all_requests {
       id
       name
       description
@@ -90,7 +90,7 @@ const About = () => {
 
       <Input className="inputBox" />
       {
-        data.all_requests.map(r => <Request id={r.id} name={r.name} description={r.description} />)
+        data.requests.map(r => <Request id={r.id} name={r.name} description={r.description} />)
       }
     </div>
   );

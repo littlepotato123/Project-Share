@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import Posts from '../../Components/Posts/Posts';
-import { Fetch } from '../../Tools';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+const CATEGORY_GET = gql`
+    query one_category($title: String!){
+        category: one_category(title:$title){
+            id
+            title
+            description
+        }
+        posts: category_posts(title: $title) {
+            id
+            title
+            author
+            body
+            category
+            createdAt
+            likes
+            liked
+        }
+    }
+`;
 
 const CategoryPage = () => {
-    const [posts, setPosts] = useState([]);
-    const [description, setDescription] = useState('');
     const { name } = useParams();
-    const [title, setTitle] = useState('');
 
-    const history = useHistory();
-
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    one_category(title:"${name}") {
-                        id
-                        title
-                        description
-                    }  
-                    category_posts(title:"${name}"){
-                        id
-                        title
-                        category
-                        likes
-                        body
-                        author
-                    }
-                }
-            `)
-            console.log(res);
-            if(res) {
-                setTitle(res.one_category.title);
-                setPosts(res.category_posts);
-                setDescription(res.one_category.description);
-            }
+    const { loading, error, data } = useQuery(CATEGORY_GET, {
+        variables: {
+            title: name
         }
+    });
 
-        scoped();
-    }, [name]);
+    if(loading) return <p>Loading...</p>
+
+    if(error) {
+        return <p>Hello</p>     
+    }
 
     return (
         <div>
-            <h1 style={{ textAlign: 'center', fontSize: '48px', textDecoration: 'underline' }}>{title}</h1>
-            <p style={{ textAlign: 'center', fontSize: '30px', textDecoration: 'none' }}>Description: {description}</p>
-            { 
-                posts.map(post => <Posts author={post.author} id={post.id} title={post.title} category={post.category} likes={post.likes}>{ post.body }</Posts>)
-            }
+            {data.category.title} <br />
+            {data.category.description} <br />
+            {data.posts.map(post => {
+                return (
+                    <div>
+                        {post.author}
+                    </div>
+                )
+            })}
         </div>
     )
 }

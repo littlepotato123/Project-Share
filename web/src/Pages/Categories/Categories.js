@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import {
-    useHistory
-} from 'react-router-dom';
-import List from '../../Components/Categories List/CategoryList';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
 import Loading from '../../Components/Loading/Loading';
-import { Fetch } from '../../Tools';
+
+const ALL_CATEGORIES = gql`
+    query {
+        all_categories {
+            id
+            title
+            description
+        }
+    }
+`;
 
 const Categories = () => {
-    const [categories, setCategories] = useState([]);
+    const { loading, error, data } = useQuery(ALL_CATEGORIES);
 
-    const history = useHistory();
-
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    all_categories {
-                        id
-                        title
-                        description
-                    }
-                }
-            `);
-            if(res) {
-                setCategories(res.all_categories);
-            } else {
-                alert('something went wrong');
-                history.push('/home');
-            } 
-        }
-
-        scoped();
-    })
+    if(loading) return <Loading />
+    if(error) {
+        window.location.reload();
+    }
 
     return (
         <div>
             {
-                categories ?
-                categories.map(category => <List title={category.title} description={category.description} />) 
-                :
-                <Loading />
+                data.all_categories.map(category => {
+                    return <div key={category.id}>
+                        {category.title} <br />
+                        {category.description} <br /> <br />
+                    </div>
+                }) 
             }
         </div>
     )

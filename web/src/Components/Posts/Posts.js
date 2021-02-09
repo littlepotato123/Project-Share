@@ -1,56 +1,63 @@
+import { gql, useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { Fetch, get_token, liked_posts } from '../../Tools';
+import { get_token, liked_posts } from '../../Tools';
 import Input from './Input';
 import List from './List';
 
+const DELETE_POST = gql`
+    mutation delete_post($input: DeletePostInput!) {
+        delete_post(input: $input)
+    }
+`;
+
+const GET_COMMENTS = gql`
+    query get_comments($id: Int!) {
+        comments: get_comments(id: $id) {
+            id
+            body
+            author
+        }
+    }
+`;
+
+const LIKE_POST = gql`
+    mutation like_post($input: LikePostInput!) {
+        like_post(input: $input)
+    }
+`;
+
+const UNLIKE_POST = gql `
+    mutation unlike_post($input: LikePostInput) {
+        unlike_post(input: $input)
+    }
+`;
+
 const Posts = (props) => {
-    const [comments, setComments] = useState(false);
-    const [c, setC] = useState(null);
+    const [deletePost] = useMutation(DELETE_POST);
+    const [likePost] = useMutation(LIKE_POST);
+    const [unlikePost] = useMutation(UNLIKE_POST);
+
+    const { loading, error, data } = useQuery(GET_COMMENTS, {
+        variables: {
+            id: props.postId
+        }
+    });
+
+    if(loading) return <p>Loading...</p>
+
+    if(error) {
+        window.location.reload();
+    }
+
     const [liked, setLiked] = useState();
     const [likes, setLikes] = useState(props.likes);
-    const [display, setDisplay] = useState(null);
+    const [display, setDisplay] = useState(null); // Cannot Remove
     const [likesButton, setButton] = useState((
         <button onClick={() => setLiked(true)}>Unlike</button>
     ));
     const [deleteBut, setDeleteButton] = useState(null);
 
-    const cut = () => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                mutation {
-                    deletePost(id: "${props.postId}")
-                } 
-            `);
-            if(res.deletePost == true) {
-                alert('Succesfully Deleted Post');
-            } else {
-                alert('Failed to Delete Post');
-            }
-            window.location.reload(false);
-        }
-
-        if(window.confirm('Are you sure you want to delete this post?')) {
-            scoped();
-        }
-    }
-
     useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    getComments(id: "${props.postId}") {
-                        id
-                        body
-                        author
-                    }
-                }
-            `);
-            if(res) {
-                setC(res.getComments);
-            }
-        }
-        scoped();
-
         if(liked) {
             like();
         } else if(liked == false) {
@@ -63,7 +70,7 @@ const Posts = (props) => {
             setDisplay((
                 <div>
                     {
-                        c ? c.map(ca => <List author={ca.author} body={ca.body} />) : <p>Loading...</p>
+                        data.comments.map(ca => <List author={ca.author} body={ca.body} />)
                     }
                     {
                         sessionStorage.getItem('token') ? 
@@ -93,7 +100,23 @@ const Posts = (props) => {
             ))
             setDeleteButton(
                 (
-                    <button onClick={cut}>Delete Post</button>
+                    <button onClick={() => {
+                        deletePost({
+                            variables: {
+                                input: {
+                                    id: props.postId,
+                                    token: sessionStorage.getItem('token')
+                                }
+                            }
+                        })
+                        .then(({ data }) => {
+                            if(data.delete_post == true) {
+                                window.location.reload();
+                            } else {
+                                window.location.reload()
+                            }
+                        })
+                    }}>Delete Post</button>
                 )
             )
         } else {
@@ -112,24 +135,35 @@ const Posts = (props) => {
     const like = () => {
         const scoped = async () => {
             let res;
+            // Do them in the location they are
             if(get_token()) {
-                res = await Fetch(`
-                    mutation {
-                        likePost(id: "${props.postId}", current_like: ${likes}, token: "${get_token()}")
-                    }
-                `);
-                setLikes(res.likePost);
-                res = await Fetch(`
-                    {
-                        tokenUser(token: "${get_token()}") {
-                            liked
+                likePost({
+                    variables: {
+                        input: {
+                            id: props.postId,
+                            token: get_token()
                         }
                     }
-                `);
-                sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
-                setButton((
-                    <button onClick={() => setLiked(!liked)}>Unlike</button>
-                ))
+                }).then(({ res }) => {
+                    const USER_TOKEN = gql`
+                        query user_token($token: String!) {
+                            user_token(token: $token) {
+                                liked
+                            }
+                        } 
+                    `;
+                    const { data } = useQuery(USER_TOKEN, {
+                        variables: {
+                            token: get_token()
+                        }
+                    })
+                    sessionStorage.setItem('liked', JSON.stringify(data.user_token.liked));
+                    setButton((
+                        <button onClick={() => setLiked(!liked)}>Unlike</button>
+                    ));
+                    setLikes(res.like_post);
+                })
+                
             } else {
                 alert('Must be logged in to like a post');
             }
@@ -140,26 +174,35 @@ const Posts = (props) => {
 
     const unlike = () => {
         const scoped = async () => {
+            // Do them in the location they are
             let res;
             if(get_token()) {
-                res = await Fetch(`
-                    mutation {
-                        unlikePost(id: "${props.postId}", current_like: ${likes}, token: "${get_token()}")
-                    }
-                `);
-                console.log(res);
-                setLikes(res.unlikePost);
-                res = await Fetch(`
-                    {
-                        tokenUser(token: "${get_token()}") {
-                            liked
+                unlikePost({
+                    variables: {
+                        input: {
+                            id: props.postId,
+                            token: get_token()
                         }
                     }
-                `);
-                sessionStorage.setItem('liked', JSON.stringify(res.tokenUser.liked));
-                setButton((
-                    <button onClick={() => setLiked(!liked)}>Like</button>
-                ))
+                }).then(({ res }) => {
+                    const USER_TOKEN = gql`
+                        query user_token($token: String!) {
+                            user_token(token: $token) {
+                                liked
+                            }
+                        } 
+                    `;
+                    const { data } = useQuery(USER_TOKEN, {
+                        variables: {
+                            token: get_token()
+                        }
+                    })
+                    sessionStorage.setItem('liked', JSON.stringify(data.user_token.liked));
+                    setButton((
+                        <button onClick={() => setLiked(!liked)}>Like</button>
+                    ));
+                    setLikes(res.unlike_post)
+                })
             } else {
                 alert('Must be logged in to like post');
             }

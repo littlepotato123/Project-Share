@@ -1,41 +1,33 @@
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import Selection from '../../Components/Layout/Selection';
 import { Fetch, handleKeys } from '../../Tools';
 
+const NEW_BIO_LAYOUT = gql`
+    mutation new($id: Int!, $bio: String!, $layout: Int!) {
+        new_bio(
+            input: {
+                id: $id
+                bio: $id
+            }
+        )
+        new_layout(
+            input: {
+                id: $id
+                layout: $layout
+            }
+        )
+    }
+`;
+
 const Edit = () => {
+    const [setBioLayout] = useMutation(NEW_BIO_LAYOUT);
     const [bio, setBio] = useState(sessionStorage.getItem('bio'));
     const [state, setState] = useState('');
     const [pass, setPass] = useState('');
 
     const submit = () => {
-        const scoped = async () => {
-            const id = parseInt(sessionStorage.getItem('id'));
-            const res = await Fetch(`
-                mutation {
-                    new_bio(
-                        input: {
-                            id: ${id},
-                            bio: "${bio}
-                        }
-                    )
-                    new_layout(
-                        input: {
-                            id: ${id},
-                            layout: ${parseInt(sessionStorage.getItem('curr_layout'))}
-                        }
-                    )
-                }
-            `);
-            if(res) {
-                alert('Successfully updated user');
-                sessionStorage.setItem('bio', res.new_bio);
-                sessionStorage.setItem('layout', res.new_layout);
-            } else {
-                alert('Try again, there was an error')
-            }
-        }
-
-        scoped();
+        setBioLayout
     }
 
     const password = () => {
