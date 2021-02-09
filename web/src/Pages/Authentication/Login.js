@@ -1,41 +1,37 @@
+import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import {
     useHistory
 } from 'react-router-dom';
-import { add_token, Fetch } from '../../Tools';
+import { add_token, handleKeys } from '../../Tools';
+
+const LOGIN = gql`
+    mutation login ($input: LoginInput!) {
+        login (input: $input)
+}
+`;
 
 const Login = () => {
-    const [handle, setHandle] = useState(null);
-    const [pass, setPass] = useState(null);
+    const [login] = useMutation(LOGIN);
+    const [handle, setHandle] = useState('');
+    const [pass, setPass] = useState('');
+    const [key, setKey] = useState('')
 
     const history = useHistory();
 
     const submit = () => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                mutation {
-                    login(
-                        input: {
-                            handle: "${handle}",
-                            password: "${pass}"
-                        }
-                    )
+        if(handle && pass) {
+            login({ variables: {
+                input: {
+                    handle: handle,
+                    password: pass
                 }
-            `);
-            if(res) {
-                add_token(res.login);
-                window.location.reload(false);
-            } else {
-                alert('Something went wrong while trying to login. Please try again!');
-            }
-        }
-
-        scoped();
-    }
-
-    const handleKeys = (e) => {
-        if(e.key == "Enter") {
-            submit();
+            } })
+                .then(res => {
+                    add_token(res.data.login)
+                    window.location.reload();
+                })
+                .catch(e => console.log(e))
         }
     }
 
@@ -43,7 +39,7 @@ const Login = () => {
         <div>
             <h1>Login</h1>
             <input value={handle} placeholder="handle" onChange={e => setHandle(e.target.value)} />
-            <input type="password" onKeyDown={handleKeys} value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
+            <input type="password" onKeyDown={(e) => handleKeys(e, key, setKey, submit)} value={pass} placeholder="Password" onChange={e => setPass(e.target.value)} />
             <button onClick={submit}>Login</button>
         </div>
     )
