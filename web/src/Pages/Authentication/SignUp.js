@@ -34,7 +34,7 @@ const SignUp = () => {
   const history = useHistory();
 
   const handleUpload = () => {
-    if(image.name.endsWith('.png') || image.name.endsWith('.jpg')) {
+    if (image.name.endsWith('.png') || image.name.endsWith('.jpg')) {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       uploadTask.on(
         "state_changed",
