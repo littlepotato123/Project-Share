@@ -1,11 +1,26 @@
-import React, { useState } from "react";
-import Loading from '../../Components/Loading/Loading';
+import { gql, useQuery } from '@apollo/client';
+import React from "react";
 import Input from "./Input";
 import Request from './Request';
 
+const ALL_REQUESTS = gql`
+  query {
+    all_requests {
+      id
+      name
+      description
+    }
+  }
+`;
+
 const About = () => {
-  const [requests, setRequests] = useState(null);
+  const { loading, error, data } = useQuery(ALL_REQUESTS); 
   const href = (<a style={{ textDecoration: "none" }} href="/home">Project Sh@re</a>);
+
+  if(loading) return <p>Loading Requests</p>
+  if(error) {
+    window.location.reload();
+  }
 
   return (
     <div className="about_page">
@@ -75,8 +90,7 @@ const About = () => {
 
       <Input className="inputBox" />
       {
-        requests ?
-          requests.map(r => <Request id={r.id} name={r.name} description={r.description} />) : <Loading />
+        data.all_requests.map(r => <Request id={r.id} name={r.name} description={r.description} />)
       }
     </div>
   );

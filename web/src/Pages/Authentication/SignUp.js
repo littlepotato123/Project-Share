@@ -1,9 +1,27 @@
+import { gql, useMutation } from '@apollo/client';
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { storage } from "../../Firebase/index";
-import { add_token, Fetch, handleKeys } from "../../Tools";
+import { handleKeys, set_liked, set_supported } from "../../Tools";
+
+const SIGNUP = gql`
+  mutation signup($input: SignupInput!) {
+    signup (input: $input) {
+      id
+      handle
+      password
+      liked
+      supported
+      supporting
+      layout
+      bio
+    }
+  }
+`;
 
 const SignUp = () => {
+  const [signup] = useMutation(SIGNUP);
+
   const [handle, setHandle] = useState("");
   const [pass, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -14,12 +32,6 @@ const SignUp = () => {
   const [key, setKey] = useState('');
 
   const history = useHistory();
-
-  const handleChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
 
   const handleUpload = () => {
     if (image.name.endsWith('.png') || image.name.endsWith('.jpg')) {
@@ -51,62 +63,52 @@ const SignUp = () => {
   };
 
   const submit = () => {
-    const scoped = async () => {
-      if (url !== "") {
-        const res = await Fetch(`
-          mutation {
-            signup(
-              input: {
-                handle: "${handle}",
-                password: "${pass}",
-                imageUrl: "${url}",
-                bio: "${bio}"
-              }
-            ) {
-              password
-            }
-          } 
-        `);
-        if (res) {
-          add_token(res.signup.password);
-          history.push("/home");
-        } else {
-          alert("Something went wrong. Please try again");
-        }
-      } else {
-        const bool = window.confirm(
-          "Are you sure you don' want a profile picture"
-        );
-        if (bool == true) {
-          const res = await Fetch(`
-            mutation {
-                signup(handle: "${handle}", password: "${pass}", bio: "${bio}") {
-                    password
-                }
-            }
-          `);
-          console.log(res);
-          if (res.signup !== undefined && res.signup !== null) {
-            sessionStorage.setItem("token", res.signup.password);
-            window.location.reload(false);
-          } else {
-            alert("Something went wrong. Please try again");
-          }
-        } else {
-          window.location.reload(false);
-        }
-      }
-    };
-
-    if (
+    if(
       pass &&
-      handle &&
       bio &&
-      confirm == pass
+      handle && 
+      pass && confirm
     ) {
-      scoped();
-    } else {
-      alert("Something went wrong");
+      if(url) {
+        signup({ variables: {
+          input: {
+            handle: handle,
+            password: pass,
+            bio: bio,
+            imageUrl: url
+          }
+        } })
+          .then(({ data }) => {
+            console.log(data);
+            sessionStorage.setItem('token', data.signup.password);
+            sessionStorage.setItem('handle', data.signup.handle);
+            set_liked(data.signup.liked)
+            set_supported(data.signup.supported);
+            sessionStorage.setItem('layout', data.signup.layout);
+            sessionStorage.setItem('bio', data.signup.bio);
+            // window.location.reload();
+          })
+      } else {
+        window.confirm('Are you sure you want to continue without profile picture')
+        signup({ variables: {
+          input: {
+            handle: handle,
+            password: pass,
+            bio: bio,
+            imageUrl: ""
+          }
+        } })
+          .then(({ data }) => {
+            console.log(data);
+            sessionStorage.setItem('token', data.signup.password);
+            sessionStorage.setItem('handle', data.signup.handle);
+            set_liked(data.signup.liked)
+            set_supported(data.signup.supported);
+            sessionStorage.setItem('layout', data.signup.layout);
+            sessionStorage.setItem('bio', data.signup.bio);
+            // window.location.reload();
+          })
+      }
     }
   };
 
@@ -139,7 +141,11 @@ const SignUp = () => {
       <div>
         <progress value={progress} max="100" />
         <br />
-        <input type="file" onChange={handleChange} />
+        <input type="file" onChange={(e) => {
+          if(e.target.files[0]) {
+            setImage(e.target.files[0]);
+          }
+        }} />
         <button onClick={handleUpload}>Upload</button>
         <br />
       </div>

@@ -1,38 +1,35 @@
+import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import { Fetch, handleKeys } from '../../Tools';
+import { handleKeys } from '../../Tools';
+
+const ADD_REQUEST = gql`
+    mutation add_request ($input: AddRequestInput!) {
+        add_request(
+            input: $input
+        ) {
+            id
+            name
+            description
+        }
+    }
+`;
 
 const Input = () => {
+    const [addRequest] = useMutation(ADD_REQUEST);
+
     const [description, setDescription] = useState('');
     const [key, setKey] = useState('');
 
     const submit = () => {
-        const scoped = async () => {
-            const name = sessionStorage.getItem('handle') ? sessionStorage.getItem('handle') : "Guest";
-            const res = await Fetch(`
-                mutation {
-                    add_request(
-                        input: {
-                            name: "${name}",
-                            description: "${description}"
-                        }
-                    ){
-                        id
-                        name
-                        description
-                    }
-                }
-            `);
-            if (res) {
-                if (res.add_request) {
-                    window.location.reload(false);
-                } else {
-                    alert("Failed to Request");
-                };
-            } else {
-                alert('Failed to Request');
-            }
+        if(description) {
+            addRequest({ variables: { input: {
+                name: sessionStorage.getItem('handle') ? sessionStorage.getItem('handle') : "Guest",
+                description
+            } } })
+                .then(() => {
+                    window.location.reload();
+                })
         }
-        scoped();
     }
 
     return (

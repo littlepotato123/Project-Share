@@ -1,6 +1,22 @@
+import { gql } from '@apollo/client';
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Fetch, get_token } from "../../Tools";
+
+const GET_USER = gql`
+  query user_handle($handle: String!) {
+    user_handle(handle: $handle) {
+      id
+      handle
+      password
+      liked
+      supported
+      supporting
+      layout
+      bio
+    }
+  }
+`;
 
 const Navigation = () => {
   const [value, setValue] = useState("");
@@ -42,7 +58,6 @@ const Navigation = () => {
             }
           }
         `);
-        console.log(res);
         if (res.user_token) {
           sessionStorage.setItem("id", res.user_token.id);
           sessionStorage.setItem("handle", res.user_token.handle);
