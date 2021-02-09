@@ -10,7 +10,7 @@ const Popup = (props) => {
                 setStyles('hidden');
             }}>Close</button>
         </div>
-    )
+    )   
 }
 
 export default Popup;

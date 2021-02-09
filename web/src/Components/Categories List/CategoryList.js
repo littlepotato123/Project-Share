@@ -65,7 +65,7 @@ const Categories = gql`
         all_categories {
             id
             title
-            description          
+            description         
         }
     }
 `;
