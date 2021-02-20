@@ -1,31 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Fetch } from '../../Tools';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
+
+const GET_HANDLE = gql`
+    query UserToken($token: String!) {
+        user: user_token(token: $token) {
+            handle
+        }
+    }
+`;
 
 const UserList = (props) => {
-    const [user, setUser] = useState(null);
+    const { loading, error, data } = useQuery(GET_HANDLE);
 
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    user_token(token: "${props.id}") {
-                        handle
-                    } 
-                } 
-            `);
-            if(res && res.tokenUser) {
-                setUser(res.tokenUser);
-            } else {
-                alert('Error while getting user');
-            }
-        }
-        scoped();
-    }, [])
+    if(loading) return <p>Loading...</p>
+
+    if(error) window.location.reload();
 
     return (
         <div>
             {
-                user ? <h1>{user.handle}</h1> : <p>Loading...</p>
+                data.user.handle
             }
         </div>
     )

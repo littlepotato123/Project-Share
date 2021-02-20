@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Fetch } from '../../Tools';
 import UserList from './UserList';
 
-const Supported = () => {
-    const [list, setList] = useState(null);
-
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    user_handle(handle: "${handle}") {
-                        supported
-                    }
-                }
-            `);
-            if(res) {
-                setList(res.user.supported);
-            } else {
-                alert('User not found')
-            }
+const GET_SUPPORTED = gql`
+    query UserHandle($handle: String!) {
+        user: user_handle(handle: $handle) {
+            supported
         }
-        scoped();
-    }, [])
+    }
+`;
 
+const Supported = () => {
     const { handle } = useParams();
+
+    const { loading, error, data } = useQuery(GET_SUPPORTED, {
+        variables: {
+            handle
+        }
+    });
+
+    if(loading) {
+        return <p>Loading...</p>
+    }
+
+    if(error) {
+        window.location.reload();
+    }
 
     return (
         <div>
             {
-                list ?
-                list.map(l => <UserList id={l} />) : <h1>Loading...</h1>
+                data.user.supported.map(l => <UserList id={l} />)
             }
         </div>
     )

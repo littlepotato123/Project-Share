@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Fetch } from '../../Tools';
-import List from './List';
+
+const GET_MESSAGES = gql`
+    query AllMessages($id: Int!) {
+        messages: all_messages(id: $id) 
+    }
+`;
 
 const MessagePage = () => {
     const { id } = useParams();
-    const [messages, setMessages] = useState(null);
-
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    all_messages(id: "${id}")
-                }
-            `);
-            if(res) {
-                setMessages(res.allMessages);
-            }
+    const { loading, error, data } = useQuery(GET_MESSAGES, {
+        variables: {
+            id
         }
+    });
 
-        scoped();
-    }, [])
+    if(loading) return <p>Loading...</p>
+
+    if(error) window.location.reload();
 
     return (
         <div>
-            { messages ? messages.map(m => <List author={m.author} body={m.body} />) : <p>Loading...</p>}
+            {
+                data.messages.map(s => <div><p>{s}</p></div>)
+            }
         </div>
     )
 }

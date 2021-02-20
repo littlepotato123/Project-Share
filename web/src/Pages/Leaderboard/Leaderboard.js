@@ -1,33 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import React from 'react';
 import Loading from '../../Components/Loading/Loading';
 import UserList from '../../Components/User List/UserList';
-import { Fetch } from '../../Tools';
+
+const LEADERBOARD = gql`
+    query {
+        leaderboard {
+            id
+            handle
+            imageUrl
+            bio
+            points
+            awards
+            supporters
+            supported
+            supporting
+            layout
+            messages
+            liked
+        }
+    }
+`;
 
 const Leaderboard = () => {
-    const [leaderboard, setLeaderboard] = useState(null)
+    const { loading, error, data } = useQuery(LEADERBOARD);
 
-    useEffect(() => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                {
-                    leaderboard {
-                        id
-                        handle
-                        supporters
-                    }
-                }
-            `);
-            setLeaderboard(res.leaderboard);
-        }
-        scoped();
-    }, [])
+    if(loading) return <Loading />
+
+    if(error) {
+        window.location.reload();
+    }
 
     return (
         <div>
             {
-                leaderboard ?
-                    leaderboard.map(user => < UserList name={user.handle} supporters={user.supporters} id={user.userId} />) 
-                    : <Loading />
+                data.leaderboard.map(user => < UserList name={user.handle} supporters={user.supporters} id={user.userId} />) 
             }
         </div>
     );

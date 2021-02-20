@@ -1,14 +1,14 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import Selection from '../../Components/Layout/Selection';
-import { Fetch, handleKeys } from '../../Tools';
+import { handleKeys } from '../../Tools';
 
 const NEW_BIO_LAYOUT = gql`
     mutation new($id: Int!, $bio: String!, $layout: Int!) {
         new_bio(
             input: {
                 id: $id
-                bio: $id
+                bio: $bio
             }
         )
         new_layout(
@@ -20,30 +20,46 @@ const NEW_BIO_LAYOUT = gql`
     }
 `;
 
+const NEW_PASSWORD = gql`
+    mutation new_password($input: NewPasswordInput!) {
+        new_password(input: $input)
+    }
+`;
+
 const Edit = () => {
     const [setBioLayout] = useMutation(NEW_BIO_LAYOUT);
+    const [newPassword] = useMutation(NEW_PASSWORD);
     const [bio, setBio] = useState(sessionStorage.getItem('bio'));
     const [state, setState] = useState('');
     const [pass, setPass] = useState('');
 
     const submit = () => {
-        setBioLayout
+        setBioLayout({
+            variables: {
+                id: sessionStorage.getItem('id'),
+                bio,
+                layout: sessionStorage.getItem('curr_layout')
+            }
+        })
+        .then(() => {
+            window.alert('Successfully Editted');
+        })
+        .catch(e => console.log(e));
     }
 
     const password = () => {
-        const scoped = async () => {
-            const res = await Fetch(`
-                mutation {
-                    new_password(
-                        input: {
-
-                        }
-                    )
+        newPassword({
+            variables: {
+                input: {
+                    token: sessionStorage.getItem('token'),
+                    password: pass
                 }
-            `);
-            sessionStorage.setItem('token', res.new_password);
-        };
-        scoped();
+            }
+        })
+            .then(({ data }) => {
+                sessionStorage.setItem('token', data.new_password);
+            })
+            .catch(e => console.log(e));
     }
 
     return (

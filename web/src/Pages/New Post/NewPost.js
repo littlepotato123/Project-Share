@@ -1,7 +1,16 @@
+import { gql, useMutation } from '@apollo/client';
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Loading from '../../Components/Loading/Loading';
-import { Fetch } from "../../Tools";
+import { Fetch, get_token } from "../../Tools";
+
+const NEW_POST = gql`
+  query create_post($input: CreatePostInput!) {
+    create_post(input: $input) {
+      id
+    }
+  }
+`;
 
 const getDate = () => {
     let date = new Date();
@@ -10,6 +19,7 @@ const getDate = () => {
 }
 
 const NewPost = () => {
+  const [createPost] = useMutation(NEW_POST);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
@@ -34,36 +44,19 @@ const NewPost = () => {
   }, []);
 
   const post = () => {
-    const scoped = async () => {
-      const token = sessionStorage.getItem("token");
-      const res = await Fetch(`
-        mutation {
-          create_post(
-            input: {
-              token: "${token}",
-              title: "${title}",
-              category: "${category}",
-              createdAt: "${getDate()}",
-              body: "${body}"
-            }
-          ) {
-            id
-          }
-        } 
-      `);
-      if(res) {
-        if (res.create_post) {
-          history.push("/");
-        } else {
-          alert("Error while posting");
-        }
-      } else {
-        alert("Error while posting");
-      }
-    };
-
     if (title && body && category) {
-      scoped();
+      createPost({
+        variables: {
+          input: {
+            title: title,
+            category: category,
+            createdAt: getDate(),
+            body: body,
+            token: get_token()
+          }
+        }
+      })
+      .catch(e => console.log(e));
     } else {
       alert("Some fields are empty");
     }

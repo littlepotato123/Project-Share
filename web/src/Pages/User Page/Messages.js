@@ -1,64 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { Fetch, handleKeys } from '../../Tools';
-import List from './List';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import React, { useState } from 'react';
+import { handleKeys } from '../../Tools';
+
+const ALL_MESSAGES = gql`
+    query AllMessages($id: Int!) {
+        messages: all_messages(id: $id)
+    }
+`;
+
+const NEW_MESSAGE = gql`
+    mutation CreateMessage($input: AddMessageInput!) {
+        add_message(input: $input)
+    }
+`;
 
 const Messages = (props) => {
-    const [messages, setMessages] = useState(null);
+    const { loading, error, data } = useQuery(ALL_MESSAGES, {
+        variables: {
+            id: props.id
+        }
+    })
+
+    const [Add] = useMutation(NEW_MESSAGE);
+
     const [message, setMessage] = useState('');
-    const [loadMore, setLoadMore] = useState(null);
     const [key, setKey] = useState('');
 
-    useEffect(() => {
-        const scoped = async () => {
-            console.log(props.id);
-            const res = await Fetch(`
-                {
-                    all_messages(id: "${props.id}")
-                } 
-            `);
-            console.log(res.getMessages)
-            if(res.getMessages) {
-                setMessages(res.getMessages);
-                setLoadMore(<a href={`/messages/${props.id}`}>Get All Messages</a>)
-            } else {
-                setMessages([]);
-            }
-        };
+    if(loading) return <p>Loading...</p>
 
-        scoped();
-    }, [])
+    if(error) window.location.reload();
 
     const send = () => {
-        const scoped = async () => {
-            const token = sessionStorage.getItem('token');
-            if(token == props.id) {
-                alert('Cannot Message Yourself');
-            } else {
-                const res = await Fetch(`
-                    mutation {
-                        add_message(
-                            input: {
-                                userId: ${props.id},
-                                body: "${message}
-                            }
-                        )
-                    } 
-                `);
-                window.location.reload(false);
+        Add({
+            variables: {
+                input: {
+                    userId: props.id,
+                    body: message
+                }
             }
-        }
-
-        if(message) {
-            scoped();
-        }
+        })
+            .then(({ data }) => {
+                window.alert('Message')
+            })
+            .catch(e => console.log(e))
     }
 
     return (
         <div>
-            { messages ? messages.map(m => <List author={m.author} body={m.body} />) : <p>Loading...</p>}
             {
-                loadMore
+                data.messages.map(str => <p>{str}</p>)
             }
+            <a href={`/messages/${props.id}`}>All Messages</a>
             <input 
                 placeholder="Message to User"
                 value={message}
