@@ -16,3 +16,4 @@
   - 10,000 Supporters --> 200 Points
   - 50,000 Supporters --> 500 Points
   - 100,000 Supporters --> 1000 Points
+

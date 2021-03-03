@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Fetch } from '../../Tools';
-import Posts from '../Posts/Posts';
+import Posts from '../Posts/Post';
 
 const UserList = (props) => {
     const [post, setPost] = useState(null);

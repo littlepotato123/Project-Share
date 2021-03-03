@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import Selection from '../../Components/Layout/Selection';
 import { handleKeys } from '../../Tools';
