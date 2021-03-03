@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
+import Post from '../../Components/Posts/Post';
 
 const HOME_PAGE = gql`
     {
@@ -30,9 +31,16 @@ const Home = () => {
             {
                 data.homepage.map((post) => {
                     return (
-                        <div>
-                            {post.id}
-                        </div>
+                        <Post
+                            id={post.id} 
+                            title={post.title}
+                            category={post.category}
+                            author={post.author}
+                            body={post.body}
+                            likes={post.likes}
+                            liked={post.liked}
+                            createdAt={post.createdAt}
+                        />
                     )
                 })
             }

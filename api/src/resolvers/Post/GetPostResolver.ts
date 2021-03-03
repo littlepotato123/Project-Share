@@ -1,4 +1,7 @@
-import { Arg, Int, Query, Resolver } from "type-graphql";
+import {
+    Arg, Int, Query,
+    Resolver
+} from "type-graphql";
 import { BaseEntity } from "typeorm";
 import { Comment } from "../../entity/Comment";
 import { Post } from "../../entity/Post";

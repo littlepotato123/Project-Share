@@ -1,11 +1,11 @@
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Fetch, get_token } from "../../Tools";
+import { get_token } from "../../Tools";
 
-const GET_USER = gql`
-  query user_handle($handle: String!) {
-    user_handle(handle: $handle) {
+const USER_TOKEN = gql`
+  query user_handle($token: String!) {
+    user: user_token(title: $token) {
       id
       handle
       password
@@ -44,54 +44,14 @@ const Navigation = () => {
 
   useEffect(() => {
     if (get_token() !== null | undefined) {
-      const scoped = async () => {
-        const token = get_token();
-        const res = await Fetch(`
-          {
-            user_token(token:"U2FsdGVkX186kM2qV5kwzXfsSzeA5Os3QHwXr8JO1ng="){
-              id
-              handle
-              liked
-              supported
-              layout
-              bio
-            }
-          }
-        `);
-        if (res.user_token) {
-          sessionStorage.setItem("id", res.user_token.id);
-          sessionStorage.setItem("handle", res.user_token.handle);
-          sessionStorage.setItem('liked', JSON.stringify(res.user_token.liked));
-          sessionStorage.setItem('supported', JSON.stringify(res.user_token.supported));
-          sessionStorage.setItem('layout', res.user_token.layout);
-          sessionStorage.setItem('bio', res.user_token.bio);
-          setAuthentication(
-            <div>
-              <li>
-                <a href={`/user/${res.user_token.handle}`}>
-                  {res.user_token.handle}
-                </a>
-                <ul>
-                  <li>
-                    <a href="/newpost">New Post</a>
-                  </li>
-                  <li>
-                    <a href={window.location.href} onClick={logout}>Logout</a>
-                  </li>
-                </ul>
-              </li>
-            </div>
-          );
-        } else {
-          setAuthentication(
-            <a href="/auth">
-              Authentication
-            </a>
-          );
-        }
-      };
-
-      scoped();
+      const { error, data } = useQuery(USER_TOKEN);
+      if(error) window.location.reload();
+      sessionStorage.setItem('id', data.user.id)
+      sessionStorage.setItem('handle', data.user.handle)
+      sessionStorage.setItem('liked', data.user.liked)
+      sessionStorage.setItem('supported', data.user.supported)
+      sessionStorage.setItem('layout', data.user.layout)
+      sessionStorage.setItem('bio', data.user.bio)
     } else {
       setAuthentication(
         <a href="/auth">

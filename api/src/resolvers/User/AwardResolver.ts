@@ -23,6 +23,9 @@ export class AwardResolver extends BaseEntity {
         const user = await User.findOne({ where: { id: input.id } });
         if(user) {
             const awards = user.awards;
+            if(awards.includes(input.title)) {
+                
+            }
             awards.push(input.title);
             await User.update(
                 {

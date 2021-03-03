@@ -1,12 +1,21 @@
-import { gql, useMutation } from '@apollo/client';
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { gql, useMutation, useQuery } from '@apollo/client';
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import Loading from '../../Components/Loading/Loading';
-import { Fetch, get_token } from "../../Tools";
+import { get_token } from "../../Tools";
 
 const NEW_POST = gql`
-  query create_post($input: CreatePostInput!) {
+  mutation create_post($input: CreatePostInput!) {
     create_post(input: $input) {
+      id
+    }
+  }
+`;
+
+const CATEGORIES = gql`
+  query {
+    categories: all_categories {
+      title
       id
     }
   }
@@ -19,29 +28,19 @@ const getDate = () => {
 }
 
 const NewPost = () => {
+  const { loading, error, data } = useQuery(CATEGORIES);
   const [createPost] = useMutation(NEW_POST);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState(null);
   const [length, setLength] = useState(0);
   const [keybind, setKeybind] = useState('');
 
-  const history = useHistory();
+  if(loading) return <Loading />
 
-  useEffect(() => {
-    const scoped = async () => {
-      const res = await Fetch(`
-        {
-          all_categories {
-              title
-          }
-        }
-      `);
-      setCategories(res.all_categories);
-    };
-    scoped();
-  }, []);
+  if(error) window.location.reload();
+
+  const history = useHistory();
 
   const post = () => {
     if (title && body && category) {
@@ -55,6 +54,9 @@ const NewPost = () => {
             token: get_token()
           }
         }
+      })
+      .then(() => {
+        history.push('/home');
       })
       .catch(e => console.log(e));
     } else {
@@ -84,11 +86,9 @@ const NewPost = () => {
       />
       <select onChange={(e) => setCategory(e.target.value)}>
         <option value=""></option>
-        {categories ? (
-          categories.map((c) => <option value={c.title}>{c.title}</option>)
-        ) : (
-          <Loading />
-        )}
+        {
+          data.categories.map(t => <option key={t.id}>{t.title}</option>)
+        }
       </select>
       <textarea
         value={body}
