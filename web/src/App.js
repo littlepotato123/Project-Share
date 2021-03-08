@@ -20,7 +20,6 @@ import NewPost from './Pages/New Post/NewPost';
 import Supported from './Pages/Supporting/Supported';
 import Supporting from './Pages/Supporting/Supporting';
 import Trending from './Pages/Trending/Trending';
-import MessagePage from './Pages/User Page/MessagePage';
 import User from './Pages/User Page/User';
 import './styles/global.scss';
 
@@ -76,9 +75,6 @@ const App = () => {
           </Route>
           <Route path="/wrongcategory">
             <WrongCategory />
-          </Route>
-          <Route exact path="/messages/:id">
-            <MessagePage />
           </Route>
           <Route exact path="/edit">
             <Edit />

@@ -24,7 +24,7 @@ export class AwardResolver extends BaseEntity {
         if(user) {
             const awards = user.awards;
             if(awards.includes(input.title)) {
-                
+                return null;
             }
             awards.push(input.title);
             await User.update(
