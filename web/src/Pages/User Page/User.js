@@ -52,7 +52,14 @@ const ADD_MESSAGE = gql`
     }
 `;
 
+const NEW_AWARD = gql`
+    mutation award($input: NewAwardInput!) {
+        new_award(input: $input) 
+    }
+`;
+
 const User = () => {
+    const [add] = useMutation(NEW_AWARD);
     const [support] = useMutation(SUPPORT);
     const [unsupport] = useMutation(UNSUPPORT);
     const { userHandle } = useParams();
@@ -66,9 +73,71 @@ const User = () => {
     const [button, setButton] = useState(null);
     const [supporters, setSupporters] = useState(null);
 
+    const new_award = ({ title, points }) => {
+        add({
+            variables: {
+                input: {
+                    id: data.user.id,
+                    title,
+                    points
+                }
+            }
+        })
+    };
+
     if(data) {
         setSupported(false);
         setSupporters(data.user.supporters);
+        const id = data.user.id;
+        const length = data.posts.length;
+        if(length == 10) {
+            await new_award({
+                title: '10 Posts',
+                points: 5
+            });
+        } else if(length == 100) {
+            await new_award({
+                title: '100 Posts',
+                points: 50
+            })
+        } else if(length == 250) {
+            await new_award({
+                title: '250 Posts',
+                points: 100
+            })
+        } else if(length == 500) {
+            await new_award({
+                title: '500 Posts',
+                points: 200
+            })
+        } else if(length == 500) {
+            await new_award({
+                title: '1000 Posts',
+                points: 500
+            })
+        }
+
+        if(supporters == 1000) {
+            await new_award({
+                title: "1000 Supporters",
+                points: 100
+            })
+        } else if(supporters == 10000) {
+            await new_award({
+                title: '10,000 Supporters',
+                points: 200
+            })
+        } else if(supporters == 50000) {
+            await new_award({
+                title: '50,000 Supporters',
+                points: 500
+            })
+        } else if(supporters == 100000) {
+            await new_award({
+                title: '100,000 Supporters',
+                points: 1000
+            })
+        }
     }
 
     useEffect(() => {
