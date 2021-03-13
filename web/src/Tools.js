@@ -1,26 +1,3 @@
-export const Fetch = async (req) => {
-    let msg = {};
-
-    await fetch(`https://project-share-api.herokuapp.com/graphql`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': "*"
-        },
-        body: JSON.stringify({
-            query: req
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        msg = data.data;
-    })
-    .catch(e => console.log(e));
-
-    return msg;
-};
-
-// Textarea onChange Values
 export const handleKeys = (e, state, setState, submit) => {
     if(state == "Control" && e.key == "Enter") {
         submit();
@@ -29,33 +6,26 @@ export const handleKeys = (e, state, setState, submit) => {
     }
 }
 
-// Add Cookie
 export const add_token = (value) => {
     sessionStorage.setItem('token', value);
 };
 
-// Remove Cookie
 export const remove_token = () => {
     sessionStorage.removeItem('token');
 };
 
-// Get Cookie
 export const get_token = () => {
     return sessionStorage.getItem('token');
 };
 
-// Get Liked Posts
 export const liked_posts = () => JSON.parse(sessionStorage.getItem('liked'));
 
-// Get Supported Users
 export const supported_users = () => JSON.parse(sessionStorage.getItem('liked'));
 
-// Set Supported
 export const set_supported = (val) => {
     sessionStorage.setItem('supported', JSON.stringify(val));
 }
 
-// Set Liked
 export const set_liked = (val) => {
     sessionStorage.setItem('liked', JSON.stringify(val));
 }

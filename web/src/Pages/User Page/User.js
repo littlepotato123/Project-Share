@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 import Post from '../../Components/Posts/Post';
 
+/*
+    - Shareable Link
+*/
+
 const SUPPORT = gql`
     mutation support($input: UserSupportingInput!) {
         return: support(input: $input)
