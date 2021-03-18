@@ -15,7 +15,7 @@ export enum Pages {
     EDIT
 }
 
-export type Post = {
+export type Posts = {
     id: number;
     title: string;
     author: string;
@@ -25,3 +25,10 @@ export type Post = {
     liked: Array<string>;
     likes: number
 };
+
+export type Comments = {
+    id: number;
+    body: string;
+    postId: number;
+    author: string;
+}

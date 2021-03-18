@@ -13,39 +13,40 @@ const Navigation: React.FC<Props> = ({
 }) => {
     return (
         <View>
-
-            <Button
-                title="Home"
-                onPress={() => setPage(Pages.HOME)}
-            />
-            <Button
-                title="Authentication" 
-                onPress={() => setPage(Pages.AUTH)}
-            />
-            <Button
-                title="About"
-                onPress={() => setPage(Pages.ABOUT)}
-            />
-            <Button 
-                title="Categories" 
-                onPress={() => setPage(Pages.CATEGORIES)}
-            />
-            <Button
-                title="Edit"
-                onPress={() => setPage(Pages.EDIT)}
-            />
-            <Button
-                title="Leaderboard"
-                onPress={() => setPage(Pages.LEADERBOARD)}
-            />
-            <Button
-                title="New Post"
-                onPress={() => setPage(Pages.NEWPOST)}
-            />
-            <Button
-                title="Trending"
-                onPress={() => setPage(Pages.TRENDING)}
-            />
+            <View>
+                <Button
+                    title="Home"
+                    onPress={() => setPage(Pages.HOME)}
+                />
+                <Button
+                    title="Authentication" 
+                    onPress={() => setPage(Pages.AUTH)}
+                />
+                <Button
+                    title="About"
+                    onPress={() => setPage(Pages.ABOUT)}
+                />
+                <Button 
+                    title="Categories" 
+                    onPress={() => setPage(Pages.CATEGORIES)}
+                />
+                <Button
+                    title="Edit"
+                    onPress={() => setPage(Pages.EDIT)}
+                />
+                <Button
+                    title="Leaderboard"
+                    onPress={() => setPage(Pages.LEADERBOARD)}
+                />
+                <Button
+                    title="New Post"
+                    onPress={() => setPage(Pages.NEWPOST)}
+                />
+                <Button
+                    title="Trending"
+                    onPress={() => setPage(Pages.TRENDING)}
+                />
+            </View>
         </View>
     );
 }
