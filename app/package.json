@@ -8,7 +8,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.12",
+    "@types/graphql": "^14.5.0",
     "expo": "~40.0.0",
+    "graphql": "^15.5.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",

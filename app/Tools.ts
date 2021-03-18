@@ -14,3 +14,14 @@ export enum Pages {
     WRONG_CATEGORY,
     EDIT
 }
+
+export type Post = {
+    id: number;
+    title: string;
+    author: string;
+    category: string;
+    body: string;
+    createdAt: string;
+    liked: Array<string>;
+    likes: number
+};

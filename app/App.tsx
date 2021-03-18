@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import Navigation from './components/Navigation';
@@ -17,6 +18,11 @@ import User from './pages/User';
 import WrongCategory from './pages/WrongCategory';
 import WrongUser from './pages/WrongUser';
 import { Pages } from './Tools';
+
+const client = new ApolloClient({
+  uri: 'https://project-share-api.herokuapp.com/graphql',
+  cache: new InMemoryCache()
+});
 
 const App: React.FC = () => {
   const [page, setPage] = useState<Pages>(Pages.HOME);
@@ -72,15 +78,17 @@ const App: React.FC = () => {
   }, [page])
   
   return (
-    <View>
-      <Navigation
-        page={page} 
-        setPage={setPage}
-      />
-      {
-        display
-      }
-    </View>
+    <ApolloProvider client={client}>
+      <View>
+        <Navigation
+          page={page} 
+          setPage={setPage}
+        />
+        {
+          display
+        }
+      </View>
+    </ApolloProvider>
   );
 }
 
