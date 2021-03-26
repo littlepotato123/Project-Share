@@ -1,13 +1,12 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import Navigation from './components/Navigation';
 import About from './pages/About';
-import Auth from './pages/Auth';
+import Auth from './pages/Auth/Auth';
 import Categories from './pages/Categories';
 import CategoryPage from './pages/CategoryPage';
 import Edit from './pages/Edit';
-import Error from './pages/Error';
 import Home from './pages/Home';
 import Leaderboard from './pages/Leaderboard';
 import NewPost from './pages/NewPost';
@@ -15,8 +14,6 @@ import Supported from './pages/Supported';
 import Supporting from './pages/Supporting';
 import Trending from './pages/Trending';
 import User from './pages/User';
-import WrongCategory from './pages/WrongCategory';
-import WrongUser from './pages/WrongUser';
 import { Pages } from './Tools';
 
 const client = new ApolloClient({
@@ -25,25 +22,27 @@ const client = new ApolloClient({
 });
 
 const App: React.FC = () => {
+  const [token, setToken] = useState<string>('');
   const [page, setPage] = useState<Pages>(Pages.HOME);
-  const [display, setDisplay] = useState(<Home />);
+  const [display, setDisplay] = useState(<Home token={token} />);
+  const [category, setCategory] = useState<string | null>(null);
 
   useEffect(() => {
     switch(page) {
       case Pages.HOME:
-        setDisplay(<Home />);
+        setDisplay(<Home token={token} />);
         break;
       case Pages.AUTH:
-        setDisplay(<Auth />);
+        setDisplay(<Auth setToken={setToken} />);
         break;
       case Pages.ABOUT:
         setDisplay(<About />);
         break;
       case Pages.CATEGORIES:
-        setDisplay(<Categories />);
+        setDisplay(<Categories setCategory={setCategory} />);
         break;
       case Pages.CATEGORY_PAGE:
-        setDisplay(<CategoryPage />);
+        setDisplay(<CategoryPage category={category} />);
         break;
       case Pages.EDIT:
         setDisplay(<Edit />);
@@ -61,19 +60,13 @@ const App: React.FC = () => {
         setDisplay(<Supporting />);
         break;
       case Pages.TRENDING:
-        setDisplay(<Trending />);
+        setDisplay(<Trending token={token} />);
         break;
       case Pages.USER:
         setDisplay(<User />);
         break;
-      case Pages.WRONG_CATEGORY:
-        setDisplay(<WrongCategory />);
-        break;
-      case Pages.WRONG_USER:
-        setDisplay(<WrongUser />);
-        break;
       default:
-        setDisplay(<Error />);
+        setDisplay(<Text>Error...</Text>);
     }
   }, [page])
   

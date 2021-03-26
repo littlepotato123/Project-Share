@@ -1,8 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { Text, View } from 'react-native';
-import Post from '../components/Posts/Post';
-import { Posts } from '../Tools';
+import Posts from '../components/Post/Posts';
+import { Post } from '../Tools';
 
 const TRENDING = gql`
     {
@@ -19,14 +19,18 @@ const TRENDING = gql`
     }
 `;
 
-const Trending: React.FC = () => {
-    const { loading, data } = useQuery(TRENDING);
+interface Props {
+    token: string;
+}
+
+const Trending: React.FC<Props> = ({ token }) => {
+    const { data } = useQuery(TRENDING);
 
     if(data) {
         return (
             <View>
                 {
-                    data.posts.map((post: Posts) => <Post post={post} />)
+                    data.posts.map((post: Post) => <Posts token={token} post={post} />)
                 }
             </View>
         );

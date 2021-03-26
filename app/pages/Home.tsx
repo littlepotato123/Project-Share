@@ -1,8 +1,8 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { Text, View } from 'react-native';
-import Post from '../components/Posts/Post';
-import { Posts } from '../Tools';
+import Posts from '../components/Post/Posts';
+import { Post } from '../Tools';
 
 const HOME_PAGE = gql`
     {
@@ -19,19 +19,25 @@ const HOME_PAGE = gql`
     }
 `;
 
-const Home: React.FC = () => {
+interface Props {
+    token: string;
+}
+
+const Home: React.FC<Props> = ({ token }) => {
     const { loading, data } = useQuery(HOME_PAGE);
 
     if(data) {
         return (
             <View>
                 {
-                    data.posts.map((post: Posts) => <Post post={post} />)
+                    data.posts.map((post: Post) => <Posts token={token} post={post} />)
                 }
             </View>
         );
-    } else {
+    } else if(loading) {
         return <Text>Loading...</Text>
+    } else {
+        return <Text>Error Occured</Text>
     }
 }
 
