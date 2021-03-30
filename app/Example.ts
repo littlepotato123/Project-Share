@@ -39,7 +39,7 @@ const ba: string = 'BAA';
 //     // Returns an Error    
 // }
 
-switch(y) {
+switch (y) {
     case 10:
         console.log('y is equal 10');
         break;
@@ -61,6 +61,6 @@ enum People {
 
 const person: People = People.AKSHAT;
 
-if(person == People.AKSHAT) {
+if (person == People.AKSHAT) {
     console.log("Person is akshat");
 }
