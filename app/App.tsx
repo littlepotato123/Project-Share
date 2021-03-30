@@ -51,7 +51,7 @@ const App: React.FC = () => {
         setDisplay(<Leaderboard />);
         break;
       case Pages.NEWPOST:
-        setDisplay(<NewPost />);
+        setDisplay(<NewPost token={token} />);
         break;
       case Pages.SUPPORTED:
         setDisplay(<Supported />);
@@ -69,7 +69,7 @@ const App: React.FC = () => {
         setDisplay(<Text>Error...</Text>);
     }
   }, [page])
-  
+
   return (
     <ApolloProvider client={client}>
       <View>

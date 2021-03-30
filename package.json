@@ -2,9 +2,7 @@
   "name": "project-share",
   "version": "1.0.0",
   "scripts": {
-    "web": "cd web && npm run start",
-    "watch": "cd api && npm run watch",
-    "api": "cd api && npm run dev"
+    "app": "cd app && npm run web"
   },
   "repository": {
     "type": "git",
