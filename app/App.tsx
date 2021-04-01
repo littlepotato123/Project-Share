@@ -26,6 +26,7 @@ const App: React.FC = () => {
   const [page, setPage] = useState<Pages>(Pages.HOME);
   const [display, setDisplay] = useState(<Home token={token} />);
   const [category, setCategory] = useState<string | null>(null);
+  const [handle, setHandle] = useState<string | null>(null);
 
   useEffect(() => {
     switch(page) {
@@ -54,10 +55,10 @@ const App: React.FC = () => {
         setDisplay(<NewPost token={token} />);
         break;
       case Pages.SUPPORTED:
-        setDisplay(<Supported />);
+        setDisplay(<Supported handle={handle} />);
         break;
       case Pages.SUPPORTING:
-        setDisplay(<Supporting />);
+        setDisplay(<Supporting handle={handle} />);
         break;
       case Pages.TRENDING:
         setDisplay(<Trending token={token} />);
