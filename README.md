@@ -12,3 +12,6 @@
   - yarn web
   - yarn ios
   - yarn android
+
+# Deploy
+  - https://docs.expo.io/distribution/publishing-websites/
