@@ -2,7 +2,8 @@
   "name": "project-share",
   "version": "1.0.0",
   "scripts": {
-    "app": "cd app && npm run web"
+    "app": "cd app && npm run android",
+    "web": "cd web && npm run start"
   },
   "repository": {
     "type": "git",
